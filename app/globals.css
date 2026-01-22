@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary - Deep Coral */
+  --color-primary: oklch(55% 0.18 25);
+  --color-primary-hover: oklch(48% 0.16 25);
+  --color-primary-light: oklch(92% 0.05 25);
+  
+  /* Surface */
+  --surface-base: oklch(98% 0.005 60);
+  --surface-elevated: oklch(100% 0.002 60);
+  
+  /* Text - Warm tinted neutrals */
+  --text-primary: oklch(20% 0.01 60);
+  --text-secondary: oklch(45% 0.02 60);
+  --text-muted: oklch(60% 0.015 60);
+  
+  /* Borders */
+  --border-default: oklch(90% 0.01 60);
+  --border-strong: oklch(80% 0.015 60);
+  
+  /* Semantic */
+  --color-success: oklch(55% 0.15 145);
+  --color-error: oklch(55% 0.2 25);
+  
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  
+  /* Durations */
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 400ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-surface-base text-text-primary font-body;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center font-medium rounded-xl
+           transition-all duration-200 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-white px-6 py-3
+           hover:bg-primary-hover active:scale-[0.98];
+  }
+  
+  .btn-secondary {
+    @apply btn bg-white text-text-primary border border-border px-6 py-3
+           hover:bg-surface-base hover:border-border-strong active:scale-[0.98];
+  }
+  
+  .btn-ghost {
+    @apply btn text-text-secondary px-4 py-2
+           hover:bg-surface-base hover:text-text-primary;
+  }
+  
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border border-border bg-white
+           text-text-primary placeholder:text-text-muted
+           transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl border border-border p-6;
+  }
+  
+  .section-padding {
+    @apply px-5 sm:px-8 lg:px-12;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-stagger {
+    animation-delay: calc(var(--stagger-index, 0) * 50ms);
+  }
+}
