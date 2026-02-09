@@ -2,20 +2,17 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { formatPrice, getZoneName, Zone } from "@/lib/pricing";
+import { formatPrice, getZoneName, Zone, PriceBreakdown } from "@/lib/pricing";
 
 interface PriceEstimateProps {
   min: number;
   max: number;
-  breakdown: {
-    base: number;
-    extraParcels: number;
-    printing: number;
-  };
+  breakdown: PriceBreakdown;
   zone: Zone;
+  hasBulkDiscount?: boolean;
 }
 
-export function PriceEstimate({ min, max, breakdown, zone }: PriceEstimateProps) {
+export function PriceEstimate({ min, max, breakdown, zone, hasBulkDiscount = false }: PriceEstimateProps) {
   const [showBreakdown, setShowBreakdown] = useState(false);
 
   return (
@@ -36,6 +33,16 @@ export function PriceEstimate({ min, max, breakdown, zone }: PriceEstimateProps)
             <p className="text-display-xl font-display mt-1">
               {formatPrice(min)} – {formatPrice(max)}
             </p>
+            {hasBulkDiscount && (
+              <motion.p
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-1 text-body-sm font-medium text-white/90 flex items-center gap-1.5"
+              >
+                <DiscountIcon />
+                10% bulk discount applied
+              </motion.p>
+            )}
           </div>
           <button
             onClick={() => setShowBreakdown(!showBreakdown)}
@@ -70,6 +77,13 @@ export function PriceEstimate({ min, max, breakdown, zone }: PriceEstimateProps)
                 {breakdown.printing > 0 && (
                   <BreakdownRow label="Label printing" value={formatPrice(breakdown.printing)} />
                 )}
+                {breakdown.bulkDiscount > 0 && (
+                  <BreakdownRow
+                    label="Bulk discount (10%)"
+                    value={`-${formatPrice(breakdown.bulkDiscount)}`}
+                    highlight
+                  />
+                )}
                 <div className="pt-2 border-t border-white/20">
                   <BreakdownRow
                     label="Range buffer"
@@ -94,15 +108,28 @@ function BreakdownRow({
   label,
   value,
   muted = false,
+  highlight = false,
 }: {
   label: string;
   value: string;
   muted?: boolean;
+  highlight?: boolean;
 }) {
+  const labelColor = highlight
+    ? "text-white font-medium"
+    : muted
+      ? "text-white/50"
+      : "text-white/80";
+  const valueColor = highlight
+    ? "text-white font-bold"
+    : muted
+      ? "text-white/50"
+      : "text-white font-medium";
+
   return (
     <div className="flex items-center justify-between">
-      <span className={muted ? "text-white/50" : "text-white/80"}>{label}</span>
-      <span className={muted ? "text-white/50" : "text-white font-medium"}>{value}</span>
+      <span className={labelColor}>{label}</span>
+      <span className={valueColor}>{value}</span>
     </div>
   );
 }
@@ -113,6 +140,17 @@ function InfoIcon() {
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
       <path d="M12 16V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <circle cx="12" cy="8" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function DiscountIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 2L13.09 8.26L19 7L14.74 11.91L19 17L13.09 15.74L12 22L10.91 15.74L5 17L9.26 11.91L5 7L10.91 8.26L12 2Z"
+        fill="currentColor"
+      />
     </svg>
   );
 }

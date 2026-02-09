@@ -2,27 +2,39 @@ export type Zone = "A" | "B" | "C";
 
 export type ItemSize = "letter" | "large-letter" | "small-parcel" | "medium-parcel";
 
+export interface PriceBreakdown {
+  base: number;
+  extraParcels: number;
+  printing: number;
+  bulkDiscount: number;
+  subtotalBeforeDiscount: number;
+}
+
 export interface PriceEstimate {
   min: number;
   max: number;
-  breakdown: {
-    base: number;
-    extraParcels: number;
-    printing: number;
-  };
+  breakdown: PriceBreakdown;
   zone: Zone;
+  hasBulkDiscount: boolean;
 }
 
-// London postcodes
-const ZONE_A_PREFIXES = [
+// ── Zone Detection ──────────────────────────────────────────────────────────
+
+// London postcodes (Zone A) — exact area codes
+const ZONE_A_PREFIXES = new Set([
   "E", "EC", "N", "NW", "SE", "SW", "W", "WC",
+]);
+
+// Major UK cities (Zone B) — city/region prefixes
+// Sorted by specificity: longer prefixes first so "BS" matches before "B"
+const ZONE_B_PREFIXES = [
+  "BS", "CB", "CF", "CV", "EH",   // Bristol, Cambridge, Cardiff, Coventry, Edinburgh
+  "LS", "NE", "NG", "OX", "PO",   // Leeds, Newcastle, Nottingham, Oxford, Portsmouth
+  "RG", "SO",                       // Reading, Southampton
+  "B", "G", "L", "M", "S",         // Birmingham, Glasgow, Liverpool, Manchester, Sheffield
 ];
 
-// Major UK cities
-const ZONE_B_PREFIXES = [
-  "B", "BS", "CB", "CF", "CV", "EH", "G", "L", "LS",
-  "M", "NE", "NG", "OX", "PO", "RG", "S", "SO",
-];
+// ── Pricing Constants ───────────────────────────────────────────────────────
 
 const BASE_PRICES: Record<Zone, Record<ItemSize, number>> = {
   A: { letter: 4.99, "large-letter": 5.49, "small-parcel": 5.99, "medium-parcel": 7.99 },
@@ -33,12 +45,35 @@ const BASE_PRICES: Record<Zone, Record<ItemSize, number>> = {
 const PER_EXTRA_PARCEL = 2.50;
 const PRINTING_FEE = 1.50;
 const PRICE_RANGE_BUFFER = 2.00;
+const BULK_DISCOUNT_THRESHOLD = 4;
+const BULK_DISCOUNT_RATE = 0.10; // 10% off
+
+// ── Zone Logic ──────────────────────────────────────────────────────────────
+
+/**
+ * Extract the alpha prefix from a UK postcode.
+ * e.g. "SW1A 1AA" → "SW", "EC2A 3BP" → "EC", "M1 1AE" → "M"
+ */
+function extractPostcodePrefix(postcode: string): string {
+  const cleaned = postcode.toUpperCase().trim();
+  // UK postcodes start with 1-2 letters, then a digit
+  const match = cleaned.match(/^([A-Z]{1,2})/);
+  return match ? match[1] : "";
+}
 
 export function getZone(postcode: string): Zone {
-  const prefix = postcode.toUpperCase().replace(/[0-9]/g, "").trim();
-  
-  if (ZONE_A_PREFIXES.includes(prefix)) return "A";
-  if (ZONE_B_PREFIXES.some((p) => prefix.startsWith(p))) return "B";
+  const prefix = extractPostcodePrefix(postcode);
+
+  if (!prefix) return "C";
+
+  if (ZONE_A_PREFIXES.has(prefix)) return "A";
+
+  // Check Zone B — longer prefixes are listed first, so "BS" matches Bristol
+  // before "B" matches Birmingham
+  for (const zonePrefix of ZONE_B_PREFIXES) {
+    if (prefix === zonePrefix || prefix.startsWith(zonePrefix)) return "B";
+  }
+
   return "C";
 }
 
@@ -53,6 +88,18 @@ export function getZoneName(zone: Zone): string {
   }
 }
 
+// ── Pricing Logic ───────────────────────────────────────────────────────────
+
+/**
+ * Calculate the price estimate for a pickup request.
+ *
+ * Pricing rules:
+ * - Base price depends on zone + item size
+ * - Each additional parcel adds a flat fee
+ * - Label printing is an optional add-on
+ * - 4+ parcels unlocks a 10% bulk discount on the total
+ * - Quote shows a range: total to total + £2 buffer
+ */
 export function calculatePrice(
   postcode: string,
   itemSize: ItemSize,
@@ -64,18 +111,34 @@ export function calculatePrice(
   const extraParcels = Math.max(0, parcelCount - 1) * PER_EXTRA_PARCEL;
   const printing = needsPrinting ? PRINTING_FEE : 0;
 
-  const total = base + extraParcels + printing;
+  const subtotalBeforeDiscount = base + extraParcels + printing;
+
+  // Bulk discount: 10% off when sending 4+ parcels
+  const hasBulkDiscount = parcelCount >= BULK_DISCOUNT_THRESHOLD;
+  const bulkDiscount = hasBulkDiscount
+    ? roundPrice(subtotalBeforeDiscount * BULK_DISCOUNT_RATE)
+    : 0;
+
+  const total = roundPrice(subtotalBeforeDiscount - bulkDiscount);
 
   return {
     min: total,
-    max: total + PRICE_RANGE_BUFFER,
+    max: roundPrice(total + PRICE_RANGE_BUFFER),
     breakdown: {
       base,
       extraParcels,
       printing,
+      bulkDiscount,
+      subtotalBeforeDiscount,
     },
     zone,
+    hasBulkDiscount,
   };
+}
+
+/** Round to 2 decimal places to avoid floating point drift */
+function roundPrice(amount: number): number {
+  return Math.round(amount * 100) / 100;
 }
 
 export function formatPrice(amount: number): string {

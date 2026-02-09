@@ -26,8 +26,11 @@ const AIRTABLE_TABLE_NAME = process.env.AIRTABLE_TABLE_NAME || "Pickup Requests"
 
 export async function createPickupRequest(request: PickupRequest): Promise<{ id: string }> {
   if (!AIRTABLE_API_KEY || !AIRTABLE_BASE_ID) {
-    // For MVP demo without Airtable configured, log and return mock ID
-    console.log("Airtable not configured. Request data:", request);
+    // Demo mode: log the full request for manual processing
+    console.log("📋 Pickup request (demo mode — Airtable not configured):", {
+      ...request,
+      timestamp: new Date().toISOString(),
+    });
     return { id: `demo-${Date.now()}` };
   }
 
@@ -47,8 +50,10 @@ export async function createPickupRequest(request: PickupRequest): Promise<{ id:
       "Label URL": request.labelUrl || "",
       "Quote Min": request.quoteMin,
       "Quote Max": request.quoteMax,
-      "Would Pay £12": request.wouldPay,
+      "Would Pay": request.wouldPay,
+      "Bulk Discount": request.parcelCount >= 4,
       Status: "New",
+      "Submitted At": new Date().toISOString(),
     },
   };
 
@@ -58,16 +63,22 @@ export async function createPickupRequest(request: PickupRequest): Promise<{ id:
       Authorization: `Bearer ${AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(record),
+    body: JSON.stringify({ records: [record] }),
   });
 
   if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Airtable error: ${error}`);
+    const errorText = await response.text();
+    console.error("Airtable API error:", {
+      status: response.status,
+      error: errorText,
+      postcode: request.postcode,
+    });
+    throw new Error(`Airtable error (${response.status}): ${errorText}`);
   }
 
   const data = await response.json();
-  return { id: data.id };
+  const recordId = data.records?.[0]?.id ?? data.id;
+  return { id: recordId };
 }
 
 function formatItemSize(size: ItemSize): string {

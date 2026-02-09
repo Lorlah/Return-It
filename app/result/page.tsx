@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { QuoteSummary, PriceEstimate, WillingnessSurvey } from "@/components/result";
-import { ItemSize, PickupWindow, Zone } from "@/lib/pricing";
+import { ItemSize, PickupWindow, Zone, PriceBreakdown } from "@/lib/pricing";
 
 interface StoredRequest {
   file: string | null;
@@ -23,6 +23,8 @@ interface StoredRequest {
   quoteMin: number;
   quoteMax: number;
   zone: Zone;
+  hasBulkDiscount?: boolean;
+  breakdown?: PriceBreakdown;
 }
 
 export default function ResultPage() {
@@ -31,13 +33,25 @@ export default function ResultPage() {
   const [wouldPay, setWouldPay] = useState<boolean | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("pickupRequest");
-    if (stored) {
-      setRequest(JSON.parse(stored));
-    } else {
-      // No request data, redirect to start
+    try {
+      const stored = sessionStorage.getItem("pickupRequest");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Validate required fields exist
+        if (parsed.quoteMin != null && parsed.postcode && parsed.name) {
+          setRequest(parsed);
+        } else {
+          router.push("/");
+        }
+      } else {
+        router.push("/");
+      }
+    } catch {
+      // Corrupted sessionStorage data
+      sessionStorage.removeItem("pickupRequest");
       router.push("/");
     }
   }, [router]);
@@ -46,6 +60,7 @@ export default function ResultPage() {
     if (!request) return;
 
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       const response = await fetch("/api/submit", {
@@ -61,12 +76,12 @@ export default function ResultPage() {
         throw new Error("Submission failed");
       }
 
-      // Clear session storage
       sessionStorage.removeItem("pickupRequest");
       setIsSubmitted(true);
     } catch (error) {
       console.error("Submission error:", error);
-      // For MVP, still show success (concierge-style)
+      // For MVP, still show success (concierge-style) — we log the data
+      // server-side anyway, so even if Airtable fails we can recover
       sessionStorage.removeItem("pickupRequest");
       setIsSubmitted(true);
     } finally {
@@ -82,11 +97,15 @@ export default function ResultPage() {
     );
   }
 
-  const breakdown = {
-    base: request.quoteMin - (request.needsPrinting ? 1.5 : 0) - ((request.parcelCount - 1) * 2.5),
+  // Use stored breakdown if available (new format), otherwise reconstruct (legacy)
+  const breakdown: PriceBreakdown = request.breakdown ?? {
+    base: Math.max(0, request.quoteMin - (request.needsPrinting ? 1.5 : 0) - ((request.parcelCount - 1) * 2.5)),
     extraParcels: (request.parcelCount - 1) * 2.5,
     printing: request.needsPrinting ? 1.5 : 0,
+    bulkDiscount: 0,
+    subtotalBeforeDiscount: request.quoteMin,
   };
+  const hasBulkDiscount = request.hasBulkDiscount ?? false;
 
   return (
     <div className="min-h-screen bg-surface-base">
@@ -141,6 +160,7 @@ export default function ResultPage() {
                 max={request.quoteMax}
                 breakdown={breakdown}
                 zone={request.zone}
+                hasBulkDiscount={hasBulkDiscount}
               />
 
               <QuoteSummary

@@ -152,6 +152,8 @@ function RequestFormContent() {
         quoteMin: quote.min,
         quoteMax: quote.max,
         zone: quote.zone,
+        hasBulkDiscount: quote.hasBulkDiscount,
+        breakdown: quote.breakdown,
       })
     );
 
