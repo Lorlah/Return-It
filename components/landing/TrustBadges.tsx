@@ -27,37 +27,39 @@ const badges = [
 
 export function TrustBadges() {
   return (
-    <section className="py-16 lg:py-20 border-t border-border">
+    <section className="py-16 lg:py-20 border-t border-border bg-surface-base">
       <div className="max-w-6xl mx-auto section-padding">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8"
+          className="bg-white rounded-3xl border border-border/60 p-8 lg:p-12 shadow-sm"
         >
-          {badges.map((badge, index) => (
-            <motion.div
-              key={badge.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.05,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="text-center"
-            >
-              <div className="inline-flex w-12 h-12 rounded-xl bg-surface-base items-center justify-center text-text-secondary">
-                <badge.icon />
-              </div>
-              <h3 className="mt-3 font-medium text-text-primary">{badge.title}</h3>
-              <p className="mt-1 text-body-sm text-text-secondary">
-                {badge.description}
-              </p>
-            </motion.div>
-          ))}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+            {badges.map((badge, index) => (
+              <motion.div
+                key={badge.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="text-center group"
+              >
+                <div className="inline-flex w-14 h-14 rounded-2xl bg-surface-base items-center justify-center text-primary group-hover:bg-primary-light group-hover:scale-110 transition-all duration-300">
+                  <badge.icon />
+                </div>
+                <h3 className="mt-4 font-display font-medium text-lg text-text-primary">{badge.title}</h3>
+                <p className="mt-2 text-sm text-text-secondary leading-relaxed px-2">
+                  {badge.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

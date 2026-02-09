@@ -25,19 +25,33 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-16 lg:py-24 bg-surface-elevated">
-      <div className="max-w-6xl mx-auto section-padding">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-display-md text-text-primary"
-        >
-          How it works
-        </motion.h2>
+    <section className="py-20 lg:py-32 bg-surface-elevated relative overflow-hidden">
+      {/* Decorative background */}
+      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent opacity-50 -translate-y-1/2 hidden lg:block" />
+      
+      <div className="max-w-6xl mx-auto section-padding relative">
+        <div className="text-center max-w-2xl mx-auto mb-16 lg:mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-4xl lg:text-5xl text-text-primary mb-4"
+          >
+            How it works
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg text-text-secondary"
+          >
+            Three simple steps to get your return sorted
+          </motion.p>
+        </div>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-3 gap-12 lg:gap-16 relative">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
@@ -45,32 +59,40 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{
-                duration: 0.5,
-                delay: index * 0.1,
+                duration: 0.6,
+                delay: index * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative"
+              className="relative group"
             >
-              {/* Connector line (hidden on mobile, last item) */}
+              {/* Connector line (desktop only) */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-8 left-full w-full h-px bg-border -translate-x-6" />
+                <div className="hidden lg:block absolute top-12 left-full w-full h-[2px] -translate-x-8 -z-10">
+                  <div className="absolute inset-0 bg-border" />
+                  <motion.div 
+                    initial={{ scaleX: 0, transformOrigin: "left" }}
+                    whileInView={{ scaleX: 1 }}
+                    transition={{ duration: 1, delay: 0.5 + (index * 0.2) }}
+                    className="absolute inset-0 bg-primary/20" 
+                  />
+                </div>
               )}
 
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-primary-light flex items-center justify-center text-primary">
+              <div className="flex flex-col items-center text-center relative z-10">
+                <div className="w-24 h-24 rounded-[2rem] bg-white border border-border shadow-sm flex items-center justify-center text-primary mb-6 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
                   <step.icon />
                 </div>
-                <div className="pt-1">
-                  <span className="text-caption font-medium text-primary uppercase tracking-wide">
-                    Step {step.number}
-                  </span>
-                  <h3 className="mt-1 font-display text-display-md text-text-primary">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-body-md text-text-secondary">
-                    {step.description}
-                  </p>
+                
+                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-sm border-2 border-white">
+                  {step.number}
                 </div>
+
+                <h3 className="font-display text-2xl text-text-primary mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-body-md text-text-secondary max-w-xs leading-relaxed">
+                  {step.description}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -83,8 +105,8 @@ export function HowItWorks() {
 function UploadIcon() {
   return (
     <svg
-      width="28"
-      height="28"
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -95,6 +117,7 @@ function UploadIcon() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        className="opacity-40"
       />
       <path
         d="M17 8L12 3L7 8"
@@ -117,8 +140,8 @@ function UploadIcon() {
 function CalendarIcon() {
   return (
     <svg
-      width="28"
-      height="28"
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -131,28 +154,12 @@ function CalendarIcon() {
         rx="2"
         stroke="currentColor"
         strokeWidth="2"
+        className="opacity-40"
       />
       <path d="M16 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path d="M8 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M3 10H21" stroke="currentColor" strokeWidth="2" />
-      <path
-        d="M8 14H8.01"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 14H12.01"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M16 14H16.01"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <path d="M3 10H21" stroke="currentColor" strokeWidth="2" className="opacity-40" />
+      <circle cx="12" cy="14" r="2" fill="currentColor" />
     </svg>
   );
 }
@@ -160,8 +167,8 @@ function CalendarIcon() {
 function TruckIcon() {
   return (
     <svg
-      width="28"
-      height="28"
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -172,6 +179,7 @@ function TruckIcon() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        className="opacity-40"
       />
       <path
         d="M16 8H20L23 11V16H16V8Z"
@@ -182,6 +190,7 @@ function TruckIcon() {
       />
       <circle cx="5.5" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2" />
       <circle cx="18.5" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M4 10H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
