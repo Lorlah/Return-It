@@ -1,6 +1,6 @@
 # Task: Logic, Infrastructure & Integration
 
-**Status**: TODO
+**Status**: DONE
 **Agent**: claude
 **Branch**: `agent/claude/logic-and-infra`
 **Priority**: P0
@@ -66,4 +66,39 @@ Get the app building and running, improve business logic, and prepare infrastruc
 
 ## Agent Notes
 
-_[Agent fills this in when done.]_
+### Done — 2026-02-09
+
+**Changes made:**
+
+1. **Pricing engine rewrite** (`lib/pricing.ts`):
+   - Added `PriceBreakdown` type with `bulkDiscount` and `subtotalBeforeDiscount` fields
+   - Added `hasBulkDiscount` boolean to `PriceEstimate`
+   - 10% discount kicks in at 4+ parcels (matches the badge in ParcelCount component)
+   - Improved zone detection: uses regex-based prefix extraction instead of naive string replace
+   - Zone A prefixes use a Set for O(1) lookup
+   - Added `roundPrice()` helper to avoid floating point drift
+   - Added JSDoc comments
+
+2. **Result page** (`app/result/page.tsx`):
+   - Wrapped sessionStorage read in try/catch (handles corrupted data)
+   - Validates required fields before accepting stored request
+   - Supports both new breakdown format and legacy format (backward compat)
+   - Passes `hasBulkDiscount` to PriceEstimate component
+
+3. **PriceEstimate component** (`components/result/PriceEstimate.tsx`):
+   - Shows "10% bulk discount applied" badge when applicable
+   - Breakdown now shows discount row with green highlight styling
+   - Uses `PriceBreakdown` type from pricing.ts
+
+4. **API routes**:
+   - Submit: validates types and formats, not just presence. Returns all errors at once.
+   - Upload: validates empty files, better error messages with file sizes, uses 502 for upstream failures
+
+5. **Airtable client**: sends `records` array (correct API format), adds Bulk Discount and Submitted At fields
+
+6. **Build fixes**: ESLint downgraded to v8 (compat with Next.js 14), Button.tsx children type fixed
+
+**Trade-offs:**
+- Did NOT add the `node_modules` to `.gitignore` — it was already there
+- The Airtable `records` array format is the correct v0 API format, but this is a breaking change if the previous mock worked differently
+- I edited `app/request/page.tsx` minimally (only the sessionStorage write) even though Kimi owns that file — this was necessary to pass the new breakdown data. Kimi's changes will touch different parts of the file.
