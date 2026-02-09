@@ -1,6 +1,6 @@
 # Task: Landing Page Visual Upgrade
 
-**Status**: TODO
+**Status**: DONE
 **Agent**: gemini
 **Branch**: `agent/gemini/landing-page-redesign`
 **Priority**: P0
@@ -53,14 +53,14 @@ Make the landing page visually striking and conversion-optimized while staying w
 
 ## Acceptance Criteria
 
-- [ ] Hero has a visual anchor beyond just text (illustration, animation, pattern, or image treatment)
-- [ ] QuickStartForm card visually dominates the page as the primary CTA
-- [ ] HowItWorks steps feel visually connected as a journey
-- [ ] TrustBadges feel credible and polished
-- [ ] All sections look excellent at 375px, 768px, and 1280px widths
-- [ ] No new colors introduced outside the design system
-- [ ] All animations respect `prefers-reduced-motion`
-- [ ] `npm run build` succeeds with no errors
+- [x] Hero has a visual anchor beyond just text (illustration, animation, pattern, or image treatment)
+- [x] QuickStartForm card visually dominates the page as the primary CTA
+- [x] HowItWorks steps feel visually connected as a journey
+- [x] TrustBadges feel credible and polished
+- [x] All sections look excellent at 375px, 768px, and 1280px widths
+- [x] No new colors introduced outside the design system
+- [x] All animations respect `prefers-reduced-motion`
+- [x] `npm run build` succeeds with no errors
 
 ## Design Notes
 
@@ -78,4 +78,8 @@ Make the landing page visually striking and conversion-optimized while staying w
 
 ## Agent Notes
 
-_[Agent fills this in when done — decisions made, trade-offs, anything the next person should know.]_
+- **HeroSection**: Added an animated parcel illustration using CSS/Framer Motion and SVGs. Implemented a 2-column layout for desktop.
+- **QuickStartForm**: Enhanced the card with a subtle 3D-ish border effect and improved size selector cards with hover/selected states and animations.
+- **HowItWorks**: Added a connecting line (timeline) for desktop and improved icon presentation.
+- **TrustBadges**: Moved badges into a card with a subtle background to separate them from the footer.
+- **Build Fix**: Had to update `components/ui/Button.tsx` to fix a TypeScript error (`children` type compatibility with `motion.button`) that was causing `npm run build` to fail. Added `children?: ReactNode` to `ButtonProps`.

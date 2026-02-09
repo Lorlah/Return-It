@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, ReactNode } from "react";
 import { motion, HTMLMotionProps } from "framer-motion";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
@@ -10,7 +10,7 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref" | "children"
   variant?: ButtonVariant;
   size?: ButtonSize;
   isLoading?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const variants: Record<ButtonVariant, string> = {
