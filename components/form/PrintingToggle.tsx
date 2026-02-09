@@ -22,6 +22,9 @@ export function PrintingToggle({ value, onChange }: PrintingToggleProps) {
         onClick={() => onChange(!value)}
         whileTap={{ scale: 0.98 }}
         className="w-full p-4 rounded-xl border-2 border-border bg-white hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-200"
+        role="switch"
+        aria-checked={value}
+        aria-label="Label printing"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

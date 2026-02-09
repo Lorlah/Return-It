@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback, useRef, useId } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { isValidFileType, formatFileSize, MAX_FILE_SIZE } from "@/lib/cloudinary";
 
 interface FileUploadProps {
@@ -21,6 +21,10 @@ export function FileUpload({
   const [isDragging, setIsDragging] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
+  const labelId = `${inputId}-label`;
+  const helperId = `${inputId}-helper`;
+  const shouldReduceMotion = useReducedMotion() ?? false;
 
   const handleFile = useCallback(
     (selectedFile: File) => {
@@ -75,10 +79,15 @@ export function FileUpload({
   );
 
   const displayError = error || localError;
+  const describedBy = displayError ? "file-error" : helperId;
 
   return (
     <div className="w-full">
-      <label className="block text-body-sm font-medium text-text-primary mb-2">
+      <label
+        id={labelId}
+        htmlFor={inputId}
+        className="block text-body-sm font-medium text-text-primary mb-2"
+      >
         Return label
       </label>
 
@@ -87,6 +96,12 @@ export function FileUpload({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            inputRef.current?.click();
+          }
+        }}
         className={`
           relative w-full p-8 rounded-2xl border-2 border-dashed
           cursor-pointer transition-all duration-200
@@ -100,20 +115,25 @@ export function FileUpload({
                   : "border-border bg-surface-base hover:border-border-strong hover:bg-white"
           }
         `}
+        role="button"
+        tabIndex={0}
+        aria-labelledby={labelId}
+        aria-describedby={describedBy}
         whileTap={{ scale: 0.99 }}
       >
         <input
           ref={inputRef}
+          id={inputId}
           type="file"
           accept=".pdf,image/jpeg,image/jpg,image/png,image/webp"
           onChange={handleInputChange}
           className="sr-only"
-          aria-describedby={displayError ? "file-error" : undefined}
+          aria-describedby={describedBy}
         />
 
         <AnimatePresence mode="wait">
           {isUploading ? (
-            <UploadingState />
+            <UploadingState reduceMotion={shouldReduceMotion} />
           ) : file ? (
             <FilePreview file={file} />
           ) : (
@@ -128,7 +148,7 @@ export function FileUpload({
         </p>
       )}
 
-      <p className="mt-2 text-caption text-text-muted">
+      <p id={helperId} className="mt-2 text-caption text-text-muted">
         PDF or image up to 10MB. Snap a photo of your label or upload the file from
         your email.
       </p>
@@ -188,7 +208,7 @@ function FilePreview({ file }: { file: File }) {
   );
 }
 
-function UploadingState() {
+function UploadingState({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <motion.div
       key="uploading"
@@ -199,8 +219,8 @@ function UploadingState() {
     >
       <div className="w-14 h-14 rounded-xl bg-primary-light flex items-center justify-center">
         <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          animate={reduceMotion ? undefined : { rotate: 360 }}
+          transition={reduceMotion ? undefined : { duration: 1, repeat: Infinity, ease: "linear" }}
         >
           <SpinnerIcon />
         </motion.div>

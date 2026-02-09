@@ -13,7 +13,7 @@ import {
   ParcelCount,
   PrintingToggle,
 } from "@/components/form";
-import { ItemSize, PickupWindow, calculatePrice, formatPrice } from "@/lib/pricing";
+import { ItemSize, PickupWindow, ITEM_SIZES, calculatePrice, formatPrice } from "@/lib/pricing";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 
 type FormStep = 1 | 2 | 3;
@@ -47,7 +47,7 @@ function RequestFormContent() {
   const [formData, setFormData] = useState<FormData>({
     file: null,
     fileUrl: null,
-    itemSize: (searchParams.get("size") as ItemSize) || "small-parcel",
+    itemSize: getInitialSize(searchParams.get("size")),
     parcelCount: 1,
     postcode: "",
     address: "",
@@ -312,6 +312,12 @@ function RequestFormContent() {
       </main>
     </div>
   );
+}
+
+function getInitialSize(sizeParam: string | null): ItemSize {
+  if (!sizeParam) return "small-parcel";
+  const valid = ITEM_SIZES.some((size) => size.value === sizeParam);
+  return valid ? (sizeParam as ItemSize) : "small-parcel";
 }
 
 export default function RequestPage() {

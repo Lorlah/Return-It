@@ -1,8 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function HeroSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden bg-surface-base">
       {/* Background decoration */}
@@ -91,12 +93,12 @@ export function HeroSection() {
               >
                 {/* Main Parcel Box */}
                 <motion.div
-                  animate={{ y: [0, -15, 0] }}
-                  transition={{ 
-                    duration: 6, 
-                    repeat: Infinity, 
-                    ease: "easeInOut" 
-                  }}
+                  animate={shouldReduceMotion ? { y: 0 } : { y: [0, -15, 0] }}
+                  transition={
+                    shouldReduceMotion
+                      ? undefined
+                      : { duration: 6, repeat: Infinity, ease: "easeInOut" }
+                  }
                   className="absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-[#FDF8F6] rounded-3xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] border border-border/60 overflow-hidden transform rotate-[-6deg]"
                 >
                   <div className="absolute top-0 left-0 right-0 h-1 bg-primary/10" />
@@ -116,16 +118,30 @@ export function HeroSection() {
 
                 {/* Floating Elements around */}
                 <motion.div
-                  animate={{ y: [0, 20, 0], rotate: [12, 15, 12] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  animate={
+                    shouldReduceMotion ? { y: 0, rotate: 12 } : { y: [0, 20, 0], rotate: [12, 15, 12] }
+                  }
+                  transition={
+                    shouldReduceMotion
+                      ? undefined
+                      : { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }
+                  }
                   className="absolute top-[10%] right-[15%] w-24 h-24 bg-white rounded-2xl shadow-xl border border-border flex items-center justify-center transform rotate-12"
                 >
                   <TruckIcon className="text-primary w-10 h-10" />
                 </motion.div>
 
                 <motion.div
-                  animate={{ y: [0, -10, 0], rotate: [-12, -8, -12] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  animate={
+                    shouldReduceMotion
+                      ? { y: 0, rotate: -12 }
+                      : { y: [0, -10, 0], rotate: [-12, -8, -12] }
+                  }
+                  transition={
+                    shouldReduceMotion
+                      ? undefined
+                      : { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+                  }
                   className="absolute bottom-[20%] left-[10%] w-20 h-20 bg-primary text-white rounded-2xl shadow-lg shadow-primary/20 flex items-center justify-center transform -rotate-12"
                 >
                   <span className="font-display font-bold text-2xl">24h</span>

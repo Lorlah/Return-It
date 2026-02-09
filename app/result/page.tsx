@@ -36,21 +36,24 @@ export default function ResultPage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
+    const stored = sessionStorage.getItem("pickupRequest");
+    if (!stored) {
+      // No request data, redirect to start
+      router.push("/");
+      return;
+    }
+
     try {
-      const stored = sessionStorage.getItem("pickupRequest");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        // Validate required fields exist
-        if (parsed.quoteMin != null && parsed.postcode && parsed.name) {
-          setRequest(parsed);
-        } else {
-          router.push("/");
-        }
+      const parsed = JSON.parse(stored);
+      // Validate required fields exist
+      if (parsed.quoteMin != null && parsed.postcode && parsed.name) {
+        setRequest(parsed);
       } else {
         router.push("/");
       }
-    } catch {
+    } catch (error) {
       // Corrupted sessionStorage data
+      console.warn("Invalid pickup request data in sessionStorage", error);
       sessionStorage.removeItem("pickupRequest");
       router.push("/");
     }

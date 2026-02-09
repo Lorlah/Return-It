@@ -73,7 +73,6 @@ export function getZone(postcode: string): Zone {
   for (const zonePrefix of ZONE_B_PREFIXES) {
     if (prefix === zonePrefix || prefix.startsWith(zonePrefix)) return "B";
   }
-
   return "C";
 }
 
