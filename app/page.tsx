@@ -1,9 +1,10 @@
-import { HeroSection, HowItWorks, QuickStartForm, TrustBadges } from "@/components/landing";
+import { HeroSection, FrictionThemes, HowItWorks, QuickStartForm, TrustBadges } from "@/components/landing";
 
 export default function Home() {
   return (
     <main>
       <HeroSection />
+      <FrictionThemes />
       <QuickStartForm />
       <HowItWorks />
       <TrustBadges />

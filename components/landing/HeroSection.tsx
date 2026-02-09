@@ -1,9 +1,27 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+
+const frictionLines = [
+  "No printer? No problem.",
+  "Post office closed? We come to you.",
+  "Too heavy to carry? We handle it.",
+  "Multiple returns? One pickup.",
+  "Missed the deadline? Never again.",
+];
 
 export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
+  const [lineIndex, setLineIndex] = useState(0);
+
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+    const interval = setInterval(() => {
+      setLineIndex((prev) => (prev + 1) % frictionLines.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [shouldReduceMotion]);
 
   return (
     <section className="relative overflow-hidden bg-surface-base">
@@ -22,9 +40,9 @@ export function HeroSection() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-tight text-text-primary text-balance leading-[1.1]">
-                We pick up your returns so you{" "}
+                That return you keep meaning to post?{" "}
                 <span className="text-primary relative whitespace-nowrap">
-                  don&apos;t have to queue
+                  We&apos;ll come get it
                   <svg
                     className="absolute -bottom-2 left-0 w-full h-3 text-primary-light -z-10"
                     viewBox="0 0 100 10"
@@ -48,27 +66,48 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 text-lg sm:text-xl text-text-secondary max-w-lg leading-relaxed"
             >
-              Upload your return label, choose a pickup slot, and we&apos;ll collect it
-              from your doorstep. Any retailer, any carrier.
+              Upload your return label. We pick it up from your door — or your office.
+              Any retailer, any carrier. Zero trips.
             </motion.p>
 
+            {/* Rotating friction lines */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-8 h-10 overflow-hidden"
+            >
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={lineIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-display text-xl sm:text-2xl text-primary font-medium"
+                >
+                  {frictionLines[lineIndex]}
+                </motion.p>
+              </AnimatePresence>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="mt-8 flex flex-wrap gap-y-3 gap-x-6 text-body-sm font-medium text-text-primary"
             >
               <div className="flex items-center gap-2">
                 <CheckIcon />
-                <span>60-second booking</span>
+                <span>From £4.99</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckIcon />
-                <span>All retailers</span>
+                <span>We print your label</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckIcon />
-                <span>Label printing available</span>
+                <span>Evening &amp; weekend pickups</span>
               </div>
             </motion.div>
           </div>
@@ -77,13 +116,13 @@ export function HeroSection() {
             {/* Animated Parcel Illustration */}
             <div className="relative w-full max-w-md aspect-square">
               {/* Abstract decorative circle behind */}
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute inset-0 bg-gradient-to-tr from-primary-light/50 to-transparent rounded-full blur-2xl transform scale-90"
               />
-              
+
               {/* Floating Elements */}
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
@@ -104,10 +143,10 @@ export function HeroSection() {
                   <div className="absolute top-0 left-0 right-0 h-1 bg-primary/10" />
                   <div className="absolute top-8 left-8 right-8 h-2 bg-border-default/30 rounded-full w-2/3" />
                   <div className="absolute top-14 left-8 right-8 h-2 bg-border-default/30 rounded-full w-1/2" />
-                  
+
                   {/* Tape */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-primary/5 border-x border-primary/10" />
-                  
+
                   {/* Label */}
                   <div className="absolute bottom-8 right-8 w-16 h-16 bg-white rounded-xl shadow-sm border border-border flex items-center justify-center">
                     <div className="w-8 h-8 rounded-full border-2 border-primary/20 flex items-center justify-center">
@@ -119,7 +158,9 @@ export function HeroSection() {
                 {/* Floating Elements around */}
                 <motion.div
                   animate={
-                    shouldReduceMotion ? { y: 0, rotate: 12 } : { y: [0, 20, 0], rotate: [12, 15, 12] }
+                    shouldReduceMotion
+                      ? { y: 0, rotate: 12 }
+                      : { y: [0, 20, 0], rotate: [12, 15, 12] }
                   }
                   transition={
                     shouldReduceMotion
@@ -144,7 +185,11 @@ export function HeroSection() {
                   }
                   className="absolute bottom-[20%] left-[10%] w-20 h-20 bg-primary text-white rounded-2xl shadow-lg shadow-primary/20 flex items-center justify-center transform -rotate-12"
                 >
-                  <span className="font-display font-bold text-2xl">24h</span>
+                  <span className="font-display font-bold text-lg leading-tight text-center">
+                    Zero
+                    <br />
+                    trips
+                  </span>
                 </motion.div>
               </motion.div>
             </div>

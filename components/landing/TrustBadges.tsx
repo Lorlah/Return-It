@@ -5,23 +5,23 @@ import { motion } from "framer-motion";
 const badges = [
   {
     icon: ShieldIcon,
-    title: "Proof of handover",
-    description: "Photo confirmation when collected",
+    title: "Proof of collection",
+    description: "Photo confirmation when we pick up",
   },
   {
     icon: RefreshIcon,
-    title: "Any retailer",
-    description: "Amazon, ASOS, Shein & more",
+    title: "Any retailer, any carrier",
+    description: "Amazon, ASOS, Zara, Shein & more",
   },
   {
     icon: LockIcon,
-    title: "Secure handling",
-    description: "Your items treated with care",
+    title: "Heavy items? Handled",
+    description: "Up to 20kg — you don't even carry it out",
   },
   {
     icon: ClockIcon,
-    title: "Fast refunds",
-    description: "Get items in transit sooner",
+    title: "Multiple returns, one pickup",
+    description: "Stop visiting 3 different drop-off points",
   },
 ];
 
