@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPickupRequest, PickupRequest } from "@/lib/airtable";
+import { sendConfirmationEmail } from "@/lib/email";
+import { trackServerEvent } from "@/lib/analytics";
 
 const VALID_ITEM_SIZES = ["letter", "large-letter", "small-parcel", "medium-parcel"];
 const VALID_PICKUP_WINDOWS = ["tomorrow", "weekend", "next-week"];
@@ -120,6 +122,30 @@ export async function POST(request: NextRequest) {
       wouldPay: pickupRequest.wouldPay,
       timestamp: new Date().toISOString(),
     });
+
+    // Send confirmation email (non-blocking — email failure must NOT fail the submission)
+    sendConfirmationEmail({
+      name: pickupRequest.name,
+      email: pickupRequest.email,
+      postcode: pickupRequest.postcode,
+      address: pickupRequest.address,
+      itemSize: pickupRequest.itemSize,
+      parcelCount: pickupRequest.parcelCount,
+      pickupWindow: pickupRequest.pickupWindow,
+      needsPrinting: pickupRequest.needsPrinting,
+      quoteMin: pickupRequest.quoteMin,
+      quoteMax: pickupRequest.quoteMax,
+    })
+      .then((emailResult) => {
+        trackServerEvent("confirmation_email_sent", {
+          success: emailResult.success,
+          emailId: emailResult.id,
+        });
+      })
+      .catch((error) => {
+        console.error("📧 Email send failed (non-blocking):", error);
+        trackServerEvent("confirmation_email_sent", { success: false });
+      });
 
     return NextResponse.json({
       success: true,

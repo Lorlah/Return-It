@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { QuoteSummary, PriceEstimate, WillingnessSurvey } from "@/components/result";
 import { ItemSize, PickupWindow, Zone, PriceBreakdown } from "@/lib/pricing";
+import { trackEvent } from "@/lib/analytics";
 
 interface StoredRequest {
   file: string | null;
@@ -34,6 +35,7 @@ export default function ResultPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const hasTrackedQuote = useRef(false);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("pickupRequest");
@@ -48,6 +50,20 @@ export default function ResultPage() {
       // Validate required fields exist
       if (parsed.quoteMin != null && parsed.postcode && parsed.name) {
         setRequest(parsed);
+
+        // Track quote_viewed once
+        if (!hasTrackedQuote.current) {
+          hasTrackedQuote.current = true;
+          trackEvent({
+            event: "quote_viewed",
+            properties: {
+              quote_min: parsed.quoteMin,
+              quote_max: parsed.quoteMax,
+              zone: parsed.zone,
+              has_bulk_discount: parsed.hasBulkDiscount ?? false,
+            },
+          });
+        }
       } else {
         router.push("/");
       }
@@ -64,6 +80,16 @@ export default function ResultPage() {
 
     setIsSubmitting(true);
     setSubmitError(null);
+
+    trackEvent({
+      event: "pickup_confirmed",
+      properties: {
+        zone: request.zone,
+        item_size: request.itemSize,
+        parcel_count: request.parcelCount,
+        needs_printing: request.needsPrinting,
+      },
+    });
 
     try {
       const response = await fetch("/api/submit", {
@@ -176,7 +202,16 @@ export default function ResultPage() {
                 fileName={request.file || undefined}
               />
 
-              <WillingnessSurvey value={wouldPay} onChange={setWouldPay} />
+              <WillingnessSurvey
+                value={wouldPay}
+                onChange={(value) => {
+                  setWouldPay(value);
+                  trackEvent({
+                    event: "willingness_survey_responded",
+                    properties: { would_pay: value },
+                  });
+                }}
+              />
 
               <motion.div
                 initial={{ opacity: 0, y: 16 }}

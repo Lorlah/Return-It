@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 import { AgentationWrapper } from "@/components/AgentationWrapper";
+import { PostHogProvider } from "@/components/PostHogProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -48,7 +50,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jakarta.variable} ${fraunces.variable}`}>
       <body className="min-h-screen">
-        {children}
+        <PostHogProvider>
+          {children}
+        </PostHogProvider>
+        <Analytics />
         {process.env.NODE_ENV === "development" && <AgentationWrapper />}
       </body>
     </html>

@@ -122,24 +122,55 @@ lib/
 ## Current State
 
 - **Working**: Full landing page, 3-step request form, result/quote page, API routes
-- **Not configured**: Airtable and Cloudinary (runs in demo/mock mode)
-- **Not installed**: `node_modules` — run `npm install` first
+- **Sprint 2 (in progress)**: Brand kit, email confirmation (Resend + React Email), analytics (PostHog + Vercel Analytics)
+- **Not configured**: Airtable, Cloudinary, Resend, PostHog (all run in demo/console-log mode without API keys)
 - **basePath**: Set to `/return-it` in `next.config.js`
+- **Brand Kit**: See `BRAND-KIT.md` for comprehensive brand identity, positioning, voice/tone, email specs, social specs
+
+### Sprint 2 Files
+
+| File | Purpose | Owner |
+|---|---|---|
+| `BRAND-KIT.md` | Brand identity source of truth | Claude (strategy), Gemini (visual refinement) |
+| `lib/email.ts` | Resend client + demo mode | Claude |
+| `emails/components/Layout.tsx` | Shared email brand wrapper | Claude (base), Gemini (refinement) |
+| `emails/PickupConfirmation.tsx` | Pickup confirmation email template | Claude (base), Gemini (design) |
+| `lib/analytics.ts` | PostHog typed event wrapper | Claude |
+| `components/PostHogProvider.tsx` | PostHog client-side provider | Claude |
+| `.env.example` | All environment variables documented | Claude |
+| `.cursor/tasks/06-gemini-brand-email-template.md` | Gemini task spec for email design | Claude |
+| `.cursor/tasks/07-codex-review-sprint2.md` | Codex review task spec | Claude |
+
+### Analytics Events
+
+| Event | Page | Properties (no PII) |
+|---|---|---|
+| `landing_cta_clicked` | Landing | size_selected |
+| `form_started` | Request Step 1 | source (landing/direct) |
+| `form_step_completed` | Request | step, item_size, parcel_count |
+| `form_step_back` | Request | from_step, to_step |
+| `quote_viewed` | Result | quote_min, quote_max, zone, has_bulk_discount |
+| `willingness_survey_responded` | Result | would_pay |
+| `pickup_confirmed` | Result | zone, item_size, parcel_count, needs_printing |
+| `confirmation_email_sent` | Server | success |
 
 ## What's Next (Backlog)
 
 These are the areas that need work. See `.cursor/tasks/` for specific assignments.
 
-1. **UI/Design polish** — Landing page could be more visually striking, animations more delightful
-2. **Mobile experience** — Test and optimize for small screens
-3. **Request form UX** — Step transitions could use animations, better error states
-4. **Result page** — Success state could be more celebratory
+1. ~~**Analytics** — Track form abandonment, conversion, willingness-to-pay data~~ **DONE (Sprint 2)**
+2. **Gemini email template design** — Task 06: Refine `emails/PickupConfirmation.tsx` visually
+3. **Codex review** — Task 07: Review Sprint 2 changes for PII, accessibility, demo mode
+4. **Mobile experience** — Test and optimize for small screens
 5. **Accessibility audit** — ARIA attributes exist but need screen reader testing
 6. **Performance** — Image optimization, bundle size, Core Web Vitals
 7. **SEO** — Structured data, OG images, meta tags
 8. **Error handling** — Better error states, retry logic, offline support
 9. **Testing** — Unit tests for pricing logic, E2E tests for form flow
-10. **Analytics** — Track form abandonment, conversion, willingness-to-pay data
+10. **Return Cost Calculator** — Free tool: "What is your return really costing you?"
+11. **Return Deadline Tracker** — Free tool: paste order email, get countdown + email reminders
+12. **Post-pickup referral** — Two-sided £2 referral via WhatsApp
+13. **Reminder emails** — T-24h and T-2h pickup reminders via Vercel Cron + Resend
 
 ---
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import {
 } from "@/components/form";
 import { ItemSize, PickupWindow, ITEM_SIZES, calculatePrice, formatPrice } from "@/lib/pricing";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { trackEvent } from "@/lib/analytics";
 
 type FormStep = 1 | 2 | 3;
 
@@ -44,6 +45,8 @@ function RequestFormContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
+  const hasTrackedStart = useRef(false);
+
   const [formData, setFormData] = useState<FormData>({
     file: null,
     fileUrl: null,
@@ -57,6 +60,15 @@ function RequestFormContent() {
     email: "",
     phone: "",
   });
+
+  // Track form_started once on mount
+  useEffect(() => {
+    if (!hasTrackedStart.current) {
+      hasTrackedStart.current = true;
+      const source = searchParams.get("size") ? "landing" as const : "direct" as const;
+      trackEvent({ event: "form_started", properties: { source } });
+    }
+  }, [searchParams]);
 
   // Calculate price estimate
   const priceEstimate = formData.postcode
@@ -128,12 +140,23 @@ function RequestFormContent() {
 
   const handleNext = () => {
     if (validateStep(step)) {
+      trackEvent({
+        event: "form_step_completed",
+        properties: {
+          step: step,
+          item_size: formData.itemSize,
+          parcel_count: formData.parcelCount,
+        },
+      });
       setStep((prev) => Math.min(prev + 1, 3) as FormStep);
     }
   };
 
   const handleBack = () => {
-    setStep((prev) => Math.max(prev - 1, 1) as FormStep);
+    const fromStep = step;
+    const toStep = Math.max(step - 1, 1);
+    trackEvent({ event: "form_step_back", properties: { from_step: fromStep, to_step: toStep } });
+    setStep(toStep as FormStep);
   };
 
   const handleSubmit = async () => {

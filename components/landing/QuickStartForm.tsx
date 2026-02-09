@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ITEM_SIZES, ItemSize } from "@/lib/pricing";
+import { trackEvent } from "@/lib/analytics";
 
 export function QuickStartForm() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export function QuickStartForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    trackEvent({ event: "landing_cta_clicked", properties: { size_selected: selectedSize } });
     router.push(`/request?size=${selectedSize}`);
   };
 
