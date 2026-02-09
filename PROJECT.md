@@ -151,12 +151,12 @@ Multiple AI agents work on this project simultaneously. Each agent reads this fi
 
 ### Agents & Roles
 
-| Agent   | Role                    | Strengths                          |
-|---------|------------------------|------------------------------------|
-| Claude  | Lead engineer / PM      | Architecture, logic, integration, planning |
-| Gemini  | Design engineer         | UI polish, visual design, animations, CSS |
-| Kimi    | Design engineer         | UI polish, visual design, animations, CSS |
-| Codex   | Staff engineer (review) | Code review, best practices, edge cases |
+| Agent   | Role                    | Strengths                          | How it works |
+|---------|------------------------|------------------------------------|-------------|
+| Claude  | Lead engineer / PM      | Architecture, logic, integration, planning | Cursor IDE (this workspace) |
+| Gemini  | Design engineer         | UI polish, visual design, animations, CSS | Cursor IDE (switch model) |
+| Kimi    | Design engineer         | UI polish, visual design, animations, CSS | Cursor IDE (switch model) |
+| Codex   | Staff engineer (review + fixes) | Code review, best practices, bug fixes | OpenAI Codex on GitHub — works on `agent/codex/*` branches, pushes directly |
 
 ### Rules
 
@@ -166,6 +166,7 @@ Multiple AI agents work on this project simultaneously. Each agent reads this fi
 4. **Don't edit files owned by another agent** — if your task says "DO NOT TOUCH", don't
 5. **Work on your branch** — never commit directly to main
 6. **Update your task status** — mark done when finished
+7. **Commit and push** — especially Codex: commit your changes and `git push` so Claude can pull them
 
 ### Branch Naming
 
