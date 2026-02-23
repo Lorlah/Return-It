@@ -76,54 +76,59 @@ export function EmailLayout({ preview, children }: LayoutProps) {
 // Colors from BRAND-KIT.md §2 Email-Safe Palette.
 
 const body: React.CSSProperties = {
-  backgroundColor: "#faf9f7",
+  backgroundColor: "#f9fafb", // Gray-50
   fontFamily:
     '-apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   margin: 0,
-  padding: 0,
+  padding: "40px 0", // Add vertical padding to show the gray bg
 };
 
 const container: React.CSSProperties = {
   maxWidth: "600px",
   margin: "0 auto",
   backgroundColor: "#ffffff",
+  borderRadius: "16px", // Rounded-2xl
+  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)", // Soft shadow
+  overflow: "hidden", // Clip content to border radius
 };
 
 const accentBar: React.CSSProperties = {
   backgroundColor: "#c75a3a",
-  height: "4px",
+  height: "6px", // Slightly thicker
   width: "100%",
 };
 
 const header: React.CSSProperties = {
-  padding: "24px 32px 16px",
+  padding: "32px 32px 16px",
+  textAlign: "center" as const, // Center the logo
 };
 
 const wordmark: React.CSSProperties = {
   fontFamily: 'Georgia, "Times New Roman", serif',
-  fontSize: "22px",
+  fontSize: "24px",
   fontWeight: 700,
   color: "#2d2926",
   margin: 0,
 };
 
 const main: React.CSSProperties = {
-  padding: "0 32px 24px",
+  padding: "0 32px 32px",
 };
 
 const trustFooter: React.CSSProperties = {
   padding: "16px 32px",
-  backgroundColor: "#fdf0ec",
+  backgroundColor: "#f0fdf9", // Hint of teal (secondary-light equivalent)
   borderRadius: "12px",
-  margin: "0 32px 24px",
+  margin: "0 32px 32px",
 };
 
 const trustText: React.CSSProperties = {
   fontSize: "14px",
   lineHeight: "1.5",
-  color: "#6b5f56",
+  color: "#0d3d3d", // Midnight Teal
   margin: 0,
   textAlign: "center" as const,
+  fontWeight: 500,
 };
 
 const divider: React.CSSProperties = {
@@ -132,14 +137,14 @@ const divider: React.CSSProperties = {
 };
 
 const footer: React.CSSProperties = {
-  padding: "20px 32px",
+  padding: "24px 32px 16px",
 };
 
 const footerText: React.CSSProperties = {
   fontSize: "13px",
   lineHeight: "1.5",
   color: "#918780",
-  margin: "0 0 4px",
+  margin: "0 0 6px",
   textAlign: "center" as const,
 };
 

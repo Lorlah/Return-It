@@ -13,6 +13,10 @@ const config: Config = {
           hover: "var(--color-primary-hover)",
           light: "var(--color-primary-light)",
         },
+        secondary: {
+          DEFAULT: "var(--color-secondary)",
+          light: "var(--color-secondary-light)",
+        },
         surface: {
           base: "var(--surface-base)",
           elevated: "var(--surface-elevated)",

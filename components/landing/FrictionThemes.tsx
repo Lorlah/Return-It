@@ -5,95 +5,125 @@ import { motion } from "framer-motion";
 const themes = [
   {
     scenario:
-      "You bought it 27 days ago. The return window closes in 3 days. The post office closes at 5:30. You finish work at 6.",
-    resolution: "We pick up evenings, weekends, and from your office.",
+      "You bought it 27 days ago. The return window closes in 3 days. The post office closes at 5:30.",
+    resolution: "We pick up evenings & weekends.",
     icon: ClockIcon,
     label: "Deadline dread",
+    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=1080",
+    badge: "Driver arriving 18:30—19:30",
   },
   {
     scenario:
-      "No printer at home. So it's a trip to the print shop, then a trip to the post office. Two separate trips to return one item.",
-    resolution: "We print the label and pick up the parcel. Zero trips.",
+      "No printer at home. It's a trip to the print shop, then a separate trip to the post office.",
+    resolution: "We bring the label to you.",
     icon: PrinterIcon,
     label: "The two-trip trap",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=1080",
+    badge: "Label printed by driver",
   },
   {
     scenario:
-      "A dehumidifier or a dishwasher. Can't fit it on a bike. Can't carry it to the post office. And you still need to print the label first.",
-    resolution: "We handle heavy and bulky items. You don't even carry it out.",
+      "A heavy dehumidifier or large furniture box. Can't fit it on a bike or carry it to the shop.",
+    resolution: "We handle heavy & bulky items.",
     icon: WeightIcon,
     label: "The heavy haul",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1080",
+    badge: "Large item pickup confirmed",
   },
   {
     scenario:
-      "Three items, three retailers, three different labels, three different drop-off points. Your Saturday morning becomes a logistics tour.",
-    resolution: "One pickup, all your returns, sorted.",
+      "Three items, three retailers, three different labels. Your Saturday becomes a logistics tour.",
+    resolution: "One pickup for everything.",
     icon: StackIcon,
     label: "Multi-return madness",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=1080",
+    badge: "3 parcels collected",
   },
   {
     scenario:
-      "That dress you never wore is still in the bag on the floor. It's been 4 months. You've accepted the £60 loss.",
+      "That dress is still in the bag on the floor. It's not the money — it's the guilt of inaction.",
     resolution: "The guilt leaves with the parcel.",
     icon: HeartIcon,
     label: "\"Stuck with it\"",
+    image: "https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&q=80&w=1080",
+    badge: "Refund processed",
   },
 ];
 
 export function FrictionThemes() {
   return (
-    <section className="py-20 lg:py-28 bg-surface-elevated relative">
-      <div className="max-w-5xl mx-auto section-padding">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16"
-        >
-          <p className="text-primary font-medium text-body-sm tracking-wide uppercase mb-3">
+    <section className="py-24 lg:py-32 bg-surface-elevated overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="mb-24 max-w-2xl">
+          <p className="text-secondary font-medium text-sm tracking-widest uppercase mb-4">
             Sound familiar?
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-text-primary max-w-2xl leading-[1.15]">
-            Returns shouldn&apos;t be this hard
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-text-primary leading-[1.1] tracking-tight">
+            The friction is real. <br />
+            <span className="text-secondary">The solution is simple.</span>
           </h2>
-        </motion.div>
+        </div>
 
-        <div className="space-y-6">
+        <div className="space-y-32 lg:space-y-40">
           {themes.map((theme, index) => (
-            <motion.div
+            <div
               key={theme.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              className={`flex flex-col lg:flex-row gap-12 lg:gap-24 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                }`}
             >
-              <div className="group relative bg-white rounded-2xl border border-border/60 p-6 sm:p-8 hover:border-primary/20 transition-colors duration-300">
-                <div className="flex gap-5 sm:gap-8">
-                  {/* Icon */}
-                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-surface-base flex items-center justify-center text-text-muted group-hover:bg-primary-light group-hover:text-primary transition-colors duration-300">
-                    <theme.icon />
-                  </div>
+              {/* Image / Layered Reality Side */}
+              <div className="w-full lg:w-1/2 relative group">
+                <div
+                  className={`absolute inset-0 bg-secondary/5 rounded-3xl transform ${index % 2 === 0 ? "-rotate-3" : "rotate-3"
+                    } scale-105 transition-transform duration-700 group-hover:rotate-0`}
+                />
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-caption font-medium text-text-muted uppercase tracking-wide mb-2">
-                      {theme.label}
-                    </p>
-                    <p className="text-text-secondary text-body-md leading-relaxed">
-                      {theme.scenario}
-                    </p>
-                    <p className="mt-3 text-primary font-medium text-body-md">
-                      {theme.resolution}
-                    </p>
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] transform transition-transform duration-700 group-hover:scale-[1.02]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10" />
+                  <img
+                    src={theme.image}
+                    alt={theme.label}
+                    className="object-cover w-full h-full transform scale-110 group-hover:scale-100 transition-transform duration-1000"
+                  />
+
+                  {/* Floating UI Overlay - The "Solution" */}
+                  <div className={`absolute ${index % 2 === 0 ? "bottom-8 right-8" : "bottom-8 left-8"} z-20`}>
+                    <div className="bg-white/95 backdrop-blur-md border border-white/20 p-4 sm:p-5 rounded-2xl shadow-xl flex items-center gap-4 max-w-[280px] transform transition-all duration-500 hover:-translate-y-2">
+                      <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0 text-secondary">
+                        <theme.icon />
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-wider text-text-muted font-bold mb-0.5">
+                          Return-It Solution
+                        </p>
+                        <p className="text-sm font-medium text-text-primary leading-tight">
+                          {theme.badge}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
+
+              {/* Text Side */}
+              <div className="w-full lg:w-1/2">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-px w-8 bg-secondary"></div>
+                  <span className="text-secondary font-medium tracking-wide uppercase text-sm">
+                    {theme.label}
+                  </span>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display text-text-primary mb-6 leading-tight">
+                  {theme.scenario}
+                </h3>
+
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-base">
+                  <span className="w-2 h-2 rounded-full bg-primary"></span>
+                  {theme.resolution}
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>

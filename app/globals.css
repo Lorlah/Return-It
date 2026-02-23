@@ -8,6 +8,10 @@
   --color-primary-hover: oklch(48% 0.16 25);
   --color-primary-light: oklch(92% 0.05 25);
   
+  /* Secondary - Midnight Teal */
+  --color-secondary: oklch(35% 0.08 190);
+  --color-secondary-light: oklch(96% 0.02 190);
+  
   /* Surface */
   --surface-base: oklch(98% 0.005 60);
   --surface-elevated: oklch(100% 0.002 60);

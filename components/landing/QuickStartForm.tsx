@@ -7,7 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { ITEM_SIZES, ItemSize } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
 
-export function QuickStartForm() {
+interface QuickStartFormProps {
+  compact?: boolean;
+}
+
+export function QuickStartForm({ compact }: QuickStartFormProps) {
   const router = useRouter();
   const [selectedSize, setSelectedSize] = useState<ItemSize>("small-parcel");
 
@@ -18,9 +22,11 @@ export function QuickStartForm() {
   };
 
   return (
-    <section className="py-16 lg:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-surface-elevated -skew-y-3 transform origin-top-right scale-110 pointer-events-none" />
-      
+    <section className={`${compact ? "py-8 lg:py-12" : "py-16 lg:py-24"} relative overflow-hidden`}>
+      {!compact && (
+        <div className="absolute inset-0 bg-surface-elevated -skew-y-3 transform origin-top-right scale-110 pointer-events-none" />
+      )}
+
       <div className="max-w-6xl mx-auto section-padding relative">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -29,9 +35,9 @@ export function QuickStartForm() {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-2xl mx-auto"
         >
-          <div className="bg-white rounded-[2rem] border border-border/50 p-8 lg:p-12 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] ring-1 ring-border/50 backdrop-blur-sm">
-            <h2 className="font-display text-display-md text-text-primary text-center">
-              Get your return picked up
+          <div className={`bg-white rounded-[2rem] border border-border/50 ${compact ? "p-6 lg:p-8" : "p-8 lg:p-12"} shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] ring-1 ring-border/50 backdrop-blur-sm`}>
+            <h2 className={`font-display ${compact ? "text-3xl sm:text-4xl" : "text-display-md"} text-text-primary text-center`}>
+              Get your returns picked up
             </h2>
             <p className="mt-4 text-lg text-text-secondary text-center max-w-md mx-auto">
               Select your parcel size to get started. We&apos;ll handle the rest.
@@ -64,7 +70,7 @@ export function QuickStartForm() {
                   Get it picked up
                   <ArrowRightIcon />
                 </Button>
-                
+
                 <p className="mt-4 text-caption text-text-muted text-center flex items-center justify-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                   Starting from £4.99 · No commitment until you confirm
@@ -103,10 +109,9 @@ function SizeOption({
         relative p-5 rounded-2xl text-left border-2
         transition-all duration-200
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
-        ${
-          selected
-            ? "border-primary bg-primary-light/30 shadow-sm"
-            : "border-border/60 bg-surface-base hover:border-primary/30 hover:bg-white"
+        ${selected
+          ? "border-primary bg-primary-light/30 shadow-sm"
+          : "border-border/60 bg-surface-base hover:border-primary/30 hover:bg-white"
         }
       `}
       role="radio"
@@ -115,9 +120,8 @@ function SizeOption({
       <div className="flex items-start justify-between gap-3">
         <div>
           <p
-            className={`font-semibold text-lg ${
-              selected ? "text-primary" : "text-text-primary"
-            }`}
+            className={`font-semibold text-lg ${selected ? "text-primary" : "text-text-primary"
+              }`}
           >
             {label}
           </p>

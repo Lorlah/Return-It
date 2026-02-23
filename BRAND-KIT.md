@@ -80,8 +80,14 @@ That dress you never wore is still in the bag on the floor. It's been 4 months. 
 | `--color-primary` | `oklch(55% 0.18 25)` | `#c75a3a` | `199, 90, 58` | CTAs, active states, branding, email buttons |
 | `--color-primary-hover` | `oklch(48% 0.16 25)` | `#a84830` | `168, 72, 48` | Hover states, pressed states |
 | `--color-primary-light` | `oklch(92% 0.05 25)` | `#fdf0ec` | `253, 240, 236` | Backgrounds, highlights, badges |
+| `--color-secondary` | `oklch(35% 0.08 190)` | `#0D3D3D` | `13, 61, 61` | High-contrast accents, pillars, trust badges |
+| `--color-secondary-light` | `oklch(96% 0.02 190)` | `#E6F0F0` | `230, 240, 240` | Subtle backgrounds for secondary sections |
 
-**Color psychology:** Coral sits in the orange family — "energy, confidence, warmth." It says "action" without the aggression of red. It signals approachability, which counterbalances a logistics category that defaults to cold blue or institutional red. The warm undertone communicates care and personality.
+**Color Psychology:**
+- **Coral:** Energy, warmth, action (User's side).
+- **Midnight Teal:** Reliability, logistics, depth (Return-It's engine).
+    - Use Teal for "system" elements (e.g., driver icons, secure badges, timeline connectors).
+    - Use Coral for "user" actions (e.g., buttons, success states, price).
 
 #### Surfaces
 
@@ -177,14 +183,36 @@ Emails have limited font support. Use web-safe fallbacks:
 - **Monochrome:** `text-primary` (#2d2926) on light backgrounds, white on dark/coral backgrounds
 - **No standalone logomark yet** — the wordmark IS the logo for MVP
 
-### Illustration Style
+### Visual Style: "Layered Reality" & "Deconstructed UI"
 
-- Warm, abstract geometric shapes (floating cards, rounded rectangles with subtle shadows)
-- Matches the hero section's animated floating elements
-- No stock photography; no photorealistic people
-- Use coral accent color sparingly in illustrations
-- Rounded corners: `xl` (inputs/buttons), `2xl` (cards), `3xl` (hero-level elements)
-- Shadows: Warm-tinted (`rgba(60, 50, 45, 0.06)` to `0.08`), never cool gray
+**Concept:** The messiness of real life (Photography) meets the clean order of the system (Vector UI).
+
+#### 1. The Base: Layered Reality (Human)
+-   **Photography:** High-quality, authentic spaces (messy hallways, offices).
+-   **Treatment:** Subtle skew/perspective (-5deg) to create dynamic space.
+-   **Role:** Represents the "Problem" (the friction).
+
+#### 2. The Overlay: Deconstructed UI (System)
+-   **Floating Elements:** Don't show full screenshots. Explode the UI into floating components.
+    -   *Cards:* White, `rounded-2xl`, deep soft shadows (`shadow-2xl`).
+    -   *Pills:* "Driver Arriving", "Item Scanned", "Refund Processed" tags floating in space.
+    -   *Connectors:* Dashed coral lines connecting the mess (photo) to the solution (UI).
+-   **Role:** Represents the "Solution" (Return-It).
+
+#### 3. Layout Patterns
+-   **Z-Pattern Momentum:** Alternating [Text | Graphic] and [Graphic | Text] sections.
+-   **Soft Containers:** Group related content in large `rounded-3xl` containers with light backgrounds (`secondary-light` or `primary-light`) instead of full-width harsh sections.
+-   **Big Type:** Headings in `Fraunces` or bold `Jakarta` should be massive (48px+) to offset the whitespace.
+
+#### 4. Frontend Implementation
+
+| Concept | Color Token | Tailwind Class | Notes |
+| :--- | :--- | :--- | :--- |
+| **Primary Action** | `primary` | `bg-primary` | Coral. Use for main CTAs (Book, Return). |
+| **System Status** | `secondary` | `bg-secondary` | Midnight Teal. Use for pills, badges, trust signals. |
+| **Soft Container** | `secondary-light` | `bg-secondary/5` | use for backgrounds of secondary content blocks. |
+| **Card (UI)** | `white` | `bg-white shadow-2xl` | Floating UI elements. Always rounded-2xl or 3xl. |
+| **Card (Content)** | `surface-elevated` | `bg-surface-elevated` | Section backgrounds. |
 
 ---
 
@@ -250,12 +278,19 @@ These phrases should appear consistently across touchpoints:
 ### Layout
 
 ```
+```
 ┌──────────────────────────────────────┐
-│  ▄ Coral accent bar (4px)            │
-│  Return-It (Fraunces wordmark)       │  ← max-width: 600px
-├──────────────────────────────────────┤
+│  (Background: #F9FAFB / Light Gray)  │
 │                                      │
-│  Hey [Name],                         │  ← Personalized greeting
+│  ┌────────────────────────────────┐  │
+│  │  (Header Image / Brand Brand)  │  │
+│  │  [ Photo/Graphic rounded-t-xl ]│  │
+│  ├────────────────────────────────┤  │
+│  │  (Content Card - White)        │  │
+│  │                                │  │
+│  │  Return-It (Wordmark)          │  │
+│  │                                │  │
+│  │  Hey [Name],                   │  │
 │                                      │
 │  [Warm one-line summary]             │
 │                                      │
@@ -293,11 +328,11 @@ These phrases should appear consistently across touchpoints:
 
 | Element | Spec | Notes |
 |---|---|---|
-| Max width | 600px | Single-column, centered |
-| Body padding | 32px horizontal, 24px vertical | Generous whitespace |
-| Header | 4px coral bar + wordmark, 24px padding | Not a heavy logo block |
-| CTA button | `#c75a3a` bg, white text, 44px+ height, 200px+ width, 8px border-radius | Centered, one per email |
-| Summary card | White bg, 1px `#e5e0dc` border, 16px border-radius, 24px padding | Contains all booking details |
+| Max width | 600px | Centered, floating card effect on wide screens |
+| Background | `#F9FAFB` (Gray-50) | The "canvas" for the floating card |
+| Card | White, `rounded-2xl`, `shadow-sm` | Holds ALL email content including footer |
+| Header Image | Full width of card, `rounded-t-2xl` | Optional visual anchor (e.g., illustration/photo) |
+| CTA button | `#c75a3a` bg, white text, 48px height | Full width on mobile, rounded-xl |
 | Price highlight | Fraunces/Georgia, 20px, coral color | Stands out in the summary |
 | Footer text | 13px, `#918780` color | Contact, unsubscribe, trust message |
 

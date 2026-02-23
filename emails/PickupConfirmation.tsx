@@ -147,34 +147,38 @@ function formatPickupWindow(window: string): string {
 
 const greeting: React.CSSProperties = {
   fontFamily: 'Georgia, "Times New Roman", serif',
-  fontSize: "24px",
+  fontSize: "28px",
   fontWeight: 700,
   color: "#2d2926",
-  margin: "0 0 8px",
+  margin: "0 0 16px",
+  textAlign: "center" as const,
 };
 
 const bodyText: React.CSSProperties = {
-  fontSize: "15px",
+  fontSize: "16px",
   lineHeight: "1.6",
   color: "#6b5f56",
-  margin: "0 0 24px",
+  margin: "0 0 32px",
+  textAlign: "center" as const,
 };
 
 const summaryCard: React.CSSProperties = {
-  backgroundColor: "#ffffff",
+  backgroundColor: "#faf9f7", // Light warm gray background
   border: "1px solid #e5e0dc",
-  borderRadius: "16px",
+  borderRadius: "12px",
   padding: "24px",
-  marginBottom: "24px",
+  marginBottom: "32px",
+  position: "relative" as const,
 };
 
 const summaryTitle: React.CSSProperties = {
-  fontSize: "14px",
-  fontWeight: 600,
+  fontSize: "12px",
+  fontWeight: 700,
   color: "#918780",
   textTransform: "uppercase" as const,
-  letterSpacing: "0.05em",
-  margin: "0 0 16px",
+  letterSpacing: "0.1em",
+  margin: "0 0 20px",
+  textAlign: "center" as const,
 };
 
 const summaryTable: React.CSSProperties = {
@@ -183,89 +187,97 @@ const summaryTable: React.CSSProperties = {
 
 const summaryLabel: React.CSSProperties = {
   fontSize: "14px",
-  color: "#918780",
-  padding: "6px 0",
+  color: "#6b5f56",
+  padding: "8px 0",
   verticalAlign: "top",
   width: "40%",
 };
 
 const summaryValue: React.CSSProperties = {
   fontSize: "15px",
-  fontWeight: 500,
+  fontWeight: 600,
   color: "#2d2926",
-  padding: "6px 0",
+  padding: "8px 0",
   verticalAlign: "top",
   textAlign: "right" as const,
 };
 
 const summaryDivider: React.CSSProperties = {
-  borderTop: "1px solid #e5e0dc",
-  margin: "16px 0",
+  borderTop: "2px dashed #d6d1cd", // Dashed line for receipt feel
+  margin: "20px 0",
 };
 
 const priceText: React.CSSProperties = {
   fontFamily: 'Georgia, "Times New Roman", serif',
-  fontSize: "20px",
+  fontSize: "24px",
   fontWeight: 700,
   color: "#c75a3a",
   margin: "0 0 4px",
+  textAlign: "center" as const,
+  display: "block",
 };
 
 const priceNote: React.CSSProperties = {
   fontSize: "13px",
   color: "#918780",
   margin: 0,
+  textAlign: "center" as const,
+  display: "block",
 };
 
 const sectionHeading: React.CSSProperties = {
   fontFamily: 'Georgia, "Times New Roman", serif',
-  fontSize: "18px",
+  fontSize: "20px",
   fontWeight: 700,
   color: "#2d2926",
-  margin: "0 0 16px",
+  margin: "0 0 20px",
+  textAlign: "center" as const,
 };
 
 const stepsTable: React.CSSProperties = {
   width: "100%",
-  marginBottom: "24px",
+  marginBottom: "32px",
 };
 
 const stepNumber: React.CSSProperties = {
-  width: "32px",
-  height: "32px",
-  backgroundColor: "#c75a3a",
-  color: "#ffffff",
-  fontSize: "14px",
+  width: "36px",
+  height: "36px",
+  backgroundColor: "#fdf0ec",
+  color: "#c75a3a",
+  fontSize: "16px",
   fontWeight: 700,
   textAlign: "center" as const,
   borderRadius: "50%",
-  verticalAlign: "top",
-  padding: "6px 0",
+  verticalAlign: "middle",
+  padding: "0",
+  lineHeight: "36px", // Vertically center text
 };
 
 const stepText: React.CSSProperties = {
   fontSize: "15px",
   lineHeight: "1.5",
-  color: "#6b5f56",
-  paddingLeft: "12px",
-  paddingBottom: "12px",
-  verticalAlign: "top",
+  color: "#2d2926",
+  paddingLeft: "16px",
+  paddingBottom: "16px",
+  verticalAlign: "middle",
+  fontWeight: 500,
 };
 
 const ctaContainer: React.CSSProperties = {
   textAlign: "center" as const,
-  margin: "8px 0 16px",
+  margin: "16px 0 24px",
 };
 
 const ctaButton: React.CSSProperties = {
   display: "inline-block",
   backgroundColor: "#c75a3a",
   color: "#ffffff",
-  fontSize: "16px",
+  fontSize: "18px",
   fontWeight: 600,
-  padding: "14px 32px",
-  borderRadius: "12px",
+  padding: "16px 48px",
+  borderRadius: "50px", // Pill shape
   textDecoration: "none",
+  boxShadow: "0 4px 12px rgba(199, 90, 58, 0.2)",
 };
 
 // ── Default export for preview ──────────────────────────────────────────────
