@@ -263,15 +263,38 @@ Three zones, sorted by deadline ascending:
 | Carrier API adapters | TBD | Pending research — see below |
 | `ConciergeFulfilment` | Later | Own driver network. Heaviest ops; only justified where carriers won't collect. |
 
-### 8.1 The open strategic question
+### 8.1 Research outcome
 
-If any carrier exposes a usable API that will collect a parcel bearing **a third party's pre-paid return label**, the pilot may need **no drivers at all**. Carrier-direct then becomes the whole v1 product at the £1.99 tier, and concierge demotes from core service to a phase-2 upsell for labels carriers won't take.
+Full findings: `docs/carrier-integration-research.md`.
 
-That would remove the density flywheel, the per-hour margin maths, the liability exposure, and the ops burden from v1 entirely — a categorically different risk profile.
+**No UK carrier exposes a self-serve API for booking collection of a third party's pre-paid return label.** Royal Mail will physically collect one but has no API (confirmed against the Click & Drop swagger, the developer portal, and the Shipping API endpoint list). Evri and DPD won't book pickups by API at all. Shippo and EasyPost exclude UK doorstep pickup outright.
 
-**Research in flight** covering Royal Mail Parcel Collect, Evri, DPD, InPost, Yodel/Collect+, DHL, and multi-carrier aggregators (Shippo, EasyPost, Sendcloud, Stuart, Gophr, Packfleet, Zedify). The decision to include a carrier integration in the pilot depends on finding one that is (a) self-serve, and (b) willing to collect third-party pre-paid labels.
+**But the question was the wrong one.** Stuart and Gophr answer yes — because they're **point-to-point couriers that never look at the label.**
 
-**This section is incomplete pending those findings** and will be revised before implementation planning.
+We don't need a carrier to collect a third party's label. We need *any courier* to move the parcel from the user's door to whatever drop-off point that label already implies — ParcelShop, Post Office, locker. That sidesteps the third-party-label problem entirely, works regardless of retailer, and needs no partner agreement.
+
+**The constraint becomes economics, not access.** At ~£5.50/job, several users' parcels must batch into one neighbourhood route per day. That batching *is* the product — which is what the PRD's unit economics said all along.
+
+### 8.2 Adapter roadmap
+
+| Adapter | Phase | Notes |
+|---|---|---|
+| `ManualFulfilment` | v1 | Ops queue; a human books collection. Correct at 20–100 users. |
+| `RoyalMailManual` | v1 | Parcel Collect at **30p**, up to 25 items, accepts third-party labels — but **RM Tracked Returns / Parcelforce return24-48 labels only**. No API; booked by hand or scripted browser flow. Cheapest rail by a wide margin. |
+| `StuartAdapter` | v1.5 | Self-serve sandbox available today, London-native, ~£5.50/job. The first *automated* rail. |
+| `SendcloudAdapter` | Later | Only aggregator with the right semantics (one-time pickup, dynamic address). Gated by carrier volume minimums. |
+
+**Ruled out:** Packfleet (defunct — absorbed into DHL, Mar 2025) · Yodel (no API products published; acquired by InPost Apr 2025) · Shippo / EasyPost (exclude UK doorstep pickup).
+
+### 8.3 Risks carried from this research
+
+⚠️ **Amazon suspended this exact model on 13 August 2026** — Parcel Collect home pickup for Amazon prepaid return labels, withdrawn because it *"isn't completing buyer pickups as intended due to a technical issue."* Two weeks before this spec was written. Both the strongest validation of the thesis and a live warning that the rail is currently unreliable at scale. **Verify current status before depending on it.**
+
+⚠️ **The Royal Mail Parcel Collect T&Cs have not been read.** `royalmail.com` blocks all automated fetching (HTTP 403). No prohibition on third-party/agent booking was found, but that means *not read*, not *not present*. **Manually download the PDF from royalmail.com/collection and read the agent-booking clause before building on this rail.** This is the highest-value open item in the whole spec.
+
+### 8.4 Partner option
+
+ZigZag Global runs an explicit white-label programme targeting *"tech companies and marketplaces"*, already has Parcel Collect integrated, and claims deployment *"in less than a month."* If speed to a working London pilot matters more than owning carrier relationships, that conversation may be worth more than three carrier integrations. They are also the most credible competitive threat on this rail.
 
 ---
 
@@ -318,7 +341,9 @@ Non-negotiable, from the PRD:
 | Risk | Severity | Mitigation |
 |---|---|---|
 | Parser accuracy is poor across real retailer templates | **High** — invalidates the product | Built first, measured before anything depends on it |
-| No carrier will collect third-party labels via API | **High** — forces concierge, restoring the ops/density problem | Research in flight; `ManualFulfilment` keeps v1 shippable either way |
+| ~~No carrier will collect third-party labels via API~~ | Resolved | None do — but point-to-point couriers (Stuart, Gophr) make the label irrelevant. See §8.1 |
+| Royal Mail T&Cs may prohibit third-party/agent booking | **High** — would remove the 30p rail entirely | Unread (site blocks automation). **Manual download required before building on it** |
+| The Parcel Collect rail is currently unreliable | Medium | Amazon suspended it 13 Aug 2026. Verify restoration; Stuart/Gophr are the fallback |
 | Users won't forward emails; manual mode too much friction | Medium | Reply-to-forward magic moment; auto-forward filter as the upgrade |
 | Retailers change email templates, breaking extraction | Medium | Failed parses become fixtures; `parser_version` makes regressions visible |
 | Inbound address abused as spam target | Medium | Nonce in address, signature verification, per-address rate limiting |
