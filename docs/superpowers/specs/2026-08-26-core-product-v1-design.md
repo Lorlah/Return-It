@@ -290,7 +290,21 @@ We don't need a carrier to collect a third party's label. We need *any courier* 
 
 ⚠️ **Amazon suspended this exact model on 13 August 2026** — Parcel Collect home pickup for Amazon prepaid return labels, withdrawn because it *"isn't completing buyer pickups as intended due to a technical issue."* Two weeks before this spec was written. Both the strongest validation of the thesis and a live warning that the rail is currently unreliable at scale. **Verify current status before depending on it.**
 
-⚠️ **The Royal Mail Parcel Collect T&Cs have not been read.** `royalmail.com` blocks all automated fetching (HTTP 403). No prohibition on third-party/agent booking was found, but that means *not read*, not *not present*. **Manually download the PDF from royalmail.com/collection and read the agent-booking clause before building on this rail.** This is the highest-value open item in the whole spec.
+✅ **RESOLVED — the Royal Mail Parcel Collect T&Cs permit agent booking.** The PDF was downloaded manually (`royalmail.com` 403s all automated access) and read. Local copy: `docs/reference/rm-pfw-specific-terms-for-parcel-collect-non-account-customers.pdf`, last updated 11 August 2025.
+
+**Clause 14.7, verbatim:**
+
+> "You must not transfer any of your rights or duties under this Agreement; however, **you can use another person to carry out any of your duties (as your agent or otherwise) as long as you notify us first.** You will be responsible to us for any action that person takes. You must make sure your agents, representatives and subcontractors keep to the terms of this Agreement."
+
+So a Return-It-booked collection on a user's behalf is **contractually permitted**, subject to three conditions:
+
+1. **Royal Mail must be notified first.** A business action, not a technical blocker — but it must actually happen before the pilot books anything.
+2. **The user remains liable to Royal Mail** for Return-It's actions as their agent. This needs reflecting in our own terms.
+3. **Return-It must comply with the agreement** as the user's agent — including the Restricted and Prohibited Materials lists at `royalmail.com/prohibitedgoods`, which the pilot must surface to users at booking time.
+
+No reseller or aggregator prohibition appears anywhere in the document.
+
+⚠️ **One scope caveat.** Clause 2.2 states this Agreement covers outbound products *"where postage is purchased through Click & Drop with a trackable barcode."* A retailer's pre-paid return label is **not** purchased through Click & Drop, so these specific terms may not be the governing document for the pre-paid-returns case. The collection page separately confirms Parcel Collect accepts pre-paid Royal Mail Tracked Returns and Parcelforce return24/48 labels. **Confirm which terms govern the pre-paid case when notifying Royal Mail under 14.7** — one conversation closes both items at once.
 
 ### 8.4 Partner option
 
@@ -342,7 +356,8 @@ Non-negotiable, from the PRD:
 |---|---|---|
 | Parser accuracy is poor across real retailer templates | **High** — invalidates the product | Built first, measured before anything depends on it |
 | ~~No carrier will collect third-party labels via API~~ | Resolved | None do — but point-to-point couriers (Stuart, Gophr) make the label irrelevant. See §8.1 |
-| Royal Mail T&Cs may prohibit third-party/agent booking | **High** — would remove the 30p rail entirely | Unread (site blocks automation). **Manual download required before building on it** |
+| ~~Royal Mail T&Cs may prohibit third-party/agent booking~~ | Resolved | Clause 14.7 permits it, subject to notifying RM first. See §8.3 |
+| Royal Mail not notified under clause 14.7 before the pilot books collections | Medium | A business action that must precede the first booking; also the moment to confirm which terms govern pre-paid labels |
 | The Parcel Collect rail is currently unreliable | Medium | Amazon suspended it 13 Aug 2026. Verify restoration; Stuart/Gophr are the fallback |
 | Users won't forward emails; manual mode too much friction | Medium | Reply-to-forward magic moment; auto-forward filter as the upgrade |
 | Retailers change email templates, breaking extraction | Medium | Failed parses become fixtures; `parser_version` makes regressions visible |

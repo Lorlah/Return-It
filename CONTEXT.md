@@ -158,7 +158,9 @@ Full detail in `docs/carrier-integration-research.md`.
 
 **No UK carrier has a self-serve API for collecting a third party's pre-paid label.** But **point-to-point couriers (Stuart, Gophr) never look at the label** — so any courier can move the parcel to whatever drop-off point the label implies. The constraint is economics, not access, and **batching is the product**.
 
-⚠️ Two live risks: **Amazon suspended this exact model on Royal Mail's rail on 13 Aug 2026**, and the **Parcel Collect T&Cs are unread** (royalmail.com blocks automated fetching) — the agent-booking clause needs a manual download before anyone builds on that rail.
+✅ **Royal Mail permits agent booking.** T&Cs downloaded manually and read (`docs/reference/`). **Clause 14.7:** *"you can use another person to carry out any of your duties (as your agent or otherwise) as long as you notify us first."* Three conditions: notify RM first, the user stays liable for our actions as their agent, and we must comply with the agreement including the prohibited-goods list. No reseller prohibition anywhere in the document.
+
+⚠️ Remaining risks: **Amazon suspended this exact model on Royal Mail's rail on 13 Aug 2026**; and clause 2.2 scopes that document to postage *bought through Click & Drop*, so the governing terms for a retailer's pre-paid label may differ — confirm when notifying RM under 14.7.
 
 ### Other players
 
