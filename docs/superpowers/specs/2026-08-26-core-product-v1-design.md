@@ -16,7 +16,7 @@ The pilot is deliberately small: small enough to fulfil by hand, small enough to
 
 | | Target |
 |---|---|
-| Parser accuracy | ≥85% correct extraction of retailer + deadline across the fixture corpus |
+| Parser accuracy | ≥85% target — **measured 100% (7/7 fixtures, 2026-08-26)**. ⚠️ Corpus is 7 fixtures across 5 senders and skews SHEIN/Temu; treat as indicative until it reaches ≥10 across ≥4 genuinely distinct retailers. Per-field: retailer, deadline, carrier, orderRef, returnId, labelType all 100%. |
 | Time to first return detected | <60s from forwarding an email |
 | Pilot users onboarded | 20–100 |
 | Returns actually collected | ≥1 per active user |
