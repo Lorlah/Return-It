@@ -50,7 +50,7 @@
 
 > **Not applied automatically.** Supabase is not yet connected. This migration is written to be applied with `supabase db push` (or pasted into the SQL editor) once it is. Nothing in this plan's tests depends on it having run.
 
-- [ ] **Step 1: Write the migration**
+- [x] **Step 1: Write the migration**
 
 Create `supabase/migrations/0001_initial_schema.sql`:
 
@@ -192,7 +192,7 @@ create table events (
 create index events_entity_idx on events (entity_type, entity_id, at desc);
 ```
 
-- [ ] **Step 2: Verify the SQL parses**
+- [x] **Step 2: Verify the SQL parses**
 
 Run: `grep -c "create table" supabase/migrations/0001_initial_schema.sql`
 Expected: `5`
@@ -217,7 +217,7 @@ git commit -m "feat(db): initial schema for users, documents, returns, pickups, 
 
 > The spec's §9 requires a user can only ever reach their own rows. Enabling RLS without policies denies everything by default, which is the safe direction to fail.
 
-- [ ] **Step 1: Write the migration**
+- [x] **Step 1: Write the migration**
 
 Create `supabase/migrations/0002_rls_policies.sql`:
 
@@ -265,7 +265,7 @@ create policy events_read_own on events
   );
 ```
 
-- [ ] **Step 2: Verify every table is covered**
+- [x] **Step 2: Verify every table is covered**
 
 Run: `grep -c "enable row level security" supabase/migrations/0002_rls_policies.sql`
 Expected: `5`
@@ -289,7 +289,7 @@ git commit -m "feat(db): row-level security policies, default-deny"
 - Consumes: nothing
 - Produces: `generateIngestAddress(displayName: string, nonce: string): string`, `parseIngestAddress(address: string): { slug: string; nonce: string } | null`, `INGEST_DOMAIN`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/ingest/address.test.ts`:
 
@@ -363,12 +363,12 @@ describe("parseIngestAddress", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm vitest run tests/ingest/address.test.ts`
 Expected: FAIL — cannot resolve `@/lib/ingest/address`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/ingest/address.ts`:
 
@@ -455,7 +455,7 @@ git commit -m "feat(ingest): unique per-user inbound address generation and pars
 
 > Every field here is attacker-controlled. The function validates shape before trusting anything and returns null rather than throwing on malformed input.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/ingest/inbound.test.ts`:
 
@@ -577,12 +577,12 @@ describe("extractRecipientAddress", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm vitest run tests/ingest/inbound.test.ts`
 Expected: FAIL — cannot resolve `@/lib/ingest/inbound`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/ingest/inbound.ts`:
 
@@ -723,7 +723,7 @@ export function parseInboundPayload(
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm vitest run tests/ingest/inbound.test.ts`
 Expected: PASS, 17 tests.
@@ -747,7 +747,7 @@ git commit -m "feat(ingest): parse inbound email webhook payloads defensively"
 - Consumes: Node's `crypto`
 - Produces: `verifyWebhookSignature(rawBody: string, signature: string | null, secret: string | null): boolean`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/ingest/signature.test.ts`:
 
@@ -797,12 +797,12 @@ describe("verifyWebhookSignature", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm vitest run tests/ingest/signature.test.ts`
 Expected: FAIL — cannot resolve `@/lib/ingest/signature`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/ingest/signature.ts`:
 
@@ -843,7 +843,7 @@ export function verifyWebhookSignature(
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm vitest run tests/ingest/signature.test.ts`
 Expected: PASS, 7 tests.
@@ -869,7 +869,7 @@ git commit -m "feat(ingest): timing-safe webhook signature verification, fails c
 
 > This is the seam that lets everything above be tested with no database. The Postgres implementation lands when Supabase is connected and satisfies the same interface.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/ingest/repository.test.ts`:
 
@@ -968,12 +968,12 @@ describe("InMemoryIngestRepository", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm vitest run tests/ingest/repository.test.ts`
 Expected: FAIL — cannot resolve `@/lib/ingest/repository`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/ingest/repository.ts`:
 
@@ -1085,7 +1085,7 @@ export class InMemoryIngestRepository implements IngestRepository {
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm vitest run tests/ingest/repository.test.ts`
 Expected: PASS, 7 tests.
