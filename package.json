@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:accuracy": "vitest run tests/parser/accuracy.test.ts --reporter=verbose"
   },
   "dependencies": {
     "@react-email/components": "^1.0.7",
@@ -29,6 +32,7 @@
   },
   "devDependencies": {
     "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.35"
+    "eslint-config-next": "^14.2.35",
+    "vitest": "^3.2.7"
   }
 }

@@ -56,13 +56,13 @@
 
 > **⚠️ Human step before Step 4.** The fixture corpus must come from real return emails. The files in `~/Downloads/` are PDFs and QR images, not email text — they are fixtures for a later OCR plan, not this one. Real email fixtures come from the founder's own inbox (search Gmail for `from:asos.com OR from:amazon.co.uk OR from:shein.com subject:return`) and must be **anonymised** before being committed: replace real names, addresses, order numbers and emails with fake values, preserving format and length exactly. Never commit an un-anonymised fixture.
 
-- [ ] **Step 1: Install Vitest**
+- [x] **Step 1: Install Vitest**
 
 ```bash
 pnpm add -D vitest@^3.2.4
 ```
 
-- [ ] **Step 2: Add the test scripts**
+- [x] **Step 2: Add the test scripts**
 
 In `package.json`, add to `"scripts"`:
 
@@ -72,7 +72,7 @@ In `package.json`, add to `"scripts"`:
 "test:accuracy": "vitest run tests/parser/accuracy.test.ts --reporter=verbose"
 ```
 
-- [ ] **Step 3: Create `vitest.config.ts`**
+- [x] **Step 3: Create `vitest.config.ts`**
 
 ```ts
 import { defineConfig } from "vitest/config";
@@ -89,7 +89,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: Document the fixture format**
+- [x] **Step 4: Document the fixture format**
 
 Create `fixtures/emails/README.md`:
 
@@ -121,7 +121,13 @@ must not become `REDACTED`.
 Never commit an un-anonymised fixture.
 ```
 
-- [ ] **Step 5: Create the first fixture**
+- [x] **Step 5: Create the first fixture**
+
+> **Superseded.** Three real anonymised fixtures were captured from the founder's
+> inbox ahead of this task and are already committed: `shein-001.json`,
+> `plt-001-forwarded.json`, `inpost-001.json`. `asos-001.json` was NOT created —
+> the illustrative ASOS body below is synthetic. Task 8's expected-results files
+> must be written against the three real fixtures instead.
 
 Create `fixtures/emails/asos-001.json`. Replace the body with a real anonymised ASOS return email:
 
@@ -138,12 +144,20 @@ Create `fixtures/emails/asos-001.json`. Replace the body with a real anonymised 
 }
 ```
 
-- [ ] **Step 6: Verify the runner works**
+- [x] **Step 6: Verify the runner works**
 
 Run: `pnpm test`
 Expected: exits 0 with "No test files found" — confirms Vitest resolves config without error.
 
-- [ ] **Step 7: Commit**
+> **Observed:** Vitest 3 prints "No test files found" and exits **1**, not 0 —
+> an empty run is a failure by default. The config itself resolves correctly
+> (the run echoes `include: tests/**/*.test.ts`), and
+> `vitest run --passWithNoTests` exits 0. `passWithNoTests` was deliberately
+> NOT added to `vitest.config.ts`: from Task 2 onwards test files exist, and
+> suppressing the empty-run failure would hide a genuinely broken `include`
+> pattern later.
+
+- [x] **Step 7: Commit**
 
 ```bash
 git add package.json pnpm-lock.yaml vitest.config.ts fixtures/
