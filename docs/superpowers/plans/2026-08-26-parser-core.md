@@ -28,6 +28,7 @@
 | File | Responsibility |
 |---|---|
 | `lib/parser/types.ts` | Shared types: `RawReturnDocument`, `DetectedReturn`, `Attachment`, enums |
+| `lib/parser/forwarded.ts` | Unwrap `---------- Forwarded message ----------` headers |
 | `lib/parser/retailers.ts` | Domain → retailer slug registry and lookup |
 | `lib/parser/deadline.ts` | Deadline extraction (absolute and relative dates) |
 | `lib/parser/carrier.ts` | Carrier and return-ID extraction |
@@ -47,7 +48,7 @@
 - Modify: `package.json`
 - Create: `vitest.config.ts`
 - Create: `fixtures/emails/README.md`
-- Create: `fixtures/emails/asos-001.json`
+- Create: `fixtures/emails/*.json` (three already committed: `shein-001`, `plt-001-forwarded`, `inpost-001`)
 
 **Interfaces:**
 - Consumes: nothing
@@ -263,6 +264,151 @@ git commit -m "feat(parser): add core types"
 
 ---
 
+### Task 2b: Forwarded-header unwrapping
+
+**Files:**
+- Create: `lib/parser/forwarded.ts`
+- Test: `tests/parser/forwarded.test.ts`
+
+**Interfaces:**
+- Consumes: nothing
+- Produces: `unwrapForwarded(senderDomain: string, body: string): { senderDomain: string; subject: string | null; body: string }`
+
+> **Why this task exists.** Forwarding is the primary v1 ingestion path, and a
+> forwarded email's envelope sender is the *forwarder* — a person's Gmail
+> address — not the retailer. The real origin sits inside the body, in the
+> `---------- Forwarded message ---------` block. Verified against a real PLT
+> return forwarded from a personal address, where the true sender was
+> `no-reply@reboundreturns.com`. Without this, retailer identification fails on
+> virtually every real forward.
+
+- [ ] **Step 1: Write the failing test**
+
+Create `tests/parser/forwarded.test.ts`:
+
+```ts
+import { describe, it, expect } from "vitest";
+import { unwrapForwarded } from "@/lib/parser/forwarded";
+
+const FORWARDED = `---------- Forwarded message ---------
+From: PLT <no-reply@reboundreturns.com>
+Date: Thu, Jun 4, 2026 at 7:56 PM
+Subject: Your PrettyLittleThing return
+To: <shopper@example.com>
+
+Your return has been successfully generated.
+Order number: LUK700001710054`;
+
+describe("unwrapForwarded", () => {
+  it("recovers the original sender domain", () => {
+    const r = unwrapForwarded("gmail.com", FORWARDED);
+    expect(r.senderDomain).toBe("reboundreturns.com");
+  });
+
+  it("recovers the original subject", () => {
+    expect(unwrapForwarded("gmail.com", FORWARDED).subject).toBe(
+      "Your PrettyLittleThing return",
+    );
+  });
+
+  it("strips the forwarded header from the body", () => {
+    const r = unwrapForwarded("gmail.com", FORWARDED);
+    expect(r.body).not.toContain("Forwarded message");
+    expect(r.body).toContain("Order number: LUK700001710054");
+  });
+
+  it("handles a bare email address with no display name", () => {
+    const body = `---------- Forwarded message ---------
+From: no-reply@asos.com
+Subject: Your return
+
+Body here`;
+    expect(unwrapForwarded("gmail.com", body).senderDomain).toBe("asos.com");
+  });
+
+  it("passes a non-forwarded email through untouched", () => {
+    const r = unwrapForwarded("asos.com", "Just a normal email body");
+    expect(r.senderDomain).toBe("asos.com");
+    expect(r.subject).toBeNull();
+    expect(r.body).toBe("Just a normal email body");
+  });
+});
+```
+
+- [ ] **Step 2: Run the test to verify it fails**
+
+Run: `pnpm test tests/parser/forwarded.test.ts`
+Expected: FAIL — cannot resolve `@/lib/parser/forwarded`.
+
+- [ ] **Step 3: Write the implementation**
+
+Create `lib/parser/forwarded.ts`:
+
+```ts
+export interface UnwrappedEmail {
+  senderDomain: string;
+  subject: string | null;
+  body: string;
+}
+
+// Gmail, Outlook and Apple Mail all emit some variant of a dashed
+// "Forwarded message" banner followed by RFC-822-style headers.
+const FORWARD_BANNER = /^-{2,}\s*(?:Forwarded message|Original Message)\s*-{2,}\s*$/im;
+
+const FROM_HEADER = /^From:\s*(?:"?[^"<\n]*"?\s*)?<?([^\s<>@]+@([^\s<>]+?))>?\s*$/im;
+const SUBJECT_HEADER = /^Subject:\s*(.+)$/im;
+
+// The header block ends at the first blank line.
+const HEADER_BLOCK_END = /\n\s*\n/;
+
+/**
+ * Recover the original sender and subject from a forwarded email.
+ *
+ * A forwarded email's envelope sender is whoever forwarded it, so the
+ * retailer must be read from the embedded header block instead. Returns the
+ * inputs unchanged when the body is not a forward.
+ */
+export function unwrapForwarded(
+  senderDomain: string,
+  body: string,
+): UnwrappedEmail {
+  const banner = FORWARD_BANNER.exec(body);
+  if (!banner) return { senderDomain, subject: null, body };
+
+  const afterBanner = body.slice(banner.index + banner[0].length);
+  const split = HEADER_BLOCK_END.exec(afterBanner);
+
+  // Without a blank line there is no header block to read.
+  if (!split) return { senderDomain, subject: null, body };
+
+  const headers = afterBanner.slice(0, split.index);
+  const rest = afterBanner.slice(split.index + split[0].length);
+
+  const from = FROM_HEADER.exec(headers);
+  const subject = SUBJECT_HEADER.exec(headers);
+
+  return {
+    senderDomain: from ? from[2].toLowerCase() : senderDomain,
+    subject: subject ? subject[1].trim() : null,
+    body: rest.trim(),
+  };
+}
+```
+
+- [ ] **Step 4: Run the test to verify it passes**
+
+Run: `pnpm test tests/parser/forwarded.test.ts`
+Expected: PASS, 5 tests.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add lib/parser/forwarded.ts tests/parser/forwarded.test.ts
+git commit -m "feat(parser): unwrap forwarded email headers"
+```
+
+---
+
 ### Task 3: Retailer identification
 
 **Files:**
@@ -279,6 +425,7 @@ Create `tests/parser/retailers.test.ts`:
 
 ```ts
 import { describe, it, expect } from "vitest";
+import { unwrapForwarded } from "@/lib/parser/forwarded";
 import { identifyRetailer } from "@/lib/parser/retailers";
 
 describe("identifyRetailer", () => {
@@ -309,6 +456,34 @@ describe("identifyRetailer", () => {
   it("does not match a domain that merely contains a retailer name", () => {
     expect(identifyRetailer("notasos.com")).toBeNull();
   });
+
+  // Verified against real emails: retailers send from notification domains
+  // that are NOT their shopping domain.
+  it("matches SHEIN's notification domain", () => {
+    expect(identifyRetailer("sheinnotice.com")?.slug).toBe("shein");
+  });
+
+  it("matches Temu's order domain", () => {
+    expect(identifyRetailer("orders.temu.com")?.slug).toBe("temu");
+  });
+
+  it("falls back to a brand mention in the text for a returns platform", () => {
+    // reboundreturns.com is ReBound, a platform serving many retailers.
+    // The domain identifies the platform; the retailer is in the text.
+    const m = identifyRetailer("reboundreturns.com", "Your PrettyLittleThing return");
+    expect(m?.slug).toBe("plt");
+    expect(m?.confidence).toBeLessThan(1);
+  });
+
+  it("returns null for a platform domain with no identifiable brand", () => {
+    expect(identifyRetailer("reboundreturns.com", "Your return is ready")).toBeNull();
+  });
+
+  it("ignores brand text when the domain already identifies the retailer", () => {
+    // A carrier email about a SHEIN return is still from the carrier.
+    const m = identifyRetailer("inpost.co.uk", "Your SHEIN return QR code is ready");
+    expect(m).toBeNull();
+  });
 });
 ```
 
@@ -330,11 +505,20 @@ export interface RetailerMatch {
 
 // ── Registry ────────────────────────────────────────────────────────────────
 
-// Keyed by registrable domain. Subdomains resolve by suffix match.
+// Keyed by registrable domain. Subdomains resolve by suffix match, so
+// "orders.temu.com" matches "temu.com".
+//
+// Retailers routinely send transactional mail from a SEPARATE notification
+// domain — SHEIN uses sheinnotice.com, not shein.com. Both are registered.
+// Verified against real inbox samples; add new ones as fixtures reveal them.
+//
 // amazon.co.uk and amazon.com are separate entities: different returns
 // addresses, different deadlines, different carriers.
 const RETAILERS: Record<string, { slug: string; displayName: string }> = {
   "asos.com": { slug: "asos", displayName: "ASOS" },
+  "sheinnotice.com": { slug: "shein", displayName: "SHEIN" },
+  "temuemail.com": { slug: "temu", displayName: "Temu" },
+  "currys.co.uk": { slug: "currys", displayName: "Currys" },
   "amazon.co.uk": { slug: "amazon-uk", displayName: "Amazon UK" },
   "amazon.com": { slug: "amazon-us", displayName: "Amazon" },
   "shein.com": { slug: "shein", displayName: "SHEIN" },
@@ -351,18 +535,71 @@ const RETAILERS: Record<string, { slug: string; displayName: string }> = {
   "vinted.co.uk": { slug: "vinted", displayName: "Vinted" },
 };
 
-/**
- * Resolve a sender domain to a known retailer.
- *
- * Matches the domain exactly, or as a suffix preceded by a dot so that
- * "email.asos.com" matches but "notasos.com" does not.
- */
-export function identifyRetailer(senderDomain: string): RetailerMatch | null {
-  const domain = senderDomain.toLowerCase().trim();
+// Third-party returns platforms send on behalf of many retailers, so their
+// domain identifies the PLATFORM, not the shop. For these we fall back to
+// finding a brand name in the text. Verified: PrettyLittleThing returns
+// arrive from no-reply@reboundreturns.com.
+const RETURNS_PLATFORMS = new Set([
+  "reboundreturns.com",
+  "zigzag.global",
+  "narvar.com",
+  "returnly.com",
+]);
 
+// Brand names as they appear in subject lines and bodies. Longest first, so
+// "PrettyLittleThing" is tested before any shorter substring.
+const BRAND_MENTIONS: Array<[RegExp, string]> = [
+  [/\bprettylittlething\b/i, "plt"],
+  [/\bmarks\s*(?:&|and)\s*spencer\b/i, "marks-spencer"],
+  [/\bjohn\s*lewis\b/i, "john-lewis"],
+  [/\bshein\b/i, "shein"],
+  [/\basos\b/i, "asos"],
+  [/\bboohoo\b/i, "boohoo"],
+  [/\buniqlo\b/i, "uniqlo"],
+  [/\bzara\b/i, "zara"],
+  [/\btemu\b/i, "temu"],
+];
+
+function lookupDomain(domain: string): RetailerMatch | null {
   for (const [known, meta] of Object.entries(RETAILERS)) {
     if (domain === known || domain.endsWith(`.${known}`)) {
       return { slug: meta.slug, displayName: meta.displayName, confidence: 1 };
+    }
+  }
+  return null;
+}
+
+function displayNameFor(slug: string): string {
+  const found = Object.values(RETAILERS).find((r) => r.slug === slug);
+  return found ? found.displayName : slug;
+}
+
+/**
+ * Resolve a sender domain to a known retailer.
+ *
+ * The domain is authoritative when it belongs to a retailer. When it belongs
+ * to a returns platform that mails on behalf of many shops, fall back to a
+ * brand mention in `text` — at reduced confidence, since a brand name in
+ * prose is weaker evidence than a registered domain.
+ *
+ * `text` is deliberately ignored for non-platform domains: an InPost email
+ * about a SHEIN return is from InPost, and treating it as a SHEIN email
+ * would create a duplicate return.
+ */
+export function identifyRetailer(
+  senderDomain: string,
+  text = "",
+): RetailerMatch | null {
+  const domain = senderDomain.toLowerCase().trim();
+
+  const byDomain = lookupDomain(domain);
+  if (byDomain) return byDomain;
+
+  if (RETURNS_PLATFORMS.has(domain)) {
+    for (const [pattern, slug] of BRAND_MENTIONS) {
+      if (pattern.test(text)) {
+        return { slug, displayName: displayNameFor(slug), confidence: 0.7 };
+      }
     }
   }
 
@@ -378,7 +615,7 @@ export function knownRetailerSlugs(): string[] {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/retailers.test.ts`
-Expected: PASS, 6 tests.
+Expected: PASS, 11 tests.
 
 - [ ] **Step 5: Commit**
 
@@ -670,6 +907,13 @@ describe("extractOrderRef", () => {
   it("returns null when absent", () => {
     expect(extractOrderRef("Thanks for shopping")).toBeNull();
   });
+
+  it("handles a fullwidth colon", () => {
+    // SHEIN's UK templates use U+FF1A, not an ASCII colon.
+    expect(extractOrderRef("Order number：GSO187019000B2Y")).toBe(
+      "GSO187019000B2Y",
+    );
+  });
 });
 
 describe("reference tokens must contain a digit", () => {
@@ -745,13 +989,19 @@ export function extractCarrier(text: string): string | null {
 // contains at least one digit; no English word does.
 const REF_TOKEN = "((?=[A-Z0-9-]*\\d)[A-Z0-9][A-Z0-9-]{3,})";
 
+// Separator class covers the ASCII colon, the FULLWIDTH COLON (U+FF1A) and
+// the hash. SHEIN's UK emails use the fullwidth form — "Order number：GSO18…"
+// — because their templates are authored CJK-side. Verified against a real
+// SHEIN return email; an ASCII-only class silently misses every one.
+const SEP = "[:\\uFF1A#]?";
+
 const ORDER_REF = new RegExp(
-  `\\border\\s*(?:number|no\\.?|ref(?:erence)?|#)?\\s*[:#]?\\s*${REF_TOKEN}`,
+  `\\border\\s*(?:number|no\\.?|ref(?:erence)?|#)?\\s*${SEP}\\s*${REF_TOKEN}`,
   "i",
 );
 
 const RETURN_ID = new RegExp(
-  `\\b(?:return|rma)\\s*(?:id|number|no\\.?|ref(?:erence)?)?\\s*[:#]?\\s*${REF_TOKEN}`,
+  `\\b(?:return|rma)\\s*(?:id|number|no\\.?|ref(?:erence)?)?\\s*${SEP}\\s*${REF_TOKEN}`,
   "i",
 );
 
@@ -769,7 +1019,7 @@ export function extractReturnId(text: string): string | null {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/carrier.test.ts`
-Expected: PASS, 14 tests.
+Expected: PASS, 15 tests.
 
 - [ ] **Step 5: Commit**
 
@@ -974,14 +1224,36 @@ describe("parseReturnDocument", () => {
     expect(r.deadline?.toISOString().slice(0, 10)).toBe("2026-09-11");
   });
 
-  it("flags a document with no deadline for review", () => {
+  it("still yields a usable return when no deadline is stated", () => {
+    // Verified real case: SHEIN return emails carry no deadline at all.
+    // A missing deadline must not by itself force manual review, or every
+    // SHEIN return lands in the review queue.
     const r = parseReturnDocument({
       ...complete,
-      subject: "Your order",
-      body: "Order number: 401234567",
+      senderDomain: "sheinnotice.com",
+      subject: "You have received a EVRI return label from SHEIN",
+      body: "Order number：GSO187019000B2Y Return ID: UR18P3E0MBHX\nPlease print the attached return label.",
     });
     expect(r.deadline).toBeNull();
-    expect(r.needsReview).toBe(true);
+    expect(r.retailer).toBe("shein");
+    expect(r.carrier).toBe("evri");
+    expect(r.needsReview).toBe(false);
+  });
+
+  it("recovers the retailer from a forwarded email", () => {
+    const r = parseReturnDocument({
+      ...complete,
+      senderDomain: "gmail.com",
+      subject: "Fwd: Your PrettyLittleThing return",
+      body:
+        "---------- Forwarded message ---------\n" +
+        "From: PLT <no-reply@reboundreturns.com>\n" +
+        "Subject: Your PrettyLittleThing return\n\n" +
+        "Order number: LUK700001710054\nPlease send within 7 days.",
+      attachments: [],
+    });
+    expect(r.retailer).toBe("plt");
+    expect(r.orderRef).toBe("LUK700001710054");
   });
 
   it("returns a low-confidence result for an unrelated email", () => {
@@ -1030,14 +1302,18 @@ export interface ConfidenceInputs {
   hasReference: boolean;
 }
 
-// Weights sum to 1.0. Retailer and deadline dominate because they are what
-// the dashboard needs to show a return at all — a return with no deadline
-// cannot be triaged, which is the product's entire organising principle.
+// Weights sum to 1.0.
+//
+// Deadline is weighted BELOW retailer despite being the more valuable field,
+// because many real return emails state no deadline at all — SHEIN's carry
+// none. Weighting it like retailer would push every such email under the
+// review threshold and bury the queue in false positives. A missing deadline
+// is a gap to fill from retailer policy later, not evidence of a bad parse.
 const WEIGHTS = {
   retailer: 0.3,
-  deadline: 0.3,
-  carrier: 0.15,
-  label: 0.15,
+  deadline: 0.2,
+  carrier: 0.2,
+  label: 0.2,
   reference: 0.1,
 } as const;
 
@@ -1065,6 +1341,7 @@ Create `lib/parser/index.ts`:
 ```ts
 import { EMPTY_DETECTED_RETURN } from "@/lib/parser/types";
 import type { DetectedReturn, RawReturnDocument } from "@/lib/parser/types";
+import { unwrapForwarded } from "@/lib/parser/forwarded";
 import { identifyRetailer } from "@/lib/parser/retailers";
 import { extractDeadline } from "@/lib/parser/deadline";
 import {
@@ -1086,15 +1363,21 @@ export { REVIEW_THRESHOLD } from "@/lib/parser/confidence";
  * low-confidence result flagged for review.
  */
 export function parseReturnDocument(doc: RawReturnDocument): DetectedReturn {
-  // Deadlines and references appear in either the subject or the body.
-  const searchText = `${doc.subject}\n${doc.body}`;
+  // A forwarded email's envelope sender is the forwarder, not the retailer,
+  // so recover the original sender before identifying anything.
+  const unwrapped = unwrapForwarded(doc.senderDomain, doc.body);
+  const subject = unwrapped.subject ?? doc.subject;
 
-  const retailer = identifyRetailer(doc.senderDomain);
+  // Deadlines, carriers and references appear in either subject or body.
+  // Both are searched: SHEIN names the carrier only in the subject line.
+  const searchText = `${subject}\n${unwrapped.body}`;
+
+  const retailer = identifyRetailer(unwrapped.senderDomain, searchText);
   const deadline = extractDeadline(searchText, doc.receivedAt);
   const carrier = extractCarrier(searchText);
   const orderRef = extractOrderRef(searchText);
   const returnId = extractReturnId(searchText);
-  const labelType = detectLabel(doc.body, doc.attachments);
+  const labelType = detectLabel(unwrapped.body, doc.attachments);
 
   const confidence = scoreConfidence({
     hasRetailer: retailer !== null,
@@ -1116,8 +1399,7 @@ export function parseReturnDocument(doc: RawReturnDocument): DetectedReturn {
     carrier,
     labelType,
     confidence,
-    // A return with no deadline cannot be triaged, so it always needs a human.
-    needsReview: confidence < REVIEW_THRESHOLD || deadline === null,
+    needsReview: confidence < REVIEW_THRESHOLD,
   };
 }
 ```
@@ -1125,12 +1407,12 @@ export function parseReturnDocument(doc: RawReturnDocument): DetectedReturn {
 - [ ] **Step 5: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/index.test.ts`
-Expected: PASS, 6 tests.
+Expected: PASS, 7 tests.
 
 - [ ] **Step 6: Run the whole suite**
 
 Run: `pnpm test`
-Expected: PASS, all 45 tests across 6 files.
+Expected: PASS, all 58 tests across 8 files.
 
 - [ ] **Step 7: Commit**
 

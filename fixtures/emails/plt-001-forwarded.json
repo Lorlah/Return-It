@@ -1,0 +1,10 @@
+{
+  "source": "forward",
+  "receivedAt": "2026-06-04T23:56:56Z",
+  "senderDomain": "gmail.com",
+  "subject": "Fwd: Your PrettyLittleThing return",
+  "body": "---------- Forwarded message ---------\nFrom: PLT <no-reply@reboundreturns.com>\nDate: Thu, Jun 4, 2026 at 7:56 PM\nSubject: Your PrettyLittleThing return\nTo: <shopper@example.com>\n\nhttps://www.prettylittlething.com/\n\nYour return has been successfully generated. Please find label to return\nyour order LUK700001710054 attached.\n\nPlease drop off your return parcel at your nearest drop off location.\n\n*IMPORTANT *- Please attach entire label to your order and send within 7\ndays. This return label can only be used once. Please make sure only items\nfrom this order are returned in your parcel as this may delay your refund.\n\nOrder number: LUK700001710054\n\nAfter dropping off your parcel you can track your order status with the\ntracking number: *HZXXDD0093546254*\n\nIf you have any questions, contact us!\n\nKind regards,",
+  "attachments": [
+    { "filename": "label.PNG", "mimeType": "image/png", "sizeBytes": 24388 }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "source": "forward",
+  "receivedAt": "2026-07-30T00:06:46Z",
+  "senderDomain": "sheinnotice.com",
+  "subject": "You have received a EVRI return label from SHEIN",
+  "body": "Dear Customer, According to your request, a return label has been successfully submitted. Please follow the return guidelines to complete the return process.\n\nReturn information\n\nOrder number：GSO187019000B2Y Return ID: UR18P3E0MBHX\n\nWe recommend that you take photos or short videos while packing your return items as proof of return, and keep your drop-off receipt (if any) until you receive a complete refund.\n1. Please print the attached return label and adhere it to the outside of the return parcel.\n2. Items must be returned in their original package with all of the barcodes attached.\n3. This return label may only be used once. To ensure a smooth and timely return and refund process, please choose the QR code or return label provided by SHEIN.\n\nYou can choose to:\n• Print your return label at home\n• Print your return label at EVRI：previously known as Hermes (Using your phone, kindly show the saved QR code to EVRI staff, and they will scan the QR code and print a label for you)\n\nThank you for choosing SHEIN. Stay gorgeous!\nSincerely,\nSHEIN Customer Care Center",
+  "attachments": [
+    { "filename": "MA20260730080646203525006.pdf", "mimeType": "application/pdf", "sizeBytes": 51821 }
+  ]
+}
