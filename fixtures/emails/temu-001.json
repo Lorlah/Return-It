@@ -1,0 +1,8 @@
+{
+  "source": "forward",
+  "receivedAt": "2026-06-06T16:51:25Z",
+  "senderDomain": "orders.temu.com",
+  "subject": "Your Temu order's return has been requested (#PO-210-08628606700151400)",
+  "body": "Hi Lola Salehu, we've accepted your return request. Once the items have been received and passed quality inspection, a refund will be issued.\n\n1. Please print your return label and attach it to your package, then you can drop it off. You have two options to print return label:\n\nOption 1: Print your return label at EVRI by scanning the QR code or inputting the code below to generate your return label.\n\nshort code XRWG6J\n\nOption 2: Print your return label at home and drop it off at your convenience.\n\nClick to view your return label\n\n2. Your package needs to be dropped off within 14 days. You can also click the 'View return details' button below to get more instructions.\n\nThank you again for shopping with Temu!\n\nReturn ID: PO-210-08628606700151400-D03 Order ID: PO-210-08628606700151400\n\nNOTE: This is an automatically generated email, please do not reply. Office address: First Floor, 25 St Stephens Green, Dublin 2, Ireland. Please note, returns will not be accepted at this address.",
+  "attachments": []
+}

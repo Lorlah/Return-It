@@ -871,7 +871,7 @@ git commit -m "feat(parser): add deadline extraction with UK date handling"
 - Consumes: nothing
 - Produces: `extractCarrier(text: string): string | null`, `extractOrderRef(text: string): string | null`, `extractReturnId(text: string): string | null`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/parser/carrier.test.ts`:
 
@@ -957,12 +957,12 @@ describe("extractReturnId", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm test tests/parser/carrier.test.ts`
 Expected: FAIL — cannot resolve `@/lib/parser/carrier`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/parser/carrier.ts`:
 
@@ -1030,7 +1030,7 @@ export function extractReturnId(text: string): string | null {
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/carrier.test.ts`
 Expected: PASS, 15 tests.
@@ -1054,7 +1054,7 @@ git commit -m "feat(parser): add carrier and reference extraction"
 - Consumes: `Attachment`, `LabelType` from `@/lib/parser/types`
 - Produces: `detectLabel(body: string, attachments: Attachment[]): LabelType`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/parser/label.test.ts`:
 
@@ -1115,12 +1115,12 @@ describe("detectLabel", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm test tests/parser/label.test.ts`
 Expected: FAIL — cannot resolve `@/lib/parser/label`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/parser/label.ts`:
 
@@ -1162,7 +1162,7 @@ export function detectLabel(
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/label.test.ts`
 Expected: PASS, 7 tests.

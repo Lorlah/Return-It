@@ -1,0 +1,10 @@
+{
+  "source": "forward",
+  "receivedAt": "2026-04-21T06:57:26Z",
+  "senderDomain": "sheinnotice.com",
+  "subject": "You have received a INPOST return label from SHEIN",
+  "body": "Dear Customer, According to your request, a return label has been successfully submitted. Please follow the return guidelines to complete the return process.\n\nReturn information\n\nOrder number：GSO1XU01700NS5M Return ID: UR1XEXE0RMSR\n\nWe recommend that you take photos or short videos while packing your return items as proof of return, and keep your drop-off receipt (if any) until you receive a complete refund. Please take your return parcel and bring it to your nearest self-serve lockers using the following PIN code:\n\n①Go to self-serve lockers, then scan QR code or enter the PIN code, put the parcel in the correct locker\n②Courier collects parcel from locker and applies temporary label on it so the warehouse can easily receive the returned parcel.\n③Please wait for your refund/reship to arrive after the warehouse receives the goods.\n\nNote:\n1. Items must be returned in their original packaging with all of the barcodes attached.\n2. If returning items in SHEIN's original packaging, remove or cover the original shipping label to prevent the package from being sent back to you.\n3. This PIN code or QR code can be only used once.\n\ncabinet specification：B maximum dimensions：19 × 38 × 64 cm maximum weight：25 kg\n\nThank you for choosing SHEIN. Stay gorgeous!\nSincerely,\nSHEIN Customer Care Center",
+  "attachments": [
+    { "filename": "MA20260421145725828165626.pdf", "mimeType": "application/pdf", "sizeBytes": 48465 }
+  ]
+}
