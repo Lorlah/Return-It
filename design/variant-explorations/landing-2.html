@@ -1,0 +1,1279 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Return-It | Seamless UK Parcel Returns</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet" vid="7">
+    
+    
+
+    <style vid="8">
+        :root {
+            
+            --terracotta: #C75A3A;
+            --terracotta-dark: #A6472C;
+            --teal-dark: #0D3D3D;
+            --cream: #FAF9F7;
+            --white: #FFFFFF;
+            --dusty-blue: #8BB2D1;
+            --border-light: rgba(13, 61, 61, 0.1);
+
+            
+            --font-serif: 'Fraunces', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            
+            
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 8rem;
+
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--teal-dark);
+            background-color: var(--cream);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        
+        .font-serif { font-family: var(--font-serif); }
+        .font-sans { font-family: var(--font-sans); }
+        
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .text-display {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            line-height: 0.95;
+        }
+
+        .text-italic {
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .kicker {
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            display: block;
+        }
+
+        .metadata {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+        }
+
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: var(--space-xl) 0;
+            position: relative;
+        }
+
+        
+        button, .btn {
+            font-family: var(--font-sans);
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--terracotta-dark);
+            transform: translateY(-2px);
+        }
+
+        
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        
+        .hero {
+            background-color: var(--terracotta);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 6rem;
+            padding-bottom: 4rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero .kicker {
+            color: var(--white);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cycling-wrapper {
+            height: 2rem;
+            position: relative;
+            overflow: hidden;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--cream);
+            opacity: 0.9;
+        }
+
+        .cycling-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cycleText 9s infinite;
+        }
+
+        .cycling-text:nth-child(1) { animation-delay: 0s; }
+        .cycling-text:nth-child(2) { animation-delay: 3s; }
+        .cycling-text:nth-child(3) { animation-delay: 6s; }
+
+        @keyframes cycleText {
+            0%, 5% { opacity: 0; transform: translateY(20px); }
+            10%, 30% { opacity: 1; transform: translateY(0); }
+            35%, 100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        
+        .ticket-form-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ticket-form {
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 40px rgba(13, 61, 61, 0.15), 0 0 0 1px rgba(13, 61, 61, 0.05);
+            color: var(--teal-dark);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        .form-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-light);
+            background-color: var(--cream);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.25rem 1rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: var(--teal-dark);
+            opacity: 0.5;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            opacity: 1;
+            background-color: var(--white);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--terracotta);
+        }
+
+        
+        .form-body {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--teal-dark);
+        }
+
+        
+        .parcel-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .parcel-option {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .parcel-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .parcel-card {
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .parcel-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        .parcel-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .parcel-desc {
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .parcel-option input:checked ~ .parcel-card {
+            border-color: var(--terracotta);
+            background-color: rgba(199, 90, 58, 0.05);
+            box-shadow: inset 0 0 0 1px var(--terracotta);
+        }
+
+        .parcel-option input:checked ~ .parcel-card .parcel-icon {
+            opacity: 1;
+            color: var(--terracotta);
+        }
+
+        
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--teal-dark);
+            background-color: var(--cream);
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--dusty-blue);
+            background-color: var(--white);
+            box-shadow: 0 0 0 3px rgba(139, 178, 209, 0.2);
+        }
+
+        
+        .upload-zone {
+            border: 2px dashed var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 2rem;
+            text-align: center;
+            background-color: var(--cream);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--terracotta);
+            background-color: rgba(199, 90, 58, 0.02);
+        }
+
+        .upload-icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 auto 1rem;
+            opacity: 0.5;
+        }
+
+        
+        .trust-signals {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--cream);
+        }
+
+        .trust-signals p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .logo-strip {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            opacity: 0.8;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo-strip span {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .divider {
+            width: 40px;
+            height: 2px;
+            background-color: var(--terracotta);
+            margin: 2rem auto;
+        }
+
+        
+        .how-it-works {
+            background-color: var(--white);
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .step-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .step-row:nth-child(even) {
+            direction: rtl;
+        }
+
+        .step-row:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .step-content {
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -2rem;
+            left: -1rem;
+            font-family: var(--font-serif);
+            font-size: 8rem;
+            line-height: 1;
+            color: var(--cream);
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .step-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-text p {
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        
+        .ui-mockup {
+            background-color: var(--cream);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ui-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .ui-skeleton-line {
+            height: 8px;
+            background-color: var(--border-light);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .ui-card {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ui-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+            opacity: 0.2;
+        }
+
+        .ui-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background-color: rgba(139, 178, 209, 0.2);
+            color: var(--teal-dark);
+            font-size: 0.6rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        
+        .pain-points {
+            background-color: var(--cream);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pain-card {
+            background-color: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(13, 61, 61, 0.05);
+        }
+
+        .pain-img-wrapper {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pain-img-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 61, 61, 0.1);
+            mix-blend-mode: multiply;
+        }
+
+        .pain-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(0.2) contrast(1.1);
+        }
+
+        .pain-content {
+            padding: 1.5rem;
+        }
+
+        .pain-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pain-content p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .resolution {
+            font-size: 0.8rem;
+            color: var(--terracotta);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resolution::before {
+            content: '→';
+        }
+
+        
+        .calculator-section {
+            background-color: var(--white);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .calc-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--cream);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 3rem;
+            position: relative;
+        }
+
+        
+        .calc-wrapper::before, .calc-wrapper::after {
+            content: ''; position: absolute; width: 10px; height: 10px; border: 1px solid var(--terracotta);
+        }
+        .calc-wrapper::before { top: 1rem; left: 1rem; border-right: none; border-bottom: none; }
+        .calc-wrapper::after { bottom: 1rem; right: 1rem; border-left: none; border-top: none; }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .calc-slider-group {
+            margin-bottom: 2rem;
+        }
+
+        .calc-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--terracotta);
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 0 4px var(--cream);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: var(--border-light);
+            border-radius: 2px;
+        }
+
+        .calc-result {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+        }
+
+        .calc-total {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: var(--terracotta);
+            margin: 1rem 0;
+            line-height: 1;
+        }
+
+        
+        .cta-section {
+            background-color: var(--teal-dark);
+            color: var(--white);
+            text-align: center;
+            padding: var(--space-xl) 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            line-height: 1.05;
+        }
+
+        .cta-section .btn-primary {
+            max-width: 300px;
+            background-color: var(--white);
+            color: var(--teal-dark);
+        }
+        
+        .cta-section .btn-primary:hover {
+            background-color: var(--cream);
+            color: var(--terracotta);
+        }
+
+        
+        footer {
+            background-color: var(--teal-dark);
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        
+        @media (max-width: 768px) {
+            .step-row {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .step-row:nth-child(even) {
+                direction: ltr;
+            }
+            .calc-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none; 
+            }
+            .hero {
+                padding-top: 8rem;
+            }
+        }
+        
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<style id="fusion-selection-styles">
+  .fusion-element-highlight {
+    outline: 2px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+  }
+
+  .fusion-element-selected {
+    outline: 4px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+    outline-offset: 0px !important;
+  }
+  
+  .fusion-selection-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    z-index: 2147483647 !important;
+    cursor: crosshair !important;
+    pointer-events: none !important;
+  }
+  
+  .fusion-selection-tooltip {
+    position: fixed !important;
+    background: #1f2937 !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    z-index: 2147483648 !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -100%) translateY(-10px) !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .fusion-selection-tooltip::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 5px solid transparent !important;
+    border-top-color: #1f2937 !important;
+  }
+  
+  
+  @keyframes fusion-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fusion-label-bounce {
+    0% { 
+      opacity: 0;
+      transform: translateY(-10px) scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0) scale(1.05);
+    }
+    100% { 
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+</style></head>
+<body vid="9" data-new-gr-c-s-check-loaded="14.1323.0" data-gr-ext-installed="">
+
+    <nav vid="10">
+        <a href="#" class="logo" vid="11">Return-It.</a>
+        <div class="nav-links" vid="12">
+            <a href="#" vid="13">How it works</a>
+            <a href="#" vid="14">Pricing</a>
+            <a href="#" style="color: var(--cream); opacity: 0.5;" vid="15">Log in</a>
+        </div>
+    </nav>
+
+    
+    <section class="hero" vid="16">
+        <div class="container" vid="17">
+            <div class="hero-content reveal active" vid="18">
+                <span class="kicker" vid="19">UK Domestic Returns</span>
+                <h1 class="text-display" vid="20">Savour <span class="text-italic" vid="21">the</span> Relief</h1>
+                
+                <div class="cycling-wrapper" vid="22">
+                    <span class="cycling-text" vid="23">We'll handle it.</span>
+                    <span class="cycling-text" vid="24">No printer? We print the label.</span>
+                    <span class="cycling-text" vid="25">Post office closed? We come to you.</span>
+                </div>
+            </div>
+
+            
+            <div class="ticket-form-wrapper reveal active" style="transition-delay: 0.2s;" vid="26">
+                <div class="ticket-form" vid="27">
+                    <div class="form-tabs" vid="28">
+                        <button class="tab-btn active" onclick="switchTab('pickup')" vid="29">Schedule a Pickup</button>
+                        <button class="tab-btn" onclick="switchTab('label')" vid="30">I Have a Label</button>
+                    </div>
+
+                    <div class="form-body" vid="31">
+                        
+                        <div id="tab-pickup" class="tab-content active" vid="32">
+                            <div class="form-group" vid="33">
+                                <label class="form-label" vid="34">Parcel Size</label>
+                                <div class="parcel-selector" vid="35">
+                                    <label class="parcel-option" vid="36">
+                                        <input type="radio" name="size" checked="" vid="37">
+                                        <div class="parcel-card" vid="38">
+                                            <div class="parcel-icon" vid="39">📦</div>
+                                            <div class="parcel-title" vid="40">Small</div>
+                                            <div class="parcel-desc" vid="41">Shoebox</div>
+                                        </div>
+                                    </label>
+                                    <label class="parcel-option" vid="42">
+                                        <input type="radio" name="size" vid="43">
+                                        <div class="parcel-card" vid="44">
+                                            <div class="parcel-icon" vid="45">🎒</div>
+                                            <div class="parcel-title" vid="46">Medium</div>
+                                            <div class="parcel-desc" vid="47">Backpack</div>
+                                        </div>
+                                    </label>
+                                    <label class="parcel-option" vid="48">
+                                        <input type="radio" name="size" vid="49">
+                                        <div class="parcel-card" vid="50">
+                                            <div class="parcel-icon" vid="51">🧳</div>
+                                            <div class="parcel-title" vid="52">Large</div>
+                                            <div class="parcel-desc" vid="53">Suitcase</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" vid="54">
+                                <label class="form-label" vid="55">Collection Postcode</label>
+                                <input type="text" placeholder="e.g. SW1A 1AA" vid="56">
+                            </div>
+                            <button class="btn-primary" vid="57">Get Quote</button>
+                        </div>
+
+                        
+                        <div id="tab-label" class="tab-content" vid="58">
+                            <div class="form-group" vid="59">
+                                <label class="form-label" vid="60">Upload Return Label</label>
+                                <div class="upload-zone" vid="61">
+                                    <div class="upload-icon" vid="62">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" vid="63"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" vid="64"></path></svg>
+                                    </div>
+                                    <p style="font-size: 0.85rem; opacity: 0.7;" vid="65">Drag PDF or image here<br vid="66">or click to browse</p>
+                                </div>
+                            </div>
+                            <div class="form-group" vid="67">
+                                <label class="form-label" vid="68">Collection Postcode</label>
+                                <input type="text" placeholder="e.g. SW1A 1AA" vid="69">
+                            </div>
+                            <button class="btn-primary" vid="70">Get Quote</button>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 1rem;" vid="71">
+                            <span class="metadata" style="font-size: 0.6rem; color: var(--terracotta);" vid="72">Pricing revealed instantly • No payment upfront</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="trust-signals reveal active" style="transition-delay: 0.4s;" vid="73">
+                <p vid="74">Trusted by shoppers returning to</p>
+                <div class="logo-strip" vid="75">
+                    <span vid="76">ZARA</span>
+                    <span vid="77">ASOS</span>
+                    <span vid="78">H&amp;M</span>
+                    <span vid="79">JOHN LEWIS</span>
+                    <span vid="80">NIKE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="how-it-works" vid="81">
+        <div class="container" vid="82">
+            <div class="section-header reveal" vid="83">
+                <span class="kicker" vid="84">The Process</span>
+                <h2 vid="85">Effortless <span class="text-italic" vid="86">from</span> Door <span class="text-italic" vid="87">to</span> Depot</h2>
+                <div class="divider" vid="88"></div>
+            </div>
+
+            <div class="steps-container" vid="89">
+                
+                <div class="step-row reveal" vid="90">
+                    <div class="step-content" vid="91">
+                        <span class="step-number" vid="92">01</span>
+                        <div class="step-text" vid="93">
+                            <h3 vid="94">Connect or Upload</h3>
+                            <p vid="95">Forward your return confirmation email, or snap a photo of the label. Our system automatically parses the retailer, carrier, and barcode. No manual entry required.</p>
+                        </div>
+                    </div>
+                    <div class="ui-mockup" vid="96">
+                        <div class="ui-header" vid="97">
+                            <span class="kicker" vid="98">Inbox Connection</span>
+                            <div class="ui-skeleton-line" style="width: 40px; margin:0;" vid="99"></div>
+                        </div>
+                        <div class="ui-card" vid="100">
+                            <div class="ui-avatar" style="background: #000;" vid="101"></div>
+                            <div style="flex: 1;" vid="102">
+                                <div class="ui-skeleton-line" style="width: 60%;" vid="103"></div>
+                                <div class="ui-skeleton-line" style="width: 40%; opacity: 0.5;" vid="104"></div>
+                            </div>
+                            <span class="ui-badge" vid="105">Parsed</span>
+                        </div>
+                        <div class="ui-card" vid="106">
+                            <div class="ui-avatar" style="background: #D50032;" vid="107"></div>
+                            <div style="flex: 1;" vid="108">
+                                <div class="ui-skeleton-line" style="width: 70%;" vid="109"></div>
+                                <div class="ui-skeleton-line" style="width: 50%; opacity: 0.5;" vid="110"></div>
+                            </div>
+                            <span class="ui-badge" vid="111">Parsed</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="step-row reveal" vid="112">
+                    <div class="step-content" vid="113">
+                        <span class="step-number" vid="114">02</span>
+                        <div class="step-text" vid="115">
+                            <h3 vid="116">See Pending</h3>
+                            <p vid="117">View all your potential returns in one clean dashboard. We track the retailer's return window so you never miss a deadline and get stuck with items you don't want.</p>
+                        </div>
+                    </div>
+                    <div class="ui-mockup" vid="118">
+                        <div class="ui-header" vid="119">
+                            <span class="kicker" vid="120">Return Dashboard</span>
+                            <span class="ui-badge" style="background: var(--terracotta); color: white;" vid="121">2 Due Soon</span>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;" vid="122">
+                            <div style="flex:1; padding: 1rem; border: 1px solid var(--border-light); border-radius: 4px; border-left: 3px solid var(--terracotta);" vid="123">
+                                <div class="metadata" style="margin-bottom: 0.5rem;" vid="124">Zara Coat</div>
+                                <div style="font-family: var(--font-serif); font-size: 1.5rem;" vid="125">2 Days</div>
+                            </div>
+                            <div style="flex:1; padding: 1rem; border: 1px solid var(--border-light); border-radius: 4px;" vid="126">
+                                <div class="metadata" style="margin-bottom: 0.5rem;" vid="127">Nike Shoes</div>
+                                <div style="font-family: var(--font-serif); font-size: 1.5rem;" vid="128">14 Days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="step-row reveal" vid="129">
+                    <div class="step-content" vid="130">
+                        <span class="step-number" vid="131">03</span>
+                        <div class="step-text" vid="132">
+                            <h3 vid="133">Bundle &amp; Book</h3>
+                            <p vid="134">Select the items ready to go. Choose a collection time that suits you. We aggregate carriers (Evri, Royal Mail, DPD) so you only need one pickup for multiple retailers.</p>
+                        </div>
+                    </div>
+                    <div class="step-content" style="padding-left: 2rem; border-left: 1px solid var(--border-light);" vid="135">
+                        <span class="step-number" style="left: 1rem;" vid="136">04</span>
+                        <div class="step-text" vid="137">
+                            <h3 vid="138">We Collect</h3>
+                            <p vid="139">Hand it over at your door. We print the labels if you don't have them, apply them, and inject them into the carrier networks. You just saved a Saturday morning.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="pain-points" vid="140">
+        <div class="container" vid="141">
+            <div class="section-header reveal" vid="142">
+                <span class="kicker" vid="143">The Reality</span>
+                <h2 vid="144">Why Returns <span class="text-italic" vid="145">are</span> Broken</h2>
+            </div>
+
+            <div class="pain-grid" vid="146">
+                
+                <div class="pain-card reveal" vid="147">
+                    <div class="pain-img-wrapper" vid="148">
+                        
+                        <img src="https://images.unsplash.com/photo-1584824486509-112e4181f1b6?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Pile of boxes in hallway" class="pain-img" vid="149">
+                    </div>
+                    <div class="pain-content" vid="150">
+                        <h3 vid="151">Deadline Dread</h3>
+                        <p vid="152">That creeping anxiety watching the 30-day window close while the box sits by the front door.</p>
+                        <span class="resolution" vid="153">We track windows &amp; alert you</span>
+                    </div>
+                </div>
+
+                
+                <div class="pain-card reveal" style="transition-delay: 0.1s;" vid="154">
+                    <div class="pain-img-wrapper" vid="155">
+                        <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Rainy street outside shop" class="pain-img" vid="156">
+                    </div>
+                    <div class="pain-content" vid="157">
+                        <h3 vid="158">Two-Trip Trap</h3>
+                        <p vid="159">Finding out the drop-off point doesn't take Evri, only InPost. Dragging the parcel to another shop.</p>
+                        <span class="resolution" vid="160">One pickup for all carriers</span>
+                    </div>
+                </div>
+
+                
+                <div class="pain-card reveal" style="transition-delay: 0.2s;" vid="161">
+                    <div class="pain-img-wrapper" vid="162">
+                        <img src="https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Heavy box" class="pain-img" vid="163">
+                    </div>
+                    <div class="pain-content" vid="164">
+                        <h3 vid="165">Heavy Haul</h3>
+                        <p vid="166">Wrestling a weighted blanket or winter coat onto the bus because it won't fit in a locker.</p>
+                        <span class="resolution" vid="167">Collected from your hallway</span>
+                    </div>
+                </div>
+                 
+                 <div class="pain-card reveal" style="transition-delay: 0.3s;" vid="168">
+                    <div class="pain-img-wrapper" vid="169">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Messy desk" class="pain-img" vid="170">
+                    </div>
+                    <div class="pain-content" vid="171">
+                        <h3 vid="172">Multi-Return Madness</h3>
+                        <p vid="173">Three items from three retailers requiring three different label formats and drop-off locations.</p>
+                        <span class="resolution" vid="174">Bundled into one handover</span>
+                    </div>
+                </div>
+                 
+                 <div class="pain-card reveal" style="transition-delay: 0.4s;" vid="175">
+                    <div class="pain-img-wrapper" vid="176">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Closet full of clothes" class="pain-img" vid="177">
+                    </div>
+                    <div class="pain-content" vid="178">
+                        <h3 vid="179">Stuck With It</h3>
+                        <p vid="180">Accepting a £40 loss on a dress that doesn't fit because the friction of returning it is too high.</p>
+                        <span class="resolution" vid="181">Friction eliminated. Money saved.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="calculator-section" vid="182">
+        <div class="container" vid="183">
+            <div class="section-header reveal" vid="184">
+                <span class="kicker" vid="185">The Cost of Friction</span>
+                <h2 vid="186">What's Sitting <span class="text-italic" vid="187">in your</span> Hallway?</h2>
+                <p vid="188">Most UK households have hundreds of pounds tied up in unreturned online orders.</p>
+            </div>
+
+            <div class="calc-wrapper reveal" vid="189">
+                <div class="calc-grid" vid="190">
+                    <div vid="191">
+                        <div class="calc-slider-group" vid="192">
+                            <div class="calc-label" vid="193">
+                                <span vid="194">Unreturned Items</span>
+                                <span id="itemCountVal" style="color: var(--terracotta);" vid="195">3</span>
+                            </div>
+                            <input type="range" id="itemCount" min="1" max="10" value="3" vid="196">
+                        </div>
+                        
+                        <div class="calc-slider-group" vid="197">
+                            <div class="calc-label" vid="198">
+                                <span vid="199">Avg. Value per Item</span>
+                                <span style="color: var(--terracotta);" vid="200">£<span id="itemValueVal" vid="201">45</span></span>
+                            </div>
+                            <input type="range" id="itemValue" min="10" max="200" step="5" value="45" vid="202">
+                        </div>
+                    </div>
+                    
+                    <div class="calc-result" vid="203">
+                        <span class="kicker" vid="204">Potential Refund</span>
+                        <div class="calc-total" vid="205">£<span id="totalValue" vid="206">135</span></div>
+                        <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 1.5rem;" vid="207">Trapped in cardboard boxes.</p>
+                        
+                        <div style="text-align: left;" vid="208">
+                            <label class="kicker" style="margin-bottom: 0.5rem;" vid="209">Unlock it now</label>
+                            <div style="display: flex; gap: 0.5rem;" vid="210">
+                                <input type="email" placeholder="Email address" style="padding: 0.75rem;" vid="211">
+                                <button class="btn-primary" style="width: auto; padding: 0.75rem 1.5rem;" vid="212">Start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="cta-section" vid="213">
+        <div class="container reveal" vid="214">
+            <span class="kicker" style="color: var(--terracotta); margin-bottom: 1.5rem;" vid="215">The Bottom Line</span>
+            <h2 vid="216">Stop losing money on returns you never post.</h2>
+            <button class="btn-primary" vid="217">Book Your First Collection</button>
+        </div>
+    </section>
+
+    <footer vid="218">
+        <div class="container" vid="219">
+            <div style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--white); margin-bottom: 1rem;" vid="220">Return-It.</div>
+            <p vid="221">CHELSEA &nbsp;/&nbsp; COVENT GARDEN &nbsp;/&nbsp; SOHO &nbsp;/&nbsp; ISLINGTON &nbsp;/&nbsp; CLAPHAM</p>
+            <p style="margin-top: 2rem; opacity: 0.5;" vid="222">© 2023 Return-It UK Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script vid="223">
+        
+        function switchTab(tabId) {
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        
+        const itemCountSlider = document.getElementById('itemCount');
+        const itemValueSlider = document.getElementById('itemValue');
+        const itemCountDisplay = document.getElementById('itemCountVal');
+        const itemValueDisplay = document.getElementById('itemValueVal');
+        const totalDisplay = document.getElementById('totalValue');
+
+        function updateCalculator() {
+            const count = parseInt(itemCountSlider.value);
+            const value = parseInt(itemValueSlider.value);
+            const total = count * value;
+            
+            itemCountDisplay.textContent = count;
+            itemValueDisplay.textContent = value;
+            totalDisplay.textContent = total;
+        }
+
+        itemCountSlider.addEventListener('input', updateCalculator);
+        itemValueSlider.addEventListener('input', updateCalculator);
+
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+        
+        
+        setTimeout(() => {
+            document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('active'));
+        }, 100);
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration></html>

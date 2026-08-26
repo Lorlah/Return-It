@@ -1,0 +1,1183 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Return-It | Effortless UK Returns</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&amp;family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" vid="7">
+    
+    <style vid="8">
+        :root {
+            --bg: #FAF9F7;
+            --surface: #FFFFFF;
+            --primary: #C75A3A;
+            --primary-hover: #b34e30;
+            --secondary: #0D3D3D;
+            --text-main: #0D3D3D;
+            --text-light: #5A7575;
+            --border: rgba(13, 61, 61, 0.1);
+            
+            --font-display: 'Fraunces', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-accent: 'Caveat', cursive;
+
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        
+        h1, h2, h3, h4, .display-text {
+            font-family: var(--font-display);
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--secondary);
+        }
+
+        .accent-text {
+            font-family: var(--font-accent);
+            color: var(--primary);
+            font-size: 1.8rem;
+            transform: rotate(-3deg);
+            display: inline-block;
+        }
+
+        p {
+            color: var(--text-light);
+        }
+
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: var(--surface);
+            font-family: var(--font-body);
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        
+        nav {
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+        .bg-texture {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-display);
+            font-size: 18vw;
+            font-weight: 600;
+            color: var(--secondary);
+            opacity: 0.03;
+            white-space: nowrap;
+            line-height: 0.8;
+            pointer-events: none;
+            text-align: center;
+            z-index: 0;
+        }
+
+        
+        .hero-squiggle {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 300px;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-style: italic;
+            color: var(--primary);
+            font-weight: 400;
+        }
+
+        .cycling-text-container {
+            height: 2rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            position: relative;
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .cycling-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s var(--ease-out-expo);
+        }
+
+        .cycling-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cycling-text.exit {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        
+        .quickstart-form {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 24px 48px rgba(13, 61, 61, 0.08);
+            position: relative;
+            border: 1px solid var(--border);
+        }
+
+        .form-tabs {
+            display: flex;
+            background: var(--bg);
+            padding: 0.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.875rem;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--surface);
+            color: var(--secondary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .size-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .size-option {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-option:hover {
+            border-color: var(--primary);
+            background: #FFF5F2;
+        }
+
+        .size-option.selected {
+            border-color: var(--primary);
+            background: #FFF5F2;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .size-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 0.5rem;
+            border: 2px solid var(--text-light);
+            border-radius: 4px;
+        }
+        
+        .size-option:nth-child(1) .size-icon { width: 20px; height: 20px; }
+        .size-option:nth-child(2) .size-icon { width: 28px; height: 28px; }
+
+        .size-option span {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--bg);
+        }
+
+        .input-text:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            background: var(--bg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: #FFF5F2;
+        }
+
+        .upload-zone svg {
+            stroke: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .quickstart-form .btn {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1.25rem;
+            font-size: 1.125rem;
+        }
+
+        
+        .trust-hero {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .trust-avatars {
+            display: flex;
+        }
+
+        .trust-avatars div {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            background: var(--border);
+            margin-left: -10px;
+            background-size: cover;
+        }
+        .trust-avatars div:first-child { margin-left: 0; }
+
+        
+        .how-it-works {
+            background: var(--surface);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            margin-bottom: 8rem;
+        }
+
+        .step:nth-child(even) {
+            direction: rtl;
+        }
+        .step:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .step-content {
+            position: relative;
+        }
+
+        .step-number {
+            font-family: var(--font-display);
+            font-size: 8rem;
+            color: var(--bg);
+            position: absolute;
+            top: -4rem;
+            left: -3rem;
+            z-index: 0;
+            line-height: 1;
+            -webkit-text-stroke: 1px var(--border);
+        }
+
+        .step-content h3 {
+            font-size: 2rem;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1rem;
+        }
+
+        .step-content p {
+            font-size: 1.125rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        
+        .mockup-container {
+            background: var(--bg);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: inset 0 0 0 1px var(--border);
+            position: relative;
+        }
+
+        .mockup-ui {
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(13,61,61,0.06);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .mu-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;}
+        .mu-avatar { width: 40px; height: 40px; background: var(--border); border-radius: 50%; }
+        .mu-lines div { height: 8px; background: var(--border); border-radius: 4px; margin-bottom: 6px; }
+        .mu-lines div:first-child { width: 120px; background: var(--secondary); opacity: 0.2; }
+        .mu-lines div:last-child { width: 80px; }
+        
+        .mu-card { border: 1px solid var(--border); border-radius: 8px; padding: 1rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .mu-tag { font-size: 0.7rem; font-weight: 600; padding: 4px 8px; border-radius: 4px; background: #E6F0F0; color: var(--secondary); }
+        .mu-tag.pending { background: #FFF5F2; color: var(--primary); }
+
+        
+        .pain-points {
+            background: var(--bg);
+            overflow: hidden;
+        }
+
+        .cards-scroll {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .cards-scroll::-webkit-scrollbar { display: none; }
+
+        .pain-card {
+            min-width: 350px;
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            scroll-snap-align: center;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .pain-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        .pain-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .pain-resolution {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+            font-weight: 500;
+            color: var(--secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .pain-resolution svg {
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        
+        .calculator {
+            background: var(--surface);
+        }
+
+        .calc-widget {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--secondary);
+            color: var(--surface);
+            border-radius: 24px;
+            padding: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calc-widget h3 {
+            color: var(--surface);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .calc-widget p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 3rem;
+        }
+
+        .slider-group {
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 0 0 4px rgba(199, 90, 58, 0.2);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        .calc-result {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: var(--primary);
+            margin: 2rem 0;
+            line-height: 1;
+        }
+
+        .calc-lead-capture {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .calc-lead-capture input {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        
+        .trust-section {
+            padding: 4rem 0;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .marquee {
+            display: flex;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+
+        @keyframes scroll {
+            to { transform: translateX(-50%); }
+        }
+
+        .logo-strip {
+            display: flex;
+            gap: 4rem;
+            padding-right: 4rem;
+            align-items: center;
+        }
+
+        .logo-strip span {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--text-light);
+            font-style: italic;
+            opacity: 0.5;
+            font-weight: 600;
+        }
+
+        
+        .cta {
+            background: var(--secondary);
+            color: var(--surface);
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .cta h2 {
+            color: var(--surface);
+            font-size: clamp(3rem, 6vw, 5rem);
+            max-width: 900px;
+            margin: 0 auto 3rem;
+        }
+
+        .cta .btn {
+            background: var(--surface);
+            color: var(--secondary);
+            font-size: 1.25rem;
+            padding: 1.5rem 3rem;
+        }
+        
+        .cta .btn:hover {
+            background: var(--primary);
+            color: var(--surface);
+        }
+
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+        }
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        
+        @media (max-width: 968px) {
+            .hero .container { grid-template-columns: 1fr; }
+            .hero h1 { text-align: center; }
+            .hero-content { margin: 0 auto; text-align: center; }
+            .cycling-text-container { justify-content: center; }
+            
+            .step { grid-template-columns: 1fr; gap: 3rem; }
+            .step:nth-child(even) { direction: ltr; }
+            .step:nth-child(even) > * { direction: ltr; }
+            .step-number { font-size: 6rem; top: -3rem; left: -1rem; }
+            
+            .calc-lead-capture { flex-direction: column; }
+        }
+    </style>
+<style id="fusion-selection-styles">
+  .fusion-element-highlight {
+    outline: 2px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+  }
+
+  .fusion-element-selected {
+    outline: 4px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+    outline-offset: 0px !important;
+  }
+  
+  .fusion-selection-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    z-index: 2147483647 !important;
+    cursor: crosshair !important;
+    pointer-events: none !important;
+  }
+  
+  .fusion-selection-tooltip {
+    position: fixed !important;
+    background: #1f2937 !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    z-index: 2147483648 !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -100%) translateY(-10px) !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .fusion-selection-tooltip::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 5px solid transparent !important;
+    border-top-color: #1f2937 !important;
+  }
+  
+  
+  @keyframes fusion-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fusion-label-bounce {
+    0% { 
+      opacity: 0;
+      transform: translateY(-10px) scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0) scale(1.05);
+    }
+    100% { 
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+</style></head>
+<body vid="9" data-new-gr-c-s-check-loaded="14.1323.0" data-gr-ext-installed="">
+
+    <nav vid="10">
+        <a href="#" class="logo" vid="11">Return-It.</a>
+        <a href="#how-it-works" class="btn" style="background: transparent; color: var(--secondary); border: 1px solid var(--border);" vid="12">Sign In</a>
+    </nav>
+
+    
+    <section class="hero" id="hero" vid="13">
+        
+        <div class="bg-texture" vid="14">
+            RETURN IT<br vid="15">RETURN IT<br vid="16">RETURN IT
+        </div>
+        <svg class="hero-squiggle" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" vid="17">
+            <path d="M20 100 C 50 20, 150 20, 180 100 C 150 180, 50 180, 20 100" stroke="#C75A3A" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 10" vid="18"></path>
+        </svg>
+
+        <div class="container" vid="19">
+            <div class="hero-content reveal in-view" vid="20">
+                <h1 vid="21">
+                    Frictionless returns.<br vid="22">
+                    <span vid="23">Made beautiful.</span>
+                </h1>
+                
+                <div class="cycling-text-container" vid="24">
+                    <div class="cycling-text active" vid="25">We'll handle it.</div>
+                    <div class="cycling-text" vid="26">No printer? We print the label.</div>
+                    <div class="cycling-text" vid="27">Post office closed? We come to you...</div>
+                </div>
+
+                <div class="trust-hero" vid="28">
+                    <div class="trust-avatars" vid="29">
+                        <div style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=100&amp;q=80')" vid="30"></div>
+                        <div style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&amp;fit=crop&amp;w=100&amp;q=80')" vid="31"></div>
+                        <div style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=100&amp;q=80')" vid="32"></div>
+                    </div>
+                    <span vid="33">Trusted by 50,000+ UK shoppers</span>
+                </div>
+            </div>
+
+            
+            <div class="quickstart-form reveal in-view" style="transition-delay: 0.2s;" vid="34">
+                <span class="accent-text" style="position: absolute; top: -20px; right: -20px; z-index: 10;" vid="35">Go Grab Em' Fasttt!</span>
+                
+                <div class="form-tabs" vid="36">
+                    <button class="tab-btn active" onclick="switchTab('pickup')" vid="37">Schedule a Pickup</button>
+                    <button class="tab-btn" onclick="switchTab('label')" vid="38">I Have a Label</button>
+                </div>
+
+                <div id="tab-pickup" class="tab-content active" vid="39">
+                    <div class="form-group" vid="40">
+                        <label class="form-label" vid="41">Parcel Size</label>
+                        <div class="size-selector" vid="42">
+                            <div class="size-option selected" onclick="selectSize(this)" vid="43">
+                                <div class="size-icon" vid="44"></div>
+                                <span vid="45">Small</span>
+                            </div>
+                            <div class="size-option" onclick="selectSize(this)" vid="46">
+                                <div class="size-icon" vid="47"></div>
+                                <span vid="48">Medium</span>
+                            </div>
+                            <div class="size-option" onclick="selectSize(this)" vid="49">
+                                <div class="size-icon" vid="50"></div>
+                                <span vid="51">Large</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" vid="52">
+                        <label class="form-label" vid="53">Collection Postcode</label>
+                        <input type="text" class="input-text" placeholder="e.g. SW1A 1AA" vid="54">
+                    </div>
+                    <button class="btn" vid="55">Get Quote</button>
+                </div>
+
+                <div id="tab-label" class="tab-content" vid="56">
+                    <div class="form-group" vid="57">
+                        <label class="form-label" vid="58">Upload Return Label</label>
+                        <div class="upload-zone" vid="59">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="60">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" vid="61"></path>
+                                <polyline points="17 8 12 3 7 8" vid="62"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15" vid="63"></line>
+                            </svg>
+                            <p vid="64">Drag &amp; drop or click to browse</p>
+                            <span style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.5rem; display: block;" vid="65">PDF, PNG, JPG up to 5MB</span>
+                        </div>
+                    </div>
+                    <div class="form-group" vid="66">
+                        <label class="form-label" vid="67">Collection Postcode</label>
+                        <input type="text" class="input-text" placeholder="e.g. SW1A 1AA" vid="68">
+                    </div>
+                    <button class="btn" vid="69">Get Quote</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="section how-it-works" id="how-it-works" vid="70">
+        <div class="container" vid="71">
+            <div class="section-header reveal" vid="72">
+                <h2 vid="73">How It Works</h2>
+                <p vid="74">Four simple steps to clear your hallway of unwanted boxes forever.</p>
+            </div>
+
+            <div class="step reveal" vid="75">
+                <div class="step-content" vid="76">
+                    <div class="step-number" vid="77">01</div>
+                    <h3 vid="78">Connect or Upload</h3>
+                    <p vid="79">Forward your return emails to us, or snap a photo of the physical return slip. We automatically extract the retailer, order number, and return deadline.</p>
+                </div>
+                <div class="mockup-container" vid="80">
+                    <div class="mockup-ui" vid="81">
+                        <div class="mu-header" vid="82">
+                            <div class="mu-avatar" style="background: #FFF5F2; display: flex; align-items:center; justify-content:center; color: var(--primary); font-weight: 600;" vid="83">Z</div>
+                            <div class="mu-lines" vid="84"><div vid="85"></div><div vid="86"></div></div>
+                        </div>
+                        <div class="mu-card" vid="87">
+                            <div vid="88"><div style="font-weight: 600; font-size: 0.9rem;" vid="89">Zara Order #8839</div><div style="font-size: 0.8rem; color: var(--text-light)" vid="90">Return by Oct 12</div></div>
+                            <div class="mu-tag pending" vid="91">Processing...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step reveal" vid="92">
+                <div class="step-content" vid="93">
+                    <div class="step-number" vid="94">02</div>
+                    <h3 vid="95">See Pending</h3>
+                    <p vid="96">View all your active returns in one clean dashboard. We track the deadlines so you don't have to keep mental notes of what needs to go back when.</p>
+                </div>
+                <div class="mockup-container" vid="97">
+                    <div class="mockup-ui" vid="98">
+                        <div class="mu-card" style="border-left: 4px solid var(--primary)" vid="99">
+                            <div vid="100"><div style="font-weight: 600; font-size: 0.9rem;" vid="101">ASOS</div><div style="font-size: 0.8rem; color: var(--text-light)" vid="102">2 items</div></div>
+                            <div class="mu-tag" vid="103">Label Ready</div>
+                        </div>
+                        <div class="mu-card" vid="104">
+                            <div vid="105"><div style="font-weight: 600; font-size: 0.9rem;" vid="106">John Lewis</div><div style="font-size: 0.8rem; color: var(--text-light)" vid="107">1 item</div></div>
+                            <div class="mu-tag" vid="108">Needs Label</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step reveal" vid="109">
+                <div class="step-content" vid="110">
+                    <div class="step-number" vid="111">03</div>
+                    <h3 vid="112">Bundle &amp; Book</h3>
+                    <p vid="113">Got three returns for three different shops? Select them all and book a single collection slot. We group them to save you money.</p>
+                </div>
+                <div class="mockup-container" vid="114">
+                    <div class="mockup-ui" style="background: var(--bg); border-color: var(--primary);" vid="115">
+                        <div style="text-align: center; margin-bottom: 1rem;" vid="116">
+                            <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light)" vid="117">Collection Total</div>
+                            <div style="font-family: var(--font-display); font-size: 2rem; color: var(--secondary);" vid="118">£4.50</div>
+                        </div>
+                        <button class="btn" style="width: 100%; padding: 0.75rem;" vid="119">Confirm Slot</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step reveal" vid="120">
+                <div class="step-content" vid="121">
+                    <div class="step-number" vid="122">04</div>
+                    <h3 vid="123">We Collect</h3>
+                    <p vid="124">Leave it on your doorstep or hand it to our driver. No printer needed—we bring the labels, scan them on the spot, and hand you a digital receipt.</p>
+                </div>
+                <div class="mockup-container" vid="125">
+                    <img src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Cardboard box" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; filter: sepia(0.2);" vid="126">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    
+    <section class="section pain-points" id="pain-points" vid="127">
+        <div class="section-header reveal" vid="128">
+            <h2 vid="129">The Return Reality</h2>
+            <p vid="130">Online shopping is instant. Returning shouldn't feel like the dark ages.</p>
+        </div>
+
+        <div class="cards-scroll reveal" vid="131">
+            <div class="pain-card" vid="132">
+                <img src="https://images.unsplash.com/photo-1506869640319-fea1a2ab8e56?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Calendar" vid="133">
+                <h4 vid="134">Deadline Dread</h4>
+                <p vid="135">That creeping anxiety when you realise the 30-day window closes tomorrow and you haven't even printed the label.</p>
+                <div class="pain-resolution" vid="136">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" vid="137"><polyline points="20 6 9 17 4 12" vid="138"></polyline></svg>
+                    <span vid="139">We track dates and alert you.</span>
+                </div>
+            </div>
+
+            <div class="pain-card" vid="140">
+                <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Rainy street" vid="141">
+                <h4 vid="142">Two-Trip Trap</h4>
+                <p vid="143">One parcel for Evri, one for Royal Mail. Suddenly your Saturday morning is spent touring industrial estates.</p>
+                <div class="pain-resolution" vid="144">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" vid="145"><polyline points="20 6 9 17 4 12" vid="146"></polyline></svg>
+                    <span vid="147">We collect all carriers at once.</span>
+                </div>
+            </div>
+
+            <div class="pain-card" vid="148">
+                <img src="https://images.unsplash.com/photo-1555626906-fcf10d6851b4?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Heavy box" vid="149">
+                <h4 vid="150">Heavy Haul</h4>
+                <p vid="151">Dragging that flat-pack furniture return down three flights of stairs and trying to fit it in a hatchback.</p>
+                <div class="pain-resolution" vid="152">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" vid="153"><polyline points="20 6 9 17 4 12" vid="154"></polyline></svg>
+                    <span vid="155">Doorstep collection included.</span>
+                </div>
+            </div>
+
+            <div class="pain-card" vid="156">
+                <img src="https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Messy pile" vid="157">
+                <h4 vid="158">Multi-Return Madness</h4>
+                <p vid="159">Three different shops, three different return portals, three different apps to download. Pure friction.</p>
+                <div class="pain-resolution" vid="160">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" vid="161"><polyline points="20 6 9 17 4 12" vid="162"></polyline></svg>
+                    <span vid="163">One dashboard for everything.</span>
+                </div>
+            </div>
+
+            <div class="pain-card" vid="164">
+                <img src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Closet" vid="165">
+                <h4 vid="166">Stuck With It</h4>
+                <p vid="167">You missed the window. Now you own a £60 jumper you hate, living permanently in the back of your wardrobe.</p>
+                <div class="pain-resolution" vid="168">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" vid="169"><polyline points="20 6 9 17 4 12" vid="170"></polyline></svg>
+                    <span vid="171">Never miss a refund again.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="section calculator" id="calculator" vid="172">
+        <div class="container" vid="173">
+            <div class="calc-widget reveal" vid="174">
+                <span class="accent-text" style="position: absolute; top: 30px; left: 30px; color: var(--bg); transform: rotate(-10deg);" vid="175">Ouch!</span>
+                <h3 vid="176">Return Cost Calculator</h3>
+                <p vid="177">Quantify the cost of your unreturned items.</p>
+
+                <div class="slider-group" vid="178">
+                    <div class="slider-label" vid="179">
+                        <span vid="180">Unreturned items per year</span>
+                        <span id="items-val" vid="181">4 items</span>
+                    </div>
+                    <input type="range" id="items-slider" min="1" max="20" value="4" vid="182">
+                </div>
+
+                <div class="slider-group" vid="183">
+                    <div class="slider-label" vid="184">
+                        <span vid="185">Average value per item</span>
+                        <span id="value-val" vid="186">£45</span>
+                    </div>
+                    <input type="range" id="value-slider" min="10" max="200" step="5" value="45" vid="187">
+                </div>
+
+                <div style="font-size: 1rem; color: rgba(255,255,255,0.7); margin-top: 2rem;" vid="188">Money lost to the wardrobe this year:</div>
+                <div class="calc-result" vid="189">£<span id="total-val" vid="190">180</span></div>
+
+                <div class="calc-lead-capture" vid="191">
+                    <input type="email" placeholder="Email address" vid="192">
+                    <button class="btn" style="background: var(--bg); color: var(--secondary);" vid="193">Send me the cure</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="trust-section" id="trust" vid="194">
+        <div class="marquee" vid="195">
+            <div class="logo-strip" vid="196">
+                <span vid="197">Amazon</span>
+                <span vid="198">ASOS</span>
+                <span vid="199">Shein</span>
+                <span vid="200">Zara</span>
+                <span vid="201">John Lewis</span>
+                <span vid="202">H&amp;M</span>
+                <span vid="203">Nike</span>
+                <span vid="204">Uniqlo</span>
+                <span vid="205">Next</span>
+                <span vid="206">M&amp;S</span>
+            </div>
+            
+            <div class="logo-strip" vid="207">
+                <span vid="208">Amazon</span>
+                <span vid="209">ASOS</span>
+                <span vid="210">Shein</span>
+                <span vid="211">Zara</span>
+                <span vid="212">John Lewis</span>
+                <span vid="213">H&amp;M</span>
+                <span vid="214">Nike</span>
+                <span vid="215">Uniqlo</span>
+                <span vid="216">Next</span>
+                <span vid="217">M&amp;S</span>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="cta" id="cta" vid="218">
+        <div class="container reveal" vid="219">
+            <h2 vid="220">Stop losing money on returns you never post</h2>
+            <button class="btn" vid="221">Schedule Your First Pickup</button>
+        </div>
+    </section>
+
+    <script vid="222">
+        
+        const texts = document.querySelectorAll('.cycling-text');
+        let currentIndex = 0;
+
+        setInterval(() => {
+            texts[currentIndex].classList.remove('active');
+            texts[currentIndex].classList.add('exit');
+            
+            setTimeout(() => {
+                texts[currentIndex].classList.remove('exit');
+                currentIndex = (currentIndex + 1) % texts.length;
+                texts[currentIndex].classList.add('active');
+            }, 600); 
+        }, 3000);
+
+        
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        
+        function selectSize(element) {
+            const siblings = element.parentElement.children;
+            for(let i=0; i<siblings.length; i++) {
+                siblings[i].classList.remove('selected');
+            }
+            element.classList.add('selected');
+        }
+
+        
+        const itemsSlider = document.getElementById('items-slider');
+        const valueSlider = document.getElementById('value-slider');
+        const itemsVal = document.getElementById('items-val');
+        const valueVal = document.getElementById('value-val');
+        const totalVal = document.getElementById('total-val');
+
+        function calculateTotal() {
+            const items = itemsSlider.value;
+            const value = valueSlider.value;
+            itemsVal.innerText = items + (items == 1 ? ' item' : ' items');
+            valueVal.innerText = '£' + value;
+            
+            
+            const start = parseInt(totalVal.innerText);
+            const end = items * value;
+            animateValue(totalVal, start, end, 500);
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        itemsSlider.addEventListener('input', calculateTotal);
+        valueSlider.addEventListener('input', calculateTotal);
+
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration></html>

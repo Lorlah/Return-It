@@ -1,0 +1,1220 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Return-It | Frictionless UK Parcel Returns</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            
+            --c-terra: #C75A3A;
+            --c-terra-dark: #A3452A;
+            --c-terra-light: #FBEFEA;
+            --c-teal: #0D3D3D;
+            --c-teal-dark: #082929;
+            --c-bg: #FAF9F7;
+            --c-surface: #FFFFFF;
+            --c-text-main: #1A1A1A;
+            --c-text-muted: #66635E;
+            --c-border: #E8E4DF;
+            
+            
+            --font-head: 'Fraunces', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 8rem;
+            
+            
+            --rad-sm: 8px;
+            --rad-md: 16px;
+            --rad-lg: 24px;
+            --rad-pill: 999px;
+            
+            
+            --shadow-soft: 0 12px 32px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02);
+            --shadow-hover: 0 20px 48px rgba(199, 90, 58, 0.15), 0 8px 24px rgba(0,0,0,0.04);
+            
+            
+            --max-w: 1280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--c-bg);
+            color: var(--c-text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: var(--c-teal);
+        }
+
+        .text-terra { color: var(--c-terra); }
+        .text-italic { font-style: italic; font-weight: 400; }
+
+        p {
+            color: var(--c-text-muted);
+            font-size: 1.125rem;
+        }
+
+        
+        .container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: var(--space-xl) 0;
+        }
+
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: var(--rad-pill);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--c-terra);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--c-terra-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--c-teal);
+            border: 1px solid var(--c-border);
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            border-color: var(--c-teal);
+        }
+
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 100;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--c-teal);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--c-text-main);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--c-terra);
+        }
+
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--c-terra-light) 0%, rgba(251,239,234,0) 70%);
+            z-index: 0;
+            border-radius: 50%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3.5rem, 6vw, 5.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        
+        .cycling-text-container {
+            height: 40px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .cycling-text {
+            display: flex;
+            flex-direction: column;
+            animation: cycleText 9s infinite cubic-bezier(0.6, 0.05, 0.01, 0.99);
+        }
+
+        .cycling-text span {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--c-terra);
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        @keyframes cycleText {
+            0%, 25% { transform: translateY(0); }
+            33%, 58% { transform: translateY(-40px); }
+            66%, 91% { transform: translateY(-80px); }
+            100% { transform: translateY(-120px); }
+        }
+
+        .trust-signals {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--c-border);
+        }
+        .stars {
+            color: var(--c-terra);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+        .trust-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        
+        .hero-form-wrapper {
+            background: var(--c-surface);
+            border-radius: var(--rad-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--c-border);
+        }
+
+        .form-tabs {
+            display: flex;
+            background: var(--c-bg);
+            border-radius: var(--rad-pill);
+            padding: 0.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-tab {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--c-text-muted);
+            cursor: pointer;
+            border-radius: var(--rad-pill);
+            transition: all 0.3s;
+        }
+
+        .form-tab.active {
+            background: var(--c-surface);
+            color: var(--c-teal);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--c-teal);
+            margin-bottom: 0.75rem;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .size-card {
+            position: relative;
+            border: 1px solid var(--c-border);
+            border-radius: var(--rad-md);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-card input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .size-card span {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: var(--c-text-main);
+        }
+        
+        .size-card small {
+            font-size: 0.75rem;
+            color: var(--c-text-muted);
+        }
+
+        .size-card svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--c-text-muted);
+            transition: stroke 0.2s;
+        }
+
+        .size-card:has(input:checked) {
+            border-color: var(--c-terra);
+            background: var(--c-terra-light);
+        }
+        .size-card:has(input:checked) span { color: var(--c-terra); }
+        .size-card:has(input:checked) svg { stroke: var(--c-terra); }
+
+        .input-text {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--c-border);
+            border-radius: var(--rad-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--c-bg);
+        }
+        .input-text:focus {
+            outline: none;
+            border-color: var(--c-teal);
+            background: var(--c-surface);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--c-border);
+            border-radius: var(--rad-md);
+            padding: 2rem;
+            text-align: center;
+            background: var(--c-bg);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upload-zone:hover {
+            border-color: var(--c-terra);
+            background: var(--c-terra-light);
+        }
+        .upload-zone svg {
+            margin-bottom: 0.5rem;
+            stroke: var(--c-terra);
+        }
+
+        .btn-submit {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        
+        .logos-section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--c-border);
+            background: white;
+            overflow: hidden;
+        }
+        .marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 30s linear infinite;
+        }
+        .marquee-content {
+            display: flex;
+            justify-content: space-around;
+            width: 50%;
+            align-items: center;
+        }
+        .logo-item {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #A09C96;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        
+        .how-it-works {
+            background: var(--c-surface);
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+        
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .steps-list {
+            position: relative;
+        }
+
+        .steps-list::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 24px;
+            bottom: 24px;
+            width: 2px;
+            background: var(--c-border);
+            z-index: 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .step.active {
+            opacity: 1;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--c-bg);
+            border: 2px solid var(--c-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--c-teal);
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .step.active .step-number {
+            background: var(--c-terra);
+            border-color: var(--c-terra);
+            color: white;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        
+        .mockup-container {
+            position: relative;
+            height: 500px;
+            background: var(--c-bg);
+            border-radius: var(--rad-lg);
+            border: 1px solid var(--c-border);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.02);
+        }
+
+        .abstract-ui {
+            width: 320px;
+            background: white;
+            border-radius: var(--rad-md);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--c-border);
+            padding: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ui-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--c-border);
+        }
+        .ui-skeleton-title { width: 100px; height: 12px; background: var(--c-border); border-radius: 4px; }
+        .ui-skeleton-icon { width: 32px; height: 32px; background: var(--c-terra-light); border-radius: 50%; }
+        
+        .ui-card {
+            background: var(--c-bg);
+            border-radius: var(--rad-sm);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .ui-box { width: 40px; height: 40px; background: var(--c-border); border-radius: 4px; }
+        .ui-lines { flex: 1; }
+        .ui-line { height: 8px; background: var(--c-border); border-radius: 4px; margin-bottom: 6px; }
+        .ui-line:last-child { width: 60%; margin-bottom: 0; }
+        .ui-line.highlight { background: var(--c-terra); width: 40%; }
+
+        .ui-btn {
+            width: 100%;
+            height: 40px;
+            background: var(--c-teal);
+            border-radius: var(--rad-pill);
+            margin-top: 1rem;
+        }
+
+        
+        .pain-points {
+            background: var(--c-bg);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 300px;
+            gap: 1.5rem;
+        }
+
+        .bento-item {
+            position: relative;
+            border-radius: var(--rad-lg);
+            overflow: hidden;
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        .bento-item:nth-child(1) { grid-column: span 2; }
+        .bento-item:nth-child(4) { grid-column: span 2; }
+
+        .bento-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        
+        .bento-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(13, 61, 61, 0.1) 0%, rgba(13, 61, 61, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .bento-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            margin-top: auto; 
+            color: white;
+        }
+
+        .bento-content h3 {
+            color: white;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bento-content p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            max-width: 90%;
+        }
+        
+        .bento-item.text-only {
+            background: var(--c-teal);
+            color: white;
+            justify-content: center;
+            padding: 3rem;
+        }
+        .bento-item.text-only h3 { color: var(--c-terra-light); font-size: 2.5rem;}
+        .bento-item.text-only p { color: white; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--c-terra);
+            color: white;
+            border-radius: var(--rad-pill);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        
+        .calculator-section {
+            background: white;
+            border-top: 1px solid var(--c-border);
+            border-bottom: 1px solid var(--c-border);
+        }
+        
+        .calc-wrapper {
+            background: var(--c-bg);
+            border-radius: var(--rad-lg);
+            padding: 4rem;
+            text-align: center;
+            border: 1px solid var(--c-border);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .calc-display {
+            font-family: var(--font-head);
+            font-size: 5rem;
+            color: var(--c-terra);
+            line-height: 1;
+            margin: 2rem 0;
+        }
+
+        .slider-container {
+            margin: 2rem 0 3rem;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            background: var(--c-terra);
+            cursor: pointer;
+            margin-top: -14px;
+            box-shadow: 0 4px 12px rgba(199, 90, 58, 0.3);
+            border: 4px solid white;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: var(--c-border);
+            border-radius: 2px;
+        }
+
+        .calc-capture {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .calc-capture input { margin-bottom: 0; }
+
+        
+        .final-cta {
+            background: var(--c-teal);
+            color: white;
+            text-align: center;
+            padding: 8rem 0;
+        }
+        
+        .final-cta h2 {
+            color: white;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .final-cta p {
+            color: var(--c-terra-light);
+            margin-bottom: 3rem;
+            font-size: 1.25rem;
+        }
+
+        
+        @media (max-width: 992px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-content h1 { font-size: 3rem; }
+            .steps-container { grid-template-columns: 1fr; gap: 3rem; }
+            .mockup-container { height: 350px; grid-row: 1; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-item:nth-child(n) { grid-column: span 1; }
+            .bento-item.text-only { padding: 2rem; }
+            .calc-wrapper { padding: 2rem; }
+        }
+    </style>
+<style id="fusion-selection-styles">
+  .fusion-element-highlight {
+    outline: 2px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+  }
+
+  .fusion-element-selected {
+    outline: 4px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+    outline-offset: 0px !important;
+  }
+  
+  .fusion-selection-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    z-index: 2147483647 !important;
+    cursor: crosshair !important;
+    pointer-events: none !important;
+  }
+  
+  .fusion-selection-tooltip {
+    position: fixed !important;
+    background: #1f2937 !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    z-index: 2147483648 !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -100%) translateY(-10px) !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .fusion-selection-tooltip::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 5px solid transparent !important;
+    border-top-color: #1f2937 !important;
+  }
+  
+  
+  @keyframes fusion-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fusion-label-bounce {
+    0% { 
+      opacity: 0;
+      transform: translateY(-10px) scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0) scale(1.05);
+    }
+    100% { 
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+</style></head>
+<body vid="9" data-new-gr-c-s-check-loaded="14.1323.0" data-gr-ext-installed="">
+
+    <nav vid="10">
+        <div class="container nav-inner" vid="11">
+            <a href="#" class="logo" vid="12">Return-It.</a>
+            <div class="nav-links d-none d-md-block" vid="13">
+                <a href="#how-it-works" vid="14">How it works</a>
+                <a href="#pricing" vid="15">Pricing</a>
+                <a href="#" class="btn btn-primary" style="padding: 0.5rem 1.5rem; margin-left: 2rem;" vid="16">Book Collection</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section class="hero" vid="17">
+        <div class="container hero-grid" vid="18">
+            <div class="hero-content reveal active" vid="19">
+                <h1 vid="20">Online shopping.<br vid="21"><span class="text-italic" vid="22">Offline relief.</span></h1>
+                
+                <div class="cycling-text-container" vid="23">
+                    <div class="cycling-text" vid="24">
+                        <span vid="25">We'll handle it.</span>
+                        <span vid="26">No printer? We print the label.</span>
+                        <span vid="27">Post office closed? We come to you.</span>
+                        <span vid="28">We'll handle it.</span> 
+                    </div>
+                </div>
+                
+                <p vid="29">The premium UK parcel return service. We collect from your door, combine your returns, and guarantee they make it back.</p>
+                
+                <div class="trust-signals reveal delay-2 active" vid="30">
+                    <div class="stars" vid="31">★★★★★</div>
+                    <div class="trust-text" vid="32">Trusted by 10,000+ UK shoppers to reclaim their cash.</div>
+                </div>
+            </div>
+
+            
+            <div class="hero-form-wrapper reveal delay-1 active" vid="33">
+                <div class="form-tabs" vid="34">
+                    <button class="form-tab active" onclick="switchTab('pickup')" vid="35">Schedule a Pickup</button>
+                    <button class="form-tab" onclick="switchTab('label')" vid="36">I Have a Label</button>
+                </div>
+
+                
+                <div class="tab-content active" id="tab-pickup" vid="37">
+                    <div class="form-group" vid="38">
+                        <label vid="39">Parcel Size</label>
+                        <div class="size-grid" vid="40">
+                            <label class="size-card" vid="41">
+                                <input type="radio" name="size" checked="" vid="42">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" vid="43">
+                                    <path d="M21 8V16C21 18.7614 18.7614 21 16 21H8C5.23858 21 3 18.7614 3 16V8C3 5.23858 5.23858 3 8 3H16C18.7614 3 21 5.23858 21 8Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="44"></path>
+                                    <path d="M8 8L16 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="45"></path>
+                                </svg>
+                                <span vid="46">Small</span>
+                                <small vid="47">Shoebox</small>
+                            </label>
+                            <label class="size-card" vid="48">
+                                <input type="radio" name="size" vid="49">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" vid="50">
+                                    <path d="M21 8V16C21 18.7614 18.7614 21 16 21H8C5.23858 21 3 18.7614 3 16V8C3 5.23858 5.23858 3 8 3H16C18.7614 3 21 5.23858 21 8Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="51"></path>
+                                    <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="52"></path>
+                                </svg>
+                                <span vid="53">Medium</span>
+                                <small vid="54">Backpack</small>
+                            </label>
+                            <label class="size-card" vid="55">
+                                <input type="radio" name="size" vid="56">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" vid="57">
+                                    <path d="M21 8V16C21 18.7614 18.7614 21 16 21H8C5.23858 21 3 18.7614 3 16V8C3 5.23858 5.23858 3 8 3H16C18.7614 3 21 5.23858 21 8Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="58"></path>
+                                    <path d="M12 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="59"></path>
+                                    <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="60"></path>
+                                </svg>
+                                <span vid="61">Large</span>
+                                <small vid="62">Suitcase</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" vid="63">
+                        <label vid="64">Collection Postcode</label>
+                        <input type="text" class="input-text" placeholder="e.g. SW1A 1AA" vid="65">
+                    </div>
+                    <button class="btn btn-primary btn-submit" vid="66">Get Quote</button>
+                </div>
+
+                
+                <div class="tab-content" id="tab-label" vid="67">
+                    <div class="form-group" vid="68">
+                        <label vid="69">Upload Return Label</label>
+                        <div class="upload-zone" vid="70">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" vid="71">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="72"></path>
+                                <path d="M17 8L12 3L7 8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="73"></path>
+                                <path d="M12 3V15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="74"></path>
+                            </svg>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;" vid="75">Drop PDF or image here<br vid="76">or <span class="text-terra" vid="77">browse files</span></p>
+                        </div>
+                    </div>
+                    <div class="form-group" vid="78">
+                        <label vid="79">Collection Postcode</label>
+                        <input type="text" class="input-text" placeholder="e.g. SW1A 1AA" vid="80">
+                    </div>
+                    <button class="btn btn-primary btn-submit" vid="81">Get Quote</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <div class="logos-section" vid="82">
+        <div class="marquee" vid="83">
+            <div class="marquee-content" vid="84">
+                <span class="logo-item" vid="85">Amazon</span>
+                <span class="logo-item" vid="86">ASOS</span>
+                <span class="logo-item" vid="87">Zara</span>
+                <span class="logo-item" vid="88">John Lewis</span>
+                <span class="logo-item" vid="89">Nike</span>
+            </div>
+            <div class="marquee-content" vid="90">
+                <span class="logo-item" vid="91">H&amp;M</span>
+                <span class="logo-item" vid="92">Uniqlo</span>
+                <span class="logo-item" vid="93">Next</span>
+                <span class="logo-item" vid="94">M&amp;S</span>
+                <span class="logo-item" vid="95">Shein</span>
+            </div>
+        </div>
+    </div>
+
+    
+    <section class="how-it-works" id="how-it-works" vid="96">
+        <div class="container" vid="97">
+            <div class="section-header reveal" vid="98">
+                <h2 vid="99">How it works.</h2>
+                <p vid="100">We've eliminated the friction. No tape, no printer, no queuing.</p>
+            </div>
+
+            <div class="steps-container" vid="101">
+                <div class="steps-list reveal delay-1" vid="102">
+                    <div class="step active" onclick="updateMockup(1)" data-step="1" vid="103">
+                        <div class="step-number" vid="104">1</div>
+                        <div class="step-content" vid="105">
+                            <h3 vid="106">Connect &amp; Select</h3>
+                            <p vid="107">Forward us your return email or upload a label. We automatically read the retailer and requirements.</p>
+                        </div>
+                    </div>
+                    <div class="step" onclick="updateMockup(2)" data-step="2" vid="108">
+                        <div class="step-number" vid="109">2</div>
+                        <div class="step-content" vid="110">
+                            <h3 vid="111">See Pending Returns</h3>
+                            <p vid="112">View all your items in one clean dashboard. Select what you're sending back.</p>
+                        </div>
+                    </div>
+                    <div class="step" onclick="updateMockup(3)" data-step="3" vid="113">
+                        <div class="step-number" vid="114">3</div>
+                        <div class="step-content" vid="115">
+                            <h3 vid="116">Bundle &amp; Book</h3>
+                            <p vid="117">Choose a 2-hour collection window. Pricing is revealed based on your bundle—the more you return, the cheaper per item.</p>
+                        </div>
+                    </div>
+                    <div class="step" onclick="updateMockup(4)" data-step="4" vid="118">
+                        <div class="step-number" vid="119">4</div>
+                        <div class="step-content" vid="120">
+                            <h3 vid="121">We Collect</h3>
+                            <p vid="122">Hand it over at your door. We print the labels, box it if needed, and guarantee the refund tracking.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mockup-container reveal delay-2" vid="123">
+                    
+                    <div class="abstract-ui" id="ui-mockup" vid="124">
+                        <div class="ui-header" vid="125">
+                            <div class="ui-skeleton-title" vid="126"></div>
+                            <div class="ui-skeleton-icon" vid="127"></div>
+                        </div>
+                        <div class="ui-card" vid="128">
+                            <div class="ui-box" vid="129"></div>
+                            <div class="ui-lines" vid="130">
+                                <div class="ui-line" vid="131"></div>
+                                <div class="ui-line highlight" vid="132"></div>
+                            </div>
+                        </div>
+                        <div class="ui-card" style="opacity: 0.7" vid="133">
+                            <div class="ui-box" style="border-radius: 50%" vid="134"></div>
+                            <div class="ui-lines" vid="135">
+                                <div class="ui-line" vid="136"></div>
+                                <div class="ui-line" vid="137"></div>
+                            </div>
+                        </div>
+                        <div class="ui-btn" vid="138"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="pain-points" vid="139">
+        <div class="container" vid="140">
+            <div class="section-header reveal" vid="141">
+                <h2 vid="142">The friction we fix.</h2>
+                <p vid="143">Returning things shouldn't be the hardest part of shopping.</p>
+            </div>
+
+            <div class="bento-grid" vid="144">
+                
+                <div class="bento-item reveal" vid="145">
+                    <img src="https://images.pexels.com/photos/7414921/pexels-photo-7414921.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Stressed at desk" class="bento-img" vid="146">
+                    <div class="bento-overlay" vid="147"></div>
+                    <div class="bento-content" vid="148">
+                        <span class="badge" vid="149">Deadline Dread</span>
+                        <h3 vid="150">Missed the window again.</h3>
+                        <p vid="151">We collect same-day. Never swallow the cost of an expired return window because you were too busy.</p>
+                    </div>
+                </div>
+
+                
+                <div class="bento-item text-only reveal delay-1" vid="152">
+                    <span class="badge" style="background: white; color: var(--c-teal);" vid="153">Multi-Return Madness</span>
+                    <h3 vid="154">ASOS, Zara, Amazon.<br vid="155">One driver.</h3>
+                    <p vid="156">Stop managing different carrier rules. We take it all at once.</p>
+                </div>
+
+                
+                <div class="bento-item reveal delay-2" vid="157">
+                    <img src="https://images.pexels.com/photos/4506266/pexels-photo-4506266.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Heavy box" class="bento-img" vid="158">
+                    <div class="bento-overlay" vid="159"></div>
+                    <div class="bento-content" vid="160">
+                        <span class="badge" vid="161">Heavy Haul</span>
+                        <h3 vid="162">Too big for the bus.</h3>
+                        <p vid="163">We lift it from your hallway. No carrying rugs down the high street.</p>
+                    </div>
+                </div>
+
+                
+                <div class="bento-item reveal" vid="164">
+                    <img src="https://images.pexels.com/photos/4498135/pexels-photo-4498135.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Walking in rain" class="bento-img" vid="165">
+                    <div class="bento-overlay" vid="166"></div>
+                    <div class="bento-content" vid="167">
+                        <span class="badge" vid="168">Two-Trip Trap</span>
+                        <h3 vid="169">The printer is out of ink.</h3>
+                        <p vid="170">We bring the label. You just hand us the item. Simple.</p>
+                    </div>
+                </div>
+
+                
+                <div class="bento-item reveal delay-1" vid="171">
+                    <img src="https://images.pexels.com/photos/5709661/pexels-photo-5709661.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Looking at clothes" class="bento-img" vid="172">
+                    <div class="bento-overlay" vid="173"></div>
+                    <div class="bento-content" vid="174">
+                        <span class="badge" vid="175">Stuck With It</span>
+                        <h3 vid="176">Guilt in the wardrobe.</h3>
+                        <p vid="177">Clear the clutter. Turn those unworn items back into cash today.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="calculator-section" vid="178">
+        <div class="container" vid="179">
+            <div class="calc-wrapper reveal" vid="180">
+                <h2 vid="181">What's your laziness costing you?</h2>
+                <p vid="182">The average UK shopper loses £130 a year on unreturned items.</p>
+                
+                <div class="slider-container" vid="183">
+                    <label style="font-weight: 600; color: var(--c-teal); display: block; margin-bottom: 1rem;" vid="184">Items you meant to return this year: <span id="item-count" class="text-terra" vid="185">3</span></label>
+                    <input type="range" min="1" max="20" value="3" id="calc-slider" oninput="calculateLoss()" vid="186">
+                </div>
+                
+                <p vid="187">Estimated money lost:</p>
+                <div class="calc-display" id="calc-result" vid="188">£135</div>
+                
+                <div class="calc-capture" vid="189">
+                    <input type="email" class="input-text" placeholder="Enter email to save your breakdown" vid="190">
+                    <button class="btn btn-primary" style="white-space: nowrap;" vid="191">Get Report</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="final-cta" vid="192">
+        <div class="container reveal" vid="193">
+            <h2 vid="194">Stop losing money on returns you never post.</h2>
+            <p vid="195">Book a collection in 60 seconds. We'll be there tomorrow.</p>
+            <button class="btn btn-primary" style="background-color: white; color: var(--c-teal); font-size: 1.125rem; padding: 1.25rem 2.5rem;" vid="196">Schedule Your First Pickup</button>
+        </div>
+    </section>
+
+    <script vid="197">
+        
+        function switchTab(tabId) {
+            document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        
+        function updateMockup(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+
+            const ui = document.getElementById('ui-mockup');
+            
+            
+            if(step === 1) {
+                ui.style.transform = 'translateY(0) scale(1)';
+                ui.innerHTML = `
+                    <div class="ui-header"><div class="ui-skeleton-title"></div><div class="ui-skeleton-icon"></div></div>
+                    <div class="ui-card"><div class="ui-box"></div><div class="ui-lines"><div class="ui-line"></div><div class="ui-line highlight"></div></div></div>
+                    <div class="ui-btn"></div>
+                `;
+            } else if(step === 2) {
+                ui.style.transform = 'translateY(-10px) scale(1.02)';
+                ui.innerHTML = `
+                    <div class="ui-header"><div class="ui-skeleton-title" style="width:140px;"></div></div>
+                    <div class="ui-card" style="border: 2px solid var(--c-terra);"><div class="ui-box" style="border-radius: 50%"></div><div class="ui-lines"><div class="ui-line"></div></div></div>
+                    <div class="ui-card"><div class="ui-box" style="border-radius: 50%"></div><div class="ui-lines"><div class="ui-line"></div></div></div>
+                    <div class="ui-card"><div class="ui-box" style="border-radius: 50%"></div><div class="ui-lines"><div class="ui-line"></div></div></div>
+                `;
+            } else if(step === 3) {
+                ui.style.transform = 'translateY(0) scale(1)';
+                ui.innerHTML = `
+                    <div class="ui-header"><div class="ui-skeleton-title"></div><h3 style="margin:0; font-family:var(--font-head); color:var(--c-terra)">£4.50</h3></div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                        <div class="ui-card" style="margin:0; background: var(--c-terra-light); border: 1px solid var(--c-terra);"><div class="ui-line highlight" style="width:100%"></div></div>
+                        <div class="ui-card" style="margin:0;"><div class="ui-line" style="width:100%"></div></div>
+                    </div>
+                    <div class="ui-btn"></div>
+                `;
+            } else {
+                ui.style.transform = 'translateY(10px) scale(0.98)';
+                ui.innerHTML = `
+                    <div style="text-align:center; padding: 2rem 0;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="stroke:var(--c-terra); margin-bottom:1rem;">
+                            <path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="ui-line" style="margin: 0 auto 10px; width: 60%"></div>
+                        <div class="ui-line" style="margin: 0 auto; width: 40%"></div>
+                    </div>
+                `;
+            }
+        }
+
+        
+        function calculateLoss() {
+            const count = document.getElementById('calc-slider').value;
+            document.getElementById('item-count').innerText = count;
+            
+            const value = count * 45;
+            
+            
+            const display = document.getElementById('calc-result');
+            display.innerText = `£${value}`;
+            display.style.transform = 'scale(1.1)';
+            setTimeout(() => { display.style.transform = 'scale(1)'; }, 150);
+        }
+
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        
+        setTimeout(() => {
+            document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('active'));
+        }, 100);
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration></html>

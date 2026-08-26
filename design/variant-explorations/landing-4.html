@@ -1,0 +1,1156 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Return-It | The Easiest UK Parcel Returns</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            --bg-base: #FAF9F7;
+            --bg-surface: #FFFFFF;
+            --bg-dark: #0D3D3D;
+            --primary: #C75A3A;
+            --primary-hover: #b04e31;
+            --text-main: #0D3D3D;
+            --text-muted: #5a7575;
+            --text-light: #FAF9F7;
+            --border-light: rgba(13, 61, 61, 0.15);
+            --border-dark: rgba(250, 249, 247, 0.2);
+            
+            --font-serif: 'Fraunces', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            
+            --shadow-subtle: 0 4px 20px rgba(13, 61, 61, 0.04);
+            --shadow-elevated: 0 12px 32px rgba(13, 61, 61, 0.08);
+            
+            --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+            --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: var(--font-serif);
+            font-weight: 400;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--bg-surface);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(199, 90, 58, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-surface);
+            color: var(--text-main);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-main);
+        }
+
+        
+        nav {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            padding: 2rem 0;
+            z-index: 100;
+        }
+        
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover { color: var(--primary); }
+
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 45vw; height: 100%;
+            background-color: #F0EBE1; 
+            border-bottom-left-radius: 100px;
+            z-index: -1;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3.5rem, 6vw, 5.5rem);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .hero-content h1 i {
+            font-style: italic;
+            color: var(--primary);
+        }
+
+        .cycling-text-container {
+            height: 2rem;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .cycling-text {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s var(--ease-in-out);
+        }
+
+        .cycling-text span {
+            height: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .trust-signals {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stars { color: #00B67A; letter-spacing: 2px; } 
+
+        
+        .hero-form-wrapper {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-elevated);
+            position: relative;
+        }
+
+        .form-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--text-main);
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem; left: 0;
+            width: 100%; height: 2px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s var(--ease-out);
+            transform-origin: left;
+        }
+
+        .tab-btn.active::after { transform: scaleX(1); }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease-out forwards; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        
+        .size-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .size-option {
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 1rem 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-option input { display: none; }
+
+        .size-icon {
+            width: 40px; height: 40px;
+            margin: 0 auto 0.5rem;
+            border: 2px solid var(--text-muted);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .size-sm .size-icon { width: 24px; height: 24px; margin-top: 16px; }
+        .size-md .size-icon { width: 32px; height: 32px; margin-top: 8px; }
+
+        .size-option span { display: block; font-size: 0.85rem; font-weight: 600; }
+        .size-option small { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+        .size-option:has(input:checked) {
+            border-color: var(--primary);
+            background-color: rgba(199, 90, 58, 0.05);
+        }
+        .size-option:has(input:checked) .size-icon { border-color: var(--primary); }
+
+        .text-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            background: var(--bg-base);
+            transition: all 0.3s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-surface);
+            box-shadow: 0 0 0 4px rgba(199, 90, 58, 0.1);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            background: var(--bg-base);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upload-zone:hover { border-color: var(--primary); background: #fdfaf9; }
+        .upload-zone svg { width: 32px; height: 32px; color: var(--primary); margin-bottom: 1rem; }
+        .upload-zone p { font-size: 0.95rem; font-weight: 500; }
+        .upload-zone small { color: var(--text-muted); font-size: 0.8rem; }
+
+        .form-submit { width: 100%; margin-top: 1rem; font-size: 1.1rem; padding: 1.25rem; }
+
+        
+        .how-it-works {
+            padding: 10rem 0;
+            background: var(--bg-surface);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .step-row:nth-child(even) .step-content { order: 2; }
+        .step-row:nth-child(even) .step-visual { order: 1; }
+
+        .step-content {
+            position: relative;
+        }
+
+        .step-num {
+            font-family: var(--font-serif);
+            font-size: 6rem;
+            line-height: 1;
+            color: rgba(199, 90, 58, 0.1); 
+            position: absolute;
+            top: -2.5rem; left: -1rem;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .step-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        
+        .step-visual {
+            background: var(--bg-base);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+            position: relative;
+        }
+
+        .ui-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-elevated);
+            padding: 1.5rem;
+        }
+
+        
+        .ui-skeleton-header { width: 40%; height: 12px; background: #e0e0e0; border-radius: 4px; margin-bottom: 2rem; }
+        .ui-item { display: flex; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-light); }
+        .ui-item:last-child { border: none; padding-bottom: 0; }
+        .ui-item-img { width: 48px; height: 60px; background: #e0e0e0; border-radius: 4px; }
+        .ui-item-lines div { height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 6px; }
+        .ui-item-lines div:nth-child(1) { width: 120px; background: var(--text-main); }
+        .ui-item-lines div:nth-child(2) { width: 80px; }
+        .ui-checkbox { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 4px; margin-left: auto; background: var(--primary); display: flex; justify-content: center; align-items: center; }
+        .ui-checkbox::after { content: ''; width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-top: -2px; }
+
+        .ui-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center; }
+        .ui-cal-day { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem; }
+        .ui-cal-date { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; border-radius: 50%; color: var(--text-main); }
+        .ui-cal-date.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(199,90,58,0.3); }
+        .ui-cal-date.muted { color: #ccc; }
+
+        
+        .pain-points {
+            padding: 8rem 0;
+            background: var(--bg-base);
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pain-card {
+            background: var(--bg-surface);
+            padding: 2.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        
+        .pain-icon {
+            width: 64px; height: 64px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pain-icon svg {
+            width: 100%; height: 100%;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .pain-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .pain-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .pain-resolution {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pain-resolution::before {
+            content: '';
+            width: 16px; height: 1px;
+            background: var(--primary);
+        }
+
+        
+        .calculator-section {
+            padding: 8rem 0;
+            background: #EBE5DB; 
+        }
+
+        .calc-wrapper {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .calc-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .calc-info p { margin-bottom: 2rem; color: var(--text-muted); }
+
+        .calc-tool {
+            background: var(--bg-base);
+            padding: 2.5rem;
+            border-radius: var(--radius-md);
+        }
+
+        .range-group { margin-bottom: 2rem; }
+        .range-header { display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: 600; }
+        
+        
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px; width: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 2px 6px rgba(199,90,58,0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px;
+            cursor: pointer;
+            background: #dcd6ce;
+            border-radius: 2px;
+        }
+
+        .calc-result {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .calc-result span { display: block; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.5rem;}
+        .calc-total {
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .lead-gen-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        .lead-gen-form input { flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--border-light); border-radius: var(--radius-sm); }
+        .lead-gen-form button { padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); border: none; background: var(--text-main); color: white; font-weight: 600; cursor: pointer; }
+
+        
+        .trust-section {
+            padding: 6rem 0;
+            background: var(--bg-surface);
+            overflow: hidden;
+        }
+
+        .marquee-wrapper {
+            display: flex;
+            width: fit-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            padding: 0 2rem;
+        }
+
+        .brand-logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            
+        }
+        
+        .testimonial-block {
+            max-width: 800px;
+            margin: 6rem auto 0;
+            text-align: center;
+        }
+
+        .testimonial-block p {
+            font-family: var(--font-serif);
+            font-size: 2.25rem;
+            line-height: 1.3;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .testimonial-author span { color: var(--text-muted); font-weight: 400; }
+
+        
+        .final-cta {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 10rem 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 4rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.1;
+        }
+
+        footer {
+            background: var(--bg-dark);
+            color: rgba(250, 249, 247, 0.5);
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        
+        @media (max-width: 1024px) {
+            .hero-grid, .calc-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+            .hero { padding-top: 8rem; }
+            .hero::before { width: 100%; height: 50vh; border-bottom-left-radius: 0; top: 0; }
+            .step-row { grid-template-columns: 1fr; gap: 2rem; }
+            .step-row:nth-child(even) .step-content { order: 1; }
+            .step-row:nth-child(even) .step-visual { order: 2; }
+            .calc-wrapper { padding: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem !important; }
+            h2 { font-size: 2rem !important; }
+            .hero-form-wrapper { padding: 1.5rem; }
+            .size-selector { grid-template-columns: 1fr; }
+            .pain-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .final-cta h2 { font-size: 2.5rem; }
+        }
+    </style>
+<style id="fusion-selection-styles">
+  .fusion-element-highlight {
+    outline: 2px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+  }
+
+  .fusion-element-selected {
+    outline: 4px solid rgb(26, 115, 235) !important;
+    outline-style: solid !important;
+    outline-offset: 0px !important;
+  }
+  
+  .fusion-selection-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    z-index: 2147483647 !important;
+    cursor: crosshair !important;
+    pointer-events: none !important;
+  }
+  
+  .fusion-selection-tooltip {
+    position: fixed !important;
+    background: #1f2937 !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    z-index: 2147483648 !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -100%) translateY(-10px) !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .fusion-selection-tooltip::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 5px solid transparent !important;
+    border-top-color: #1f2937 !important;
+  }
+  
+  
+  @keyframes fusion-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fusion-label-bounce {
+    0% { 
+      opacity: 0;
+      transform: translateY(-10px) scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0) scale(1.05);
+    }
+    100% { 
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+</style></head>
+<body vid="9" data-new-gr-c-s-check-loaded="14.1323.0" data-gr-ext-installed="">
+
+    <nav vid="10">
+        <div class="container" vid="11">
+            <div class="logo" vid="12">Return-It.</div>
+            <div class="nav-links" vid="13">
+                <a href="#how-it-works" vid="14">How it Works</a>
+                <a href="#calculator" vid="15">Calculator</a>
+                <a href="#login" vid="16">Log in</a>
+                <a href="#signup" class="btn btn-secondary" style="padding: 0.5rem 1.25rem;" vid="17">Sign up</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section class="hero" vid="18">
+        <div class="container hero-grid" vid="19">
+            
+            <div class="hero-content reveal" vid="20">
+                <h1 vid="21">The easiest way to return <i vid="22">anything.</i></h1>
+                
+                <div class="cycling-text-container" vid="23">
+                    <div class="cycling-text" id="cyclingText" vid="24" style="transform: translateY(0rem);">
+                        <span vid="25">We'll handle it.</span>
+                        <span vid="26">No printer? We print the label.</span>
+                        <span vid="27">Post office closed? We come to you...</span>
+                    </div>
+                </div>
+
+                <div class="trust-signals" vid="28">
+                    <span class="stars" vid="29">★★★★★</span>
+                    <span vid="30">Rated 4.9/5 on Trustpilot</span>
+                    <span vid="31">•</span>
+                    <span vid="32">100k+ returns rescued</span>
+                </div>
+            </div>
+
+            <div class="hero-form-wrapper reveal delay-1 active" vid="33">
+                <div class="form-tabs" vid="34">
+                    <button class="tab-btn active" onclick="switchTab('pickup')" vid="35">Schedule a Pickup</button>
+                    <button class="tab-btn" onclick="switchTab('label')" vid="36">I Have a Label</button>
+                </div>
+
+                
+                <div id="tab-pickup" class="tab-content active" vid="37">
+                    <div class="input-group" vid="38">
+                        <label vid="39">Parcel Size</label>
+                        <div class="size-selector" vid="40">
+                            <label class="size-option size-sm" vid="41">
+                                <input type="radio" name="size" value="small" checked="" vid="42">
+                                <div class="size-icon" vid="43"></div>
+                                <span vid="44">Small</span>
+                                <small vid="45">Fits in a postbox</small>
+                            </label>
+                            <label class="size-option size-md" vid="46">
+                                <input type="radio" name="size" value="medium" vid="47">
+                                <div class="size-icon" vid="48"></div>
+                                <span vid="49">Medium</span>
+                                <small vid="50">Shoebox size</small>
+                            </label>
+                            <label class="size-option size-lg" vid="51">
+                                <input type="radio" name="size" value="large" vid="52">
+                                <div class="size-icon" vid="53"></div>
+                                <span vid="54">Large</span>
+                                <small vid="55">Up to 15kg</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-group" vid="56">
+                        <label for="postcode-1" vid="57">Collection Postcode</label>
+                        <input type="text" id="postcode-1" class="text-input" placeholder="e.g. SW1A 1AA" vid="58">
+                    </div>
+                    <button class="btn btn-primary form-submit" vid="59">Get Quote</button>
+                </div>
+
+                
+                <div id="tab-label" class="tab-content" vid="60">
+                    <div class="input-group" vid="61">
+                        <label vid="62">Upload Retailer Label (Optional)</label>
+                        <div class="upload-zone" vid="63">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" vid="64">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" vid="65"></path>
+                            </svg>
+                            <p vid="66">Drag &amp; drop or click to browse</p>
+                            <small vid="67">PDF, JPG, PNG</small>
+                        </div>
+                    </div>
+                    <div class="input-group" vid="68">
+                        <label for="postcode-2" vid="69">Collection Postcode</label>
+                        <input type="text" id="postcode-2" class="text-input" placeholder="e.g. SW1A 1AA" vid="70">
+                    </div>
+                    <button class="btn btn-primary form-submit" vid="71">Get Quote</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    
+    <section class="how-it-works" id="how-it-works" vid="72">
+        <div class="container" vid="73">
+            <div class="section-header reveal" vid="74">
+                <h2 vid="75">How it works</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem;" vid="76">Skip the queues, the printing, and the tape. We turn a chore into a few taps.</p>
+            </div>
+
+            <div class="steps-grid" vid="77">
+                
+                <div class="step-row reveal" vid="78">
+                    <div class="step-content" vid="79">
+                        <span class="step-num" vid="80">1</span>
+                        <h3 vid="81">Connect &amp; Select</h3>
+                        <p vid="82">Link your email or upload a label manually. We automatically detect your pending online orders and fetch the return policies.</p>
+                    </div>
+                    <div class="step-visual" vid="83">
+                        <div class="ui-card" vid="84">
+                            <div class="ui-skeleton-header" vid="85"></div>
+                            <div class="ui-item" vid="86">
+                                <div class="ui-item-img" vid="87"></div>
+                                <div class="ui-item-lines" vid="88"><div vid="89"></div><div vid="90"></div></div>
+                                <div class="ui-checkbox" vid="91"></div>
+                            </div>
+                            <div class="ui-item" vid="92">
+                                <div class="ui-item-img" style="background: #eedddd;" vid="93"></div>
+                                <div class="ui-item-lines" vid="94"><div style="width: 90px;" vid="95"></div><div vid="96"></div></div>
+                                <div class="ui-checkbox" vid="97"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="step-row reveal delay-1" vid="98">
+                    <div class="step-content" vid="99">
+                        <span class="step-num" vid="100">2</span>
+                        <h3 vid="101">Bundle &amp; Book</h3>
+                        <p vid="102">Got stuff for ASOS and Zara? Bundle them into one collection. Choose a one-hour time slot that actually fits your day.</p>
+                    </div>
+                    <div class="step-visual" vid="103">
+                        <div class="ui-card" style="max-width: 280px; margin: 0 auto;" vid="104">
+                            <div style="font-weight: 600; margin-bottom: 1rem; text-align: center;" vid="105">Select Date</div>
+                            <div class="ui-calendar" vid="106">
+                                <div class="ui-cal-day" vid="107">M</div><div class="ui-cal-day" vid="108">T</div><div class="ui-cal-day" vid="109">W</div><div class="ui-cal-day" vid="110">T</div><div class="ui-cal-day" vid="111">F</div><div class="ui-cal-day" vid="112">S</div><div class="ui-cal-day" vid="113">S</div>
+                                <div class="ui-cal-date muted" vid="114">28</div><div class="ui-cal-date muted" vid="115">29</div><div class="ui-cal-date muted" vid="116">30</div>
+                                <div class="ui-cal-date" vid="117">1</div><div class="ui-cal-date active" vid="118">2</div><div class="ui-cal-date" vid="119">3</div><div class="ui-cal-date" vid="120">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <div class="step-row reveal delay-1" vid="121">
+                    <div class="step-content" vid="122">
+                        <span class="step-num" vid="123">3</span>
+                        <h3 vid="124">We Collect (Boxless!)</h3>
+                        <p vid="125">Hand it over to our driver. No box? No printer? No problem. We provide packaging and label everything at the depot.</p>
+                    </div>
+                    <div class="step-visual" style="display: flex; justify-content: center; align-items: center;" vid="126">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vid="127">
+                            <rect x="3" y="8" width="18" height="12" rx="2" vid="128"></rect>
+                            <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" vid="129"></path>
+                            <path d="M12 14v.01" vid="130"></path>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="pain-points" vid="131">
+        <div class="container" vid="132">
+            <div class="section-header reveal" vid="133">
+                <h2 vid="134">Familiar feelings?</h2>
+            </div>
+            
+            <div class="pain-grid" vid="135">
+                <div class="pain-card reveal delay-1" vid="136">
+                    <div class="pain-icon" vid="137">
+                        <svg viewBox="0 0 24 24" vid="138"><circle cx="12" cy="12" r="10" vid="139"></circle><polyline points="12 6 12 12 16 14" vid="140"></polyline></svg>
+                    </div>
+                    <h4 vid="141">Deadline Dread</h4>
+                    <p vid="142">That creeping anxiety as the 30-day window closes, and the unloved item still sits in the hallway.</p>
+                    <div class="pain-resolution" vid="143">We track deadlines for you</div>
+                </div>
+
+                <div class="pain-card reveal delay-2" vid="144">
+                    <div class="pain-icon" vid="145">
+                        <svg viewBox="0 0 24 24" vid="146"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" vid="147"></path><polyline points="16 6 12 2 8 6" vid="148"></polyline><line x1="12" y1="2" x2="12" y2="15" vid="149"></line></svg>
+                    </div>
+                    <h4 vid="150">The Two-Trip Trap</h4>
+                    <p vid="151">Realising you need a printer. Walking to the library. Walking to the post office. Giving up halfway.</p>
+                    <div class="pain-resolution" vid="152">We print the labels</div>
+                </div>
+
+                <div class="pain-card reveal delay-3" vid="153">
+                    <div class="pain-icon" vid="154">
+                        <svg viewBox="0 0 24 24" vid="155"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" vid="156"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" vid="157"></path></svg>
+                    </div>
+                    <h4 vid="158">Heavy Haul</h4>
+                    <p vid="159">Dragging a 10kg winter coat and boots on the bus because it won't fit in the local locker.</p>
+                    <div class="pain-resolution" vid="160">Collection from your door</div>
+                </div>
+
+                <div class="pain-card reveal delay-1" vid="161">
+                    <div class="pain-icon" vid="162">
+                        <svg viewBox="0 0 24 24" vid="163"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" vid="164"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96" vid="165"></polyline><line x1="12" y1="22.08" x2="12" y2="12" vid="166"></line></svg>
+                    </div>
+                    <h4 vid="167">Multi-Return Madness</h4>
+                    <p vid="168">Three items. Three different retailers. Three different couriers. Three wasted lunch breaks.</p>
+                    <div class="pain-resolution" vid="169">Bundle them into one pickup</div>
+                </div>
+
+                <div class="pain-card reveal delay-2" vid="170">
+                    <div class="pain-icon" vid="171">
+                        <svg viewBox="0 0 24 24" vid="172"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" vid="173"></path></svg>
+                    </div>
+                    <h4 vid="174">Stuck With It</h4>
+                    <p vid="175">Just keeping the £40 jeans that don't fit because returning them is too much of a headache.</p>
+                    <div class="pain-resolution" vid="176">Get your money back effortlessly</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="calculator-section" id="calculator" vid="177">
+        <div class="container" vid="178">
+            <div class="calc-wrapper reveal" vid="179">
+                <div class="calc-info" vid="180">
+                    <h2 vid="181">Stop funding the "Too Hard Pile"</h2>
+                    <p vid="182">The average UK shopper loses £180 a year keeping items they meant to return. Calculate your hallway hoard.</p>
+                    
+                    <div class="lead-gen-form" vid="183">
+                        <input type="email" placeholder="Enter email to save your quote" vid="184">
+                        <button vid="185">Send</button>
+                    </div>
+                    <small style="display: block; margin-top: 1rem; color: var(--text-muted); font-size: 0.8rem;" vid="186">We'll also send you a code for your first free pickup.</small>
+                </div>
+
+                <div class="calc-tool" vid="187">
+                    <div class="range-group" vid="188">
+                        <div class="range-header" vid="189">
+                            <label vid="190">Items sitting in your hallway</label>
+                            <span id="items-val" vid="191">3</span>
+                        </div>
+                        <input type="range" id="items-slider" min="1" max="10" value="3" vid="192">
+                    </div>
+
+                    <div class="range-group" vid="193">
+                        <div class="range-header" vid="194">
+                            <label vid="195">Average value per item</label>
+                            <span id="value-val" vid="196">£40</span>
+                        </div>
+                        <input type="range" id="value-slider" min="10" max="150" value="40" step="10" vid="197">
+                    </div>
+
+                    <div class="calc-result" vid="198">
+                        <span vid="199">Money trapped in bags</span>
+                        <div class="calc-total" id="calc-total" vid="200">£120</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="trust-section" vid="201">
+        <div class="marquee-wrapper" vid="202">
+            <div class="marquee-content" vid="203">
+                <span class="brand-logo" vid="204">Amazon</span>
+                <span class="brand-logo" style="font-family: sans-serif; letter-spacing: -1px;" vid="205">ASOS</span>
+                <span class="brand-logo" style="font-style: italic;" vid="206">Zara</span>
+                <span class="brand-logo" vid="207">John Lewis</span>
+                <span class="brand-logo" vid="208">H&amp;M</span>
+                <span class="brand-logo" style="font-weight: 900;" vid="209">NIKE</span>
+                <span class="brand-logo" vid="210">Uniqlo</span>
+                <span class="brand-logo" vid="211">Next</span>
+                <span class="brand-logo" vid="212">M&amp;S</span>
+                
+                <span class="brand-logo" vid="213">Amazon</span>
+                <span class="brand-logo" style="font-family: sans-serif; letter-spacing: -1px;" vid="214">ASOS</span>
+                <span class="brand-logo" style="font-style: italic;" vid="215">Zara</span>
+                <span class="brand-logo" vid="216">John Lewis</span>
+                <span class="brand-logo" vid="217">H&amp;M</span>
+                <span class="brand-logo" style="font-weight: 900;" vid="218">NIKE</span>
+            </div>
+             <div class="marquee-content" vid="219">
+                <span class="brand-logo" vid="220">Amazon</span>
+                <span class="brand-logo" style="font-family: sans-serif; letter-spacing: -1px;" vid="221">ASOS</span>
+                <span class="brand-logo" style="font-style: italic;" vid="222">Zara</span>
+                <span class="brand-logo" vid="223">John Lewis</span>
+                <span class="brand-logo" vid="224">H&amp;M</span>
+                <span class="brand-logo" style="font-weight: 900;" vid="225">NIKE</span>
+                <span class="brand-logo" vid="226">Uniqlo</span>
+                <span class="brand-logo" vid="227">Next</span>
+                <span class="brand-logo" vid="228">M&amp;S</span>
+            </div>
+        </div>
+
+        <div class="container" vid="229">
+            <div class="testimonial-block reveal" vid="230">
+                <p vid="231">“I used to have a pile of guilt in the corner of my bedroom. Return-It collected 4 different parcels while I was working from home. The money was back in my account a week later. Absolute lifesaver.”</p>
+                <div class="testimonial-author" vid="232">Sarah Jenkins, London <br vid="233"><span vid="234">Rescued £340 this month</span></div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="final-cta" vid="235">
+        <div class="container reveal" vid="236">
+            <h2 vid="237">Stop losing money on returns you never post.</h2>
+            <button class="btn btn-primary" style="font-size: 1.2rem; padding: 1.25rem 3rem;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" vid="238">Book a Collection Now</button>
+        </div>
+    </section>
+
+    <footer vid="239">
+        <div class="container" vid="240">
+            <p vid="241">© 2023 Return-It UK Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script vid="242">
+        
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+
+        
+        const cyclingContainer = document.getElementById('cyclingText');
+        let currentIndex = 0;
+        const totalItems = 3; 
+
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalItems;
+            cyclingContainer.style.transform = `translateY(-${currentIndex * 2}rem)`;
+        }, 3000);
+
+        
+        const itemsSlider = document.getElementById('items-slider');
+        const valueSlider = document.getElementById('value-slider');
+        const itemsVal = document.getElementById('items-val');
+        const valueVal = document.getElementById('value-val');
+        const calcTotal = document.getElementById('calc-total');
+
+        function updateCalculator() {
+            const items = parseInt(itemsSlider.value);
+            const value = parseInt(valueSlider.value);
+            
+            itemsVal.innerText = items;
+            valueVal.innerText = `£${value}`;
+            
+            
+            let currentTotal = parseInt(calcTotal.innerText.replace('£', ''));
+            let targetTotal = items * value;
+            
+            calcTotal.innerText = `£${targetTotal}`;
+        }
+
+        itemsSlider.addEventListener('input', updateCalculator);
+        valueSlider.addEventListener('input', updateCalculator);
+
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration></html>
