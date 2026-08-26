@@ -23,8 +23,8 @@
 
 ### Git state
 
-- `main` == `origin/main` at `0bd7680`.
-- `docs/website-brief-and-prd` — **active branch.** Contains the recovered docs + captured design explorations. Not yet merged to `main`.
+- `main` == `origin/main` at `52ccaac`. All of the 2026-08-26 documentation work is merged and pushed.
+- `docs/website-brief-and-prd` — merged fast-forward into `main`. Safe to delete.
 - `Lorlah/chiang-mai` — identical to `main`, no unique commits. Conductor worktree at `~/conductor/workspaces/Return-It/chiang-mai`.
 - `origin/gh-pages` at `2e738ae` — separate lineage, carries the `.cursor/` tooling. This is what's deployed.
 - Stale, safe to delete once reviewed: `agent/claude/*`, `agent/gemini/*`, `agent/kimi/*`, `agent/codex/*`, `cee`.
@@ -185,8 +185,9 @@ Product and ops must *manufacture* density: batching incentives, time-window pri
 ## 7. Open questions
 
 - [ ] **Ingestion architecture for v1** — Gmail OAuth vs. forwarding address vs. manual-first. Blocked on nothing; decision pending. See §6 for why this isn't obvious.
-- [ ] Merge `docs/website-brief-and-prd` into `main`?
 - [ ] Delete the stale `agent/*` branches and orphaned Cursor worktrees?
+- [ ] Does the pilot keep Airtable/Cloudinary, or move to Supabase as the spec proposes?
+- [ ] Do any carrier adapters ship in the pilot? (spec §8, research in flight)
 - [ ] Which landing direction wins — a Variant design, a Stitch direction, or a synthesis?
 - [ ] Does the pilot charge money, or is fulfilment free while validating?
 - [ ] Which London postcodes for the pilot?
