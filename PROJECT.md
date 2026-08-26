@@ -282,7 +282,8 @@ After a successful pickup, prompt: "Give a friend £2 off their first pickup. Yo
 
 | File | Purpose |
 |------|---------|
-| `PROJECT.md` | This file — single source of truth |
+| `PROJECT.md` | This file — the product spec (what we're building) |
+| `CONTEXT.md` | State ledger — where we are, decisions, constraints, next steps. Read this second. |
 | `BRAND-KIT.md` | Brand identity, positioning, voice/tone, email specs, social specs |
 | `WEBSITE-BRIEF.md` | AI-builder-ready creative brief for marketing site (Framer/Lovable/Variants) |
 | `Return-it project context.txt` | Full PRD, service blueprint, unit economics, competitive analysis |
