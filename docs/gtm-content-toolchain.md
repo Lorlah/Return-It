@@ -1,0 +1,190 @@
+# GTM Content Toolchain — Solo Founder, UK
+
+**Date:** 2026-08-26
+**Context:** The strategic bet is that brand, UX and storytelling are the moat. This is the tooling research for running a high-volume, brand-led organic social operation as one person.
+**Confidence key:** ✅ verified at primary source · ⚠️ weak or secondary · ❓ unconfirmed · 💭 inference
+
+> **Binding constraint is hours, not budget.** Every recommendation below is ranked by time-per-asset first, cost second.
+
+---
+
+## The finding that reframes the brief
+
+💭 **AI video generation is mostly the wrong tool for this content.**
+
+The bet is relatability — the Temu couch, the ASOS pile, the parcel by the door for three weeks. That genre depends on texture that reads as *real*: a genuinely messy hallway, a real face doing a real sigh, a phone camera at a bad angle. Current AI video's failure mode is that it looks expensive and slightly uncanny — the precise opposite of the register wanted. Meme-literate UK audiences in 2026 are also AI-literate, and read gloss as inauthenticity.
+
+Where AI video *does* earn its place: the **physically impossible gag** — a parcel mountain reaching the ceiling, a sofa slowly consuming a living room — where uncanny *is* the joke. Budget it at ~10–20% of output, not the backbone.
+
+---
+
+## Phased recommendation
+
+### Phase 1 — Weeks 1–4 · ~£25/month
+Prove the content works before buying anything clever.
+
+| Tool | Cost | Why |
+|---|---|---|
+| **iPhone + real props + the actual hallway** | £0 | Fits the brief better than anything below. The backbone. |
+| **CapCut Pro** | ~£16/mo | ⚠️ The free tier's ToS restricts commercial use. Note CapCut's terms grant ByteDance a broad licence over uploads — nothing confidential through it. |
+| **Buffer Essentials** | ✅ $5/channel/mo | TikTok + IG direct publishing. The free plan (3 channels, 10 scheduled posts) may be enough at first. |
+| **TikTok Symphony** | ❓ Free with TikTok for Business | Assistant is grounded in live Creative Center data. Worth an hour for ideation alone. |
+| **Trial Reels + native analytics** | £0 | Test every Reel on non-followers before it touches the audience. |
+
+💭 45–90 min per filmed piece, end to end. Target 4–5/week.
+
+### Phase 2 — Weeks 4–10 · ~£45/month
+Add leverage where there's already skill.
+
+| Tool | Cost | Why |
+|---|---|---|
+| **Remotion** | ✅ **£0** (free licence, ≤3 people) | 4–6 branded compositions. ~2–3 days up front, then 15–25 videos per 2–3 hr batch. **The single biggest volume unlock.** |
+| **Figma Buzz** | ✅ £0 on Starter | CSV → hundreds of on-brand statics. Beta. |
+| **Nano Banana Pro** | ⚠️ ~$0.13/image | Meme stills, product heroes, consistent recurring characters. |
+| **Metricool Starter** *(optional)* | ✅ $20/mo | Only if Buffer's analytics stop answering questions. |
+
+💭 8–15 min per video once templates exist.
+
+### Phase 3 — Month 3+ · ~£90–160/month
+Only once formats are proven.
+
+| Tool | Cost | Why |
+|---|---|---|
+| **UGC creators via Influee** | ⚠️ £50–250/video | Real humans, real homes, full usage rights. Better *and* cheaper than AI avatars. |
+| **Veo 3.1** | ✅ $0.05–0.40/sec, or ❓ ~£19/mo via Google AI Pro | Strictly the physically-impossible gag. Lite tier by default. |
+| **Nano-tier UK creators** | ⚠️ £20–150/post | Only after formats are proven. Give them a proven format, not a blank brief. |
+
+### What to ignore
+
+| Ignore | Why |
+|---|---|
+| **Sora and anything built on it** | ✅ API shuts down **24 Sep 2026**. OpenAI's "recommended replacement" field is blank. |
+| **Local video generation** | 18 GB unified memory is below the floor. A 64 GB M1 Max took ⚠️ **82 minutes per 2-second clip**. |
+| **AI avatar tools (HeyGen, Arcads, Creatify) for organic** | Built for paid-ad variant testing. Wrong register entirely. |
+| **Canva Connect API / Autofill** | ✅ Enterprise-only (30+ seats). Structurally unavailable. Ignore blog posts claiming otherwise. |
+| **"All-in-one AI GTM platforms"** | Search results were ~100% affiliate SEO for products that could not be verified as real businesses. |
+| **Listicle pricing** | HeyGen's live page contradicts the listicles by 2× on credits and Pro price. |
+
+### ⏱ Time budget — the real constraint
+
+| Approach | Time/asset | Per 3-hr session |
+|---|---|---|
+| Remotion templated (post-setup) | 8–15 min | **15–25** |
+| Figma Buzz bulk statics | 3–8 min | 25–40 |
+| Nano Banana Pro still + caption | 10–20 min | 10–15 |
+| Filmed phone video + CapCut | 45–90 min | 2–4 |
+| AI video (Veo) + edit | 30–60 min | 3–5 |
+| Commissioned UGC (own time only) | 15–25 min brief | 7–10 briefed |
+
+💭 **Sustainable week for one person: ~6 hours production → 5–7 posts.** One filmed hero, 2–3 Remotion templated, 1–2 statics, one reactive/community post.
+
+---
+
+## Remotion is the unfair advantage
+
+✅ **Free for a solo founder.** The licence covers "an individual, whether for personal or commercial use" and teams up to 3. ⚠️ **Watch the 4-person threshold** — it aggregates contractors and agencies on the same project. A freelance editor + VA + dev would tip it over (then $25/seat/mo).
+
+✅ Rendering: free locally; Remotion Lambda is **$0.001–$0.021 per render**. Effectively free at this volume.
+
+Where it beats AI generation outright:
+
+| Format | Why |
+|---|---|
+| "Return of the week" — real numbers (days waiting, miles driven, £ wasted) | Numbers must be accurate. AI can't do this. |
+| Kinetic-type meme cards in the brand's type system | Perfect typography every time; AI text rendering is still inconsistent |
+| Price comparisons vs Royal Mail / Evri / InPost | Templated, data-fed, dozens of variants |
+| Templated "POV:" series | One template → 20 videos from a CSV |
+
+Pipeline: 4–6 compositions matched to `BRAND-KIT.md` → driven from a Google Sheet or Airtable (already wired into this project) → `npx remotion render` in a loop.
+
+💭 **The catch:** templated video is *consistent*, not *funny*. It carries the volume floor and the brand system. The jokes still have to come from a person.
+
+---
+
+## Design → asset pipeline
+
+| Option | Verdict |
+|---|---|
+| **Figma Buzz** | ✅ **Best fit — start here.** Available on all seats including free Starter. Bulk-create accepts CSV/XLSX: one template + one spreadsheet → hundreds of assets. Enforces the design system via locked template elements. Beta, expect rough edges. |
+| **Google Stitch** | ❓ Free in Google Labs. Best for screens and layout exploration; weaker as a finished-social-asset factory. Keep upstream. MCP already wired. |
+| **Nano Banana Pro** | ⚠️ ~$0.13/image. Identity preservation across up to 5 subjects — **this is how a recurring mascot stays consistent across dozens of posts.** |
+| **Canva Connect API** | ✅ **Dead end.** Autofill and Brand Template APIs are Enterprise-gated. |
+
+---
+
+## The stack (there is no all-in-one)
+
+Searched specifically. Results were near-100% affiliate-driven SEO promoting unverifiable products. **Every result being a vendor blog naming itself the winner is itself the finding.**
+
+```
+IDEATION   Claude/ChatGPT + Symphony + the inbox of real returns horror stories
+              ↓ written format brief (hook / beat / payoff / caption / on-screen text)
+CAPTURE    iPhone, real props, real hallway ──┐
+GENERATE   Remotion (templated series)         ├─→ raw clips + rendered MP4s
+           Veo 3.1 (impossible gags only)     ─┘
+           Nano Banana Pro (stills/memes)
+ASSEMBLE   CapCut Pro — captions, sound, pacing
+SCHEDULE   Buffer or Metricool → native publish
+ANALYSE    Native analytics (authoritative) + cross-platform tool
+              ↓ loop back
+```
+
+💭 **The two handoffs that break:** generate → assemble (file wrangling, no automation) and analyse → ideate (nothing tells you *why* a video worked). Both manual. Nobody has solved either.
+
+---
+
+## UK platform specifics
+
+💭 **TikTok** has shifted from virality lottery toward a **search-and-community engine**. It transcribes audio and indexes captions and on-screen text — **TikTok SEO is real and underexploited.** Say and caption the phrases people actually search: *"how to return ASOS," "Evri drop off," "return without printer."* Ranking is watch time, completion and shares — not follower count. Expect 60–90 days before reliable results.
+
+💭 **Instagram Reels:** total watch time *including replays* is the top signal — a 15s Reel watched 3× beats a 60s watched once.
+
+> ⭐ **The most actionable fact in this report: sends per reach (DM shares) carry roughly 3–5× the weight of likes** for unconnected reach. Design for *"send this to your flatmate who has four parcels by the door."* That is exactly the content thesis, and it is what the algorithm pays for most.
+
+Hook within ~1.7 seconds. Original content gets 40–60% more distribution than reposts.
+
+---
+
+## 🇬🇧 ASA / CAP — read this properly
+
+✅ Verified against ASA primary guidance.
+
+1. **Own-brand content is in scope.** Content promoting your own brand on your own channels "amounts to marketing content by the brand in non-paid for space online" and falls under the CAP Code. **The Return-It TikTok is regulated advertising.** Jokes are fine; **any claim about price, speed, coverage, or comparison to Evri/Royal Mail must be substantiable** with evidence on file.
+2. **Every incentivised creator post needs upfront disclosure** — payment, gifting, free service, affiliate commission. `#ad` prominent and upfront.
+3. ✅ **`#affiliate` / `#aff` alone is explicitly insufficient.** ASA has ruled on this. So is disclosure in a bio or a different post.
+4. 💭 Platform-native "Paid Partnership" labels alone are not enough — pair with caption text.
+5. 💭 ASA is scaling AI-driven Active Ad Monitoring in 2026; undisclosed influencer content is a named priority.
+
+**Cost of compliance is near zero. Cost of non-compliance is an ASA ruling published under the brand name** — a disproportionate own-goal for a brand whose entire moat is trust and personality. Put `#ad` in the brief template and stop thinking about it.
+
+⚠️ **Claim substantiation matters here more than it looks.** The competitive teardown recommends comparing against Royal Mail's 30p and Evri's windows. Under the CAP Code, every one of those comparisons needs evidence on file before it goes in a video.
+
+---
+
+## Comparable brands
+
+⚠️ Operational detail is scarce — brands describe philosophy in interviews and almost never disclose team size, cadence or tooling. One hard number was found.
+
+**Ryanair — the closest analogue.** ⚠️ (2023 figure, under a head of social who has since left.) **8 people**, split into two functions: **"always-on"** (planned content) and **"react and community"** (newsjacking + comment replies). Explicit frame: low cost, high reach — being talked about *is* the media buy. Grew to ~1.9M TikTok followers.
+
+Right analogue because it's the same emotional territory: making light of a miserable category experience, self-aware, meme-native, zero brand preciousness.
+
+> 💭 **The one structural thing to copy:** batch the "always-on" (Remotion templates, 2–3 hrs/week) so that **"react and community" — the part that can't be automated, and the part that actually drove Ryanair's reach — gets daily attention.**
+
+**Surreal — the UK case study.** 💭 Deliberately **avoids generic meme formats**, reasoning that generic memes build no recall. **The most important lesson here: don't do the returns-misery version of whatever's trending — build formats only Return-It could run.** Also notable: 110k LinkedIn followers vs 69k Instagram, because they aimed at marketers, who share the work and become both customers and unpaid distribution.
+
+💭 **The transferable move:** Surreal picked a *secondary* audience that amplifies. The Return-It equivalent is UK e-commerce/retail/logistics people and the r/UKPersonalFinance-adjacent internet — they'll share a good joke about Evri, and they're also customers.
+
+💭 **Pattern worth noting:** brands with the strongest funny-social reputations (Surreal, Ryanair, PerfectTed) are founder- or in-house-creative-led. The one that outsourced to an agency (Trainline) is not known for it. An argument for keeping this in-house.
+
+---
+
+## Confidence summary
+
+✅ **Verified at primary source:** Sora deprecation dates; Veo 3.1 pricing; Runway, Pika, HeyGen, Buffer, Metricool, Figma pricing; Canva Autofill Enterprise gate; Remotion licence thresholds and Lambda costs; ASA affiliate and own-brand rules.
+
+❓ **Not verified — check before acting:** Kling pricing (site returned HTTP 446); Google AI Pro GBP pricing and Flow credits; TikTok Symphony being free; Arcads / Creatify / Influee / Billo pricing; Stitch's current credit limits.
+
+⚠️ **Weak evidence, flagged:** UK influencer rate card (aggregated secondary, no primary sample, self-described as "adjusted upward" international benchmarks — treat as an opening-offer anchor, not market rate); the Mac local-generation benchmark (single blog); Surreal's operations (philosophy only); Ryanair's 8-person team (2023).
+
+💭 **Judgement calls:** that AI video is the wrong backbone; all time-per-asset estimates; the phased ordering; the Ryanair two-function split as the operating model.
