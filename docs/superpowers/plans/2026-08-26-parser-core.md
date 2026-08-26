@@ -176,7 +176,7 @@ git commit -m "test: add Vitest and the parser fixture corpus format"
 - Consumes: nothing
 - Produces: `RawReturnDocument`, `DetectedReturn`, `Attachment`, `IngestionSource`, `LabelType`, `EMPTY_DETECTED_RETURN`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/parser/types.test.ts`:
 
@@ -198,12 +198,12 @@ describe("EMPTY_DETECTED_RETURN", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm test tests/parser/types.test.ts`
 Expected: FAIL — cannot resolve `@/lib/parser/types`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/parser/types.ts`:
 
@@ -264,12 +264,12 @@ export const EMPTY_DETECTED_RETURN: DetectedReturn = {
 };
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/types.test.ts`
 Expected: PASS, 2 tests.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/parser/types.ts tests/parser/types.test.ts
@@ -296,7 +296,7 @@ git commit -m "feat(parser): add core types"
 > `no-reply@reboundreturns.com`. Without this, retailer identification fails on
 > virtually every real forward.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/parser/forwarded.test.ts`:
 
@@ -349,12 +349,12 @@ Body here`;
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm test tests/parser/forwarded.test.ts`
 Expected: FAIL — cannot resolve `@/lib/parser/forwarded`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/parser/forwarded.ts`:
 
@@ -409,12 +409,12 @@ export function unwrapForwarded(
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/forwarded.test.ts`
 Expected: PASS, 5 tests.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/parser/forwarded.ts tests/parser/forwarded.test.ts
@@ -433,7 +433,7 @@ git commit -m "feat(parser): unwrap forwarded email headers"
 - Consumes: nothing
 - Produces: `identifyRetailer(senderDomain: string): RetailerMatch | null` where `RetailerMatch = { slug: string; displayName: string; confidence: number }`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/parser/retailers.test.ts`:
 
@@ -501,12 +501,12 @@ describe("identifyRetailer", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm test tests/parser/retailers.test.ts`
 Expected: FAIL — cannot resolve `@/lib/parser/retailers`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/parser/retailers.ts`:
 
@@ -626,12 +626,12 @@ export function knownRetailerSlugs(): string[] {
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/retailers.test.ts`
 Expected: PASS, 11 tests.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/parser/retailers.ts tests/parser/retailers.test.ts
@@ -652,7 +652,7 @@ git commit -m "feat(parser): add retailer identification"
 
 This is the highest-stakes extractor: a wrong deadline is worse than no deadline, because the user acts on it. Confidence is scored separately from the overall parse for that reason.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/parser/deadline.test.ts`:
 
@@ -718,12 +718,12 @@ describe("extractDeadline", () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `pnpm test tests/parser/deadline.test.ts`
 Expected: FAIL — cannot resolve `@/lib/parser/deadline`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `lib/parser/deadline.ts`:
 
@@ -847,12 +847,12 @@ export function extractDeadline(
 }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `pnpm test tests/parser/deadline.test.ts`
 Expected: PASS, 10 tests.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/parser/deadline.ts tests/parser/deadline.test.ts
