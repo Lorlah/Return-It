@@ -6,7 +6,7 @@
 > assessor, or a DPA counterparty.
 
 **Jurisdiction:** UK GDPR + Data Protection Act 2018. Regulator: ICO.
-**Last reviewed:** 2026-08-28
+**Last reviewed:** 2026-08-28 (F-1 closed)
 **Confidence key:** ✅ verified · ⚠️ partial · ❓ unconfirmed · 💭 inference
 
 ---
@@ -34,7 +34,8 @@ must be disclosed to users, covered by a DPA, and listed in the privacy policy.
 |---|---|---|---|---|---|
 | **Supabase** | Primary database | Email, addresses, inbox-derived returns | ✅ **eu-west-2 (London)** | ❓ not signed | Live, empty |
 | **Resend** | Transactional email (+ inbound, planned) | Email addresses, message content | ❓ | ❓ not signed | Configured, no keys |
-| **Cloudinary** | Label file storage | ⚠️ **Home addresses (in label PDFs)** | ❓ | ❓ not signed | Live in code — **see F-1** |
+| ~~Cloudinary~~ | ~~Label file storage~~ | — | — | — | ✅ **Removed 2026-08-28** (F-1) |
+| **Supabase Storage** | Label files, private bucket | Home addresses (in label PDFs) | ✅ eu-west-2 (London) | ❓ not signed | Live, signed URLs only |
 | **Airtable** | MVP form submissions | Name, email, phone, address, label URL | ❓ likely US | ❓ not signed | Live in code — to be retired |
 | **PostHog** | Product analytics | Events; spec says no PII | ❓ | ❓ not signed | Configured, no keys |
 | **Vercel** | Hosting | Request logs, IPs | ❓ | ❓ not signed | Planned |
@@ -71,7 +72,7 @@ That is a compliance asset, not just a technical choice.
 | `detected_returns` | Undefined | ❌ Not set |
 | `pickup_orders` | Undefined — likely 6yr (UK tax) | ❌ Not set |
 | `events` (audit log) | Undefined | ❌ Not set |
-| Label files | Undefined | ❌ Not set |
+| Label files | Undefined | ❌ Not set — but now deletable via `deleteLabel()` |
 
 ⚠️ **An absent retention policy defaults to "forever" in practice.** The 90-day column
 is the right instinct; without a job it is documentation, not a control.
@@ -80,7 +81,7 @@ is the right instinct; without a job it is documentation, not a control.
 
 ## 5. Findings
 
-### F-1 · Return labels are served from unauthenticated permanent URLs — **OPEN**
+### F-1 · Return labels are served from unauthenticated permanent URLs — ✅ **CLOSED 2026-08-28**
 
 **Reversibility: irreversible once URLs are issued.** ⛔
 
@@ -111,9 +112,16 @@ a sub-processor entirely.
 authenticated delivery and generate time-limited signed URLs. Removes the permanence
 without a migration.
 
-💭 **Practical note:** no real user labels exist yet, so the blast radius today is
-zero. This is exactly the right moment to fix it — the cost rises the day a pilot user
-uploads.
+💭 **Practical note:** no real user labels existed, so the blast radius was zero.
+
+**✅ Resolution (2026-08-28):** label storage moved to the private Supabase Storage
+bucket `return-labels` (10MB cap, PDF/PNG/JPEG/HEIC only). `lib/storage.ts` now
+uploads under `${userId}/${uuid}.${ext}`, returns the **object key only**, and serves
+via signed URLs with a **300-second default TTL**. `lib/cloudinary.ts` is deleted and
+the `CLOUDINARY_*` variables are removed from `.env.example` — **Cloudinary is no
+longer a sub-processor.** `labelUrl` is renamed to `labelStorageKey` throughout, so no
+URL is persisted anywhere. `deleteLabel()` added to support the erasure right.
+20 tests; 139 passing overall.
 
 ### F-2 · No consent mechanism for analytics — **OPEN**
 
@@ -138,7 +146,7 @@ deletion job before real ingestion begins. See §4.
 | **ICO registration + data protection fee** | ✅ UK controllers must register and pay. **Tier 1 (≤10 staff or ≤£632k turnover) is £52/yr**; tiers run £52–£3,763. Some exemptions exist — the [ICO self-assessment](https://ico.org.uk/for-organisations/data-protection-fee/data-protection-fee-self-assessment/) confirms which applies. ([Guide to the fee](https://ico.org.uk/for-organisations/data-protection-fee/data-protection-fee/)) | ❌ **Not registered.** Cheap, has lead time, trivially forgotten. Do before first user. |
 | **DPAs with Supabase and Resend** | Both will process personal data | ❌ Not signed |
 | **Privacy policy** | Required; must list sub-processors and lawful bases | ❌ Does not exist |
-| **Subject access / erasure process** | UK GDPR rights. FK cascades cover the DB; **object storage is not covered** | ⚠️ Partial |
+| **Subject access / erasure process** | UK GDPR rights. FK cascades cover the DB; `deleteLabel()` now covers label objects. Still needs an orchestrating flow. | ⚠️ Partial |
 | **Retention job** | See F-3 | ❌ Not built |
 | **Royal Mail clause 14.7 notification** | Contractual, not data protection. Founder decision: defer until ~20 collections/week. ⚠️ Note the 20/week figure is RM *recommending a business account*, not a 14.7 threshold — 14.7 has no volume condition | ⏸️ Deferred by decision |
 | **Google CASA** | Only if Gmail OAuth is pursued (v2). Restricted scope ⇒ Tier 2 mandatory; ⚠️ public cost reports conflict ($500–4,500 vs $15k–75k) — get a quote from an authorised assessor before planning on it | ⏸️ Out of scope for v1 |
@@ -154,6 +162,7 @@ deletion job before real ingestion begins. See §4.
 | 2026-08-28 | **Supabase project in eu-west-2 (London)**, not the existing eu-west-1 | UK data residency for inbox contents. Chosen over reusing an existing Ireland-region project. |
 | 2026-08-28 | **Default-deny RLS on all five tables** | Enabling RLS without a matching policy blocks access entirely — the correct direction to fail. ✅ Zero security-advisor lints. |
 | 2026-08-28 | **Webhook signature verification fails closed on a missing secret** | The inbound address is publicly reachable; an unset env var must never read as "accept everything". |
+| 2026-08-28 | **Label storage on private Supabase Storage with 300s signed URLs** | Closes F-1. Short TTL means a leaked link expires in five minutes rather than never. Also consolidates onto a processor already in the correct region and removes a sub-processor. |
 | 2026-08-28 | **Consent revocation is a state, not a delete** | Enables immediate ingestion stop while preserving the audit trail of what was consented to and when. |
 
 ---
@@ -166,7 +175,8 @@ ingestion at the repository layer · ✅ Append-only `events` audit log, not
 client-writable · ✅ Service-role key isolated server-side with an explicit
 never-import-client-side warning · ✅ Raw bytes stored by key, never inline in the
 database · ✅ All webhook input treated as attacker-controlled; malformed payloads
-return null rather than throwing · ✅ UK data residency for the primary datastore.
+return null rather than throwing · ✅ UK data residency for the primary datastore · ✅ Label files in a private bucket,
+served only via short-lived signed URLs, referenced by key never by URL.
 
 ---
 

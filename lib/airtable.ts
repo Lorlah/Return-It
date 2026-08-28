@@ -10,7 +10,8 @@ export interface PickupRequest {
   parcelCount: number;
   pickupWindow: PickupWindow;
   needsPrinting: boolean;
-  labelUrl?: string;
+  /** Private-bucket object key. Never a URL — see F-1 in the compliance register. */
+  labelStorageKey?: string;
   quoteMin: number;
   quoteMax: number;
   wouldPay: boolean | null;
@@ -47,7 +48,7 @@ export async function createPickupRequest(request: PickupRequest): Promise<{ id:
       "Parcel Count": request.parcelCount,
       "Pickup Window": formatPickupWindow(request.pickupWindow),
       "Needs Printing": request.needsPrinting,
-      "Label URL": request.labelUrl || "",
+      "Label Storage Key": request.labelStorageKey || "",
       "Quote Min": request.quoteMin,
       "Quote Max": request.quoteMax,
       "Would Pay": request.wouldPay,

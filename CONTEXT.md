@@ -34,12 +34,13 @@
 
 **Marketing MVP (pre-existing):** landing page, 3-step `/request` form, `/result` quote page, `/api/submit` → Airtable, `/api/upload` → Cloudinary, Resend confirmation email, PostHog instrumentation. All in demo/console-log mode.
 
-**Core product, built 2026-08-26 → 28 — 119 tests passing, tsc clean:**
+**Core product, built 2026-08-26 → 28 — 139 tests passing, tsc clean:**
 
 | Layer | Modules | State |
 |---|---|---|
 | **Parser** (`lib/parser/`) | `types` · `forwarded` · `retailers` · `deadline` · `carrier` · `label` · `confidence` · `index` | Complete. **100% accuracy across 7 fixtures**, all six fields. |
 | **Ingestion** (`lib/ingest/`) | `address` · `inbound` · `signature` · `repository` · `supabase-repository` · `handler` | Complete. Forward path wired end to end. |
+| **Storage** (`lib/storage.ts`) | Private-bucket label storage, 300s signed URLs | Complete. Cloudinary removed. |
 | **Database** | `supabase/migrations/0001` + `0002` | **Applied.** 5 tables, RLS on all, zero security lints. |
 
 **Live Supabase project:** `return-it`, ref `ltzyybpbigibirpcjhwp`, **eu-west-2 (London)** for UK data residency. URL `https://ltzyybpbigibirpcjhwp.supabase.co`. Free tier.
@@ -226,7 +227,6 @@ Product and ops must *manufacture* density: batching incentives, time-window pri
 ## 7. Open questions
 
 **Blocking:**
-- [ ] ⛔ **F-1: return labels are on unauthenticated permanent URLs** (`docs/compliance-register.md`). A label carries the user's home address; `lib/cloudinary.ts` uses an unsigned preset with no signed delivery. Zero blast radius today because no real labels exist — **which is exactly why now is the moment to fix it.**
 - [ ] **Supabase keys into `.env.local`** — publishable + service-role from the dashboard. Nothing runs against the real database until then. (~2 min)
 - [ ] **A domain we actually own.** ⚠️ `return-it.co.uk` is registered to someone else (Australian nameservers), as are `returnit.co.uk`, `returnit.uk`, `return-it.uk`. `BRAND-KIT.md` and `.env.example` both assume it. Cheap to change now, expensive once users hold `@in.<domain>` addresses.
 - [ ] **MX records for the ingest subdomain**, once a domain exists — Resend Inbound or Cloudflare Email Workers, plus `INBOUND_WEBHOOK_SECRET` on both sides. Until then no forward can arrive. Use a subdomain (`in.`), never the apex.
