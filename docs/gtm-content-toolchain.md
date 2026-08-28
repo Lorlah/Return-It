@@ -418,3 +418,227 @@ for now** · **landing-page A/B tests, for now**.
 can both express cleanly. **If the new direction leans on a display face outside
 Google Fonts, the Stitch typography problem recurs in Buzz.** Worth checking
 before committing to either as the template home.
+
+---
+---
+
+# Third pass — Facebook as a channel (2026-08-28)
+
+**Verdict: Facebook belongs in the plan, but not as a broadcast channel.** Value
+order: **Groups (free, geographically precise) → Reels cross-post (free) → ads
+(cheap *testing*, not cheap recruitment) → Marketplace (product feature, not a
+channel).**
+
+## 1. The reach gap we'd been ignoring
+
+⚠️ **Strong but secondary** — Ofcom **Online Nation 2025** (10 Dec 2025); the PDF
+wouldn't parse, so figures come from several independent reports of it that agree
+exactly.
+
+| Platform | UK reach | Time/day | Skew |
+|---|---|---|---|
+| YouTube | 94% of online adults | 88 min (18–34) | Younger |
+| **Facebook + Messenger** | **93%** | **42 min** | **35+** |
+| **TikTok** | **46%** of smartphone adults | 49 min (18–34) | 65% reach among 18–34 |
+
+**93% vs 46%.** ⚠️ Directional only: **25–34 is the largest UK Facebook cohort**
+(~23–26%), 35–44 adds ~16% — so **25–44 is roughly half the platform**. 52.9% of
+UK Facebook users are women, which matters because returns skew female in
+fashion, the highest-return UK category.
+
+**Three caveats that matter:**
+1. The 93% **bundles Messenger**, a utility not a feed. Facebook-the-feed's real
+   reach is lower and Ofcom's bundling hides how much.
+2. **Reach ≠ attention.** Facebook gets 42 min/day across *all* ages; TikTok gets
+   49 min/day from 18–34 *alone*. Broader vs deeper — different jobs.
+3. ❌ **Do not quote "57.1m UK Facebook users / 82.1% of population."** It's an
+   ad-reach estimate inflated by duplicate and inactive accounts; UK population
+   is ~68m. Ofcom's 93%-of-online-adults is the credible figure.
+
+💭 **We had been optimising for the narrower platform.** The 28–45-year-old with
+parcels in the hallway is on both, but Facebook reaches about twice as many of
+them and skews to the higher-disposable-income, more-likely-to-have-kids end.
+
+## 2. Groups — the only geographically precise free surface
+
+⭐ **The strongest finding in this pass.** TikTok and Reels cannot target a London
+postcode organically. **Groups can, because the group *is* the postcode.** For a
+London-catchment pilot that is decisive.
+
+⚠️ Scale (secondary): ~80% of Facebook users are active in a group monthly; UK
+users are ~20% more likely than global average to join a *local* community group.
+
+### The rules — a human gatekeeping problem, not a policy one
+
+⚠️ **There is no platform-wide self-promotion rule.** Each group's pinned rules
+govern and admins enforce them personally. **That absence is itself the finding.**
+
+❌ **What gets you removed, in order of frequency:** identical content posted
+across multiple groups · pure promotion with no contribution · posting too often ·
+cold pitches and unsolicited links.
+
+> 🚨 **The thing that gets you banned is exactly what a content-automation
+> pipeline makes easy.** Do not point Remotion output at 20 London groups. That
+> is the fastest way to lose the channel permanently, and bans are per-group and
+> effectively unappealable.
+
+**Early warning you're being throttled:** posts start going to "pending" when they
+didn't before, or reach drops sharply. The admin has restricted you without
+removing you.
+
+### What works instead
+
+1. **Ask the admin first.** A short honest message — solo founder, local, small
+   pilot, is this OK and where would you like it — converts far better than
+   posting and apologising, and buys an ally.
+2. **Contribute for a fortnight before posting.** You have genuinely useful
+   knowledge: which retailers accept returns without a printer, deadlines, which
+   carriers are least awful. Real value, not a pretext.
+3. **Use the sanctioned promo thread** where one exists — many large local groups
+   run weekly/monthly pinned slots.
+4. **Vary every post.** Identical content is the #1 removal trigger.
+5. **Post as a person, not a page.** Local groups are hostile to brand pages.
+
+| Group type | Why it fits |
+|---|---|
+| **London area/postcode** ("SE22 Community", "Hackney Mums") | The pilot catchment itself. Strictest on promotion — ask first. |
+| **Parenting** | Highest return volume: kids' clothes, wrong sizes, unopened baby kit. Time-poor by definition. |
+| **Money-saving / "skint"** | Returns friction is *money* friction here. The Return Cost Calculator is native content. |
+| **Buy-sell-swap** | Explicitly permit commerce, lowest gatekeeping, and the natural bridge to §3. |
+
+💭 **Time cost: 20–30 min/day, not automatable.** It competes directly with
+content production hours and is the thing most likely to slip. **This is the
+Ryanair "react and community" function — Groups are where it lives.**
+
+## 3. Marketplace — strategic adjacency, not a channel
+
+✅ Grounded in `docs/competitive-teardown.md`: we'd be the only product that
+*knows* an item just became un-returnable — a qualified resale lead nobody else
+can generate.
+
+💭 **Poshmark is weak in the UK.** Facebook Marketplace, Vinted and eBay are where
+Britons actually resell — so the ReturnQueen-style one-tap resale mechanic points
+at **Marketplace, not Poshmark**.
+
+❌ **But not now:** Marketplace has no organic marketing surface, and this is a
+**product feature, not a channel**. Log it as the strongest post-pilot
+monetisation hypothesis.
+
+⭐ **One cheap thing to do now:** while you're in buy-sell-swap groups (§2), you'll
+see the expired-return behaviour in the wild — *"bought this, too late to send
+back, £10 ono."* **That's free qualitative validation of the white space.**
+Screenshot it.
+
+## 4. Format — the pipeline ports unchanged, with one spec change
+
+✅ **Facebook Reels is 1080×1920, 9:16 — identical to Instagram and TikTok.** No
+new renders. Meta unified Stories and Reels into a single 9:16 safe zone in March
+2026.
+
+⚠️ **The spec change that matters:**
+
+| | Top | **Bottom** | Sides |
+|---|---|---|---|
+| TikTok | 130px | **440px (23%)** | — |
+| **Meta Reels/Stories** | ~269px (14%) | **~670px (35%)** | ~65px |
+
+🚨 **Meta's bottom no-fly zone is 670px — 230px deeper than TikTok's.** **Build
+every Remotion composition to the union: top 269 / bottom 670 / sides 65.** That
+leaves a 981px safe band, still over half the frame. **Keeping the TikTok-only
+440px guide puts your captions under Facebook's UI.**
+
+Reels cap at 90s paid; organic Facebook Reels have no hard limit. Facebook Reels
+behaves like Instagram Reels — same algorithm scaffold, same penalty triggers.
+
+## 5. Cross-posting — no penalty, two real traps
+
+✅ **There is no cross-platform duplicate-content penalty.** Platforms can't see
+each other's content.
+
+⚠️ **Correction to the first pass:** the Instagram penalty cited there — 10+
+reposts in 30 days excluding you from recommendations, and [reposted photos and
+carousels facing reach penalties from May 2026](https://dataconomy.com/2026/05/04/reposted-photos-and-carousels-now-face-reach-penalties-on-instagram/)
+— is **within-platform unoriginal content**. It does **not** apply to publishing
+your own original video natively to two different platforms. Different
+mechanisms; they were conflated.
+
+❌ **The two traps that do cost reach:**
+1. **Watermarks.** A TikTok watermark on a file uploaded to Meta is actively
+   suppressed. **Always export clean from Remotion/CapCut, never re-download
+   from TikTok.**
+2. **Identical captions.** Facebook tolerates longer explanatory copy; TikTok
+   wants the hook and searchable keywords.
+
+💭 Use Meta's native IG→FB cross-post for volume, but hand-write the Facebook
+caption on your best 1–2 pieces a week. **Total cost of adding Facebook: ~10
+minutes per week** — the cheapest addition in any of these reports.
+
+## 6. Paid — and a correction to the recruitment hypothesis
+
+⚠️ **Facebook is NOT cheaper than TikTok per impression in the UK.** Meta
+£8–18 CPM vs TikTok £3–8. **But TikTok's CPCs run higher than its CPMs suggest** —
+fast-scroll means high impressions, low intentional clicks. **Meta wins on intent
+per pound, not price per impression.** That's the better argument.
+
+⚠️ London adds +20–35% CPM, and narrow audiences add more again. Meta's minimum
+radius is 1 mile but delivery **penalises radii under 5 miles** — start at 5–15.
+Conversion likelihood drops ~45% after four exposures; **watch frequency, and
+above 3 refresh creative or widen.**
+
+### 🚨 Correcting the "£100–200 recruits 100 users" hypothesis
+
+💭 All arithmetic below is inference on unverified CPM benchmarks:
+
+| Step | Assumption | Result |
+|---|---|---|
+| Reach 5,000 Londoners | freq 2–3, London CPM £12–25 | £120–375 |
+| CTR | ~1% | 50–150 clicks |
+| Landing CVR | 10–20% (free pilot signup, not a purchase) | **~10–30 signups** |
+
+**£100–200 buys the bottom of the 20–100 target, not the top.** Reaching 100
+signups is realistically **£500–1,500**.
+
+⭐ **But the spend is still right, for a different reason.** The £150 isn't buying
+users — **it's buying an answer to "does the offer convert?" in 72 hours instead
+of three months.** That connects directly to the `marketing-cro` finding: you need
+10,000–32,000 visitors to A/B test the landing page and organic won't deliver
+that for months. **A £150 London ad test is the cheapest traffic you will ever buy
+to validate the offer, the price point and the headline.**
+
+💭 **Concrete first test:** £50 × 3 creatives, 10-mile radius on the pilot
+catchment, one week, optimising for landing-page views. Start broad and let
+Advantage+ find the buyers — manual interest stacking in a small geography
+compounds the narrow-audience CPM penalty.
+
+## 7. Where it slots in
+
+| Phase | Add | Cost | Time/week |
+|---|---|---|---|
+| **1** | **Rebuild the safe-zone guide to the Meta union** (269/670/65) | £0 | 15 min one-off |
+| **1** | **Cross-post every Reel to Facebook** — clean export, hand-written caption on the best 1–2 | £0 | **~10 min** |
+| **1** | **Join 5–8 London-local, parenting and money-saving groups. Contribute only, no posting, for two weeks** | £0 | **20–30 min/day** |
+| **2** | **Start posting in groups** — admin permission first, sanctioned threads, every post varied | £0 | (included) |
+| **2** | **£150 Facebook ad test** — 3 creatives, 10-mile radius, one week | £150 one-off | ~1 hr setup |
+| **3** | Scale ads only if the test converts | £500–1,500 for ~100 signups | — |
+| **Backlog** | Marketplace resale integration — product feature, post-pilot | — | — |
+
+💭 **Against the 20–100 pilot target, Groups are the single best-fit surface in
+the entire stack.** Free, geographically precise, audience demonstrably there.
+Groups plus a £150 ad test should beat three months of TikTok compounding —
+**because TikTok gives you national reach when you need one city.**
+
+❌ **What to deprioritise to make room: the Phase 3 avatar spend.** Segment-variant
+testing matters when scaling reach; it does nothing for finding 100 people in
+south London. Push it past the pilot.
+
+## Confidence
+
+⚠️ **Not verified — directional only:** every UK Facebook age breakdown; all
+Marketplace and Groups statistics; **every CPM benchmark** and the London
+premiums; Meta's radius penalties; Group promotion norms (no single Facebook
+policy exists to cite); Meta safe-zone percentages.
+
+> **No CPM figure could be confirmed at a primary source — Meta doesn't publish
+> them, and every number is an agency blog. The £150 test will give you your own
+> real CPM in a week, which is worth more than any benchmark. Treat the £60–375
+> range as a hypothesis the test replaces.**
