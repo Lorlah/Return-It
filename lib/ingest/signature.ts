@@ -32,3 +32,29 @@ export function verifyWebhookSignature(
     return false;
   }
 }
+
+/**
+ * Verify an `Authorization: Bearer <token>` header against a shared secret.
+ *
+ * Same posture as the signature check above: fails closed on a missing secret.
+ * The endpoint this guards deletes data, so an unset `CRON_SECRET` reading as
+ * "anyone may sweep" would be strictly worse than an unguarded read endpoint.
+ *
+ * Comparison is timing-safe.
+ */
+export function verifyBearerToken(
+  header: string | null,
+  secret: string | null,
+): boolean {
+  if (!secret || !header) return false;
+
+  const match = /^Bearer\s+(.+)$/i.exec(header.trim());
+  if (!match) return false;
+
+  const provided = Buffer.from(match[1], "utf8");
+  const expected = Buffer.from(secret, "utf8");
+
+  // timingSafeEqual throws on length mismatch, so check first.
+  if (provided.length !== expected.length) return false;
+  return timingSafeEqual(provided, expected);
+}

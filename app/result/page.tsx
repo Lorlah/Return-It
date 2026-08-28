@@ -11,7 +11,7 @@ import { trackEvent } from "@/lib/analytics";
 
 interface StoredRequest {
   file: string | null;
-  fileUrl: string | null;
+  labelStorageKey: string | null;
   itemSize: ItemSize;
   parcelCount: number;
   postcode: string;

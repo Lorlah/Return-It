@@ -14,7 +14,6 @@ import {
   PrintingToggle,
 } from "@/components/form";
 import { ItemSize, PickupWindow, ITEM_SIZES, calculatePrice, formatPrice } from "@/lib/pricing";
-import { uploadToCloudinary } from "@/lib/cloudinary";
 import { trackEvent } from "@/lib/analytics";
 
 type FormStep = 1 | 2 | 3;
@@ -22,7 +21,8 @@ type FormStep = 1 | 2 | 3;
 interface FormData {
   // Step 1: Item details
   file: File | null;
-  fileUrl: string | null;
+  /** Private-bucket object key returned by /api/upload. Never a URL. */
+  labelStorageKey: string | null;
   itemSize: ItemSize;
   parcelCount: number;
   // Step 2: Pickup details
@@ -49,7 +49,7 @@ function RequestFormContent() {
 
   const [formData, setFormData] = useState<FormData>({
     file: null,
-    fileUrl: null,
+    labelStorageKey: null,
     itemSize: getInitialSize(searchParams.get("size")),
     parcelCount: 1,
     postcode: "",
@@ -92,8 +92,22 @@ function RequestFormContent() {
     updateFormData("file", file);
     setIsUploading(true);
     try {
-      const result = await uploadToCloudinary(file);
-      updateFormData("fileUrl", result.url);
+      // The file is uploaded server-side into a private bucket; all the
+      // browser ever holds is the object key.
+      const body = new FormData();
+      body.append("file", file);
+
+      const response = await fetch("/api/upload", { method: "POST", body });
+      if (!response.ok) {
+        throw new Error(`Upload failed with status ${response.status}`);
+      }
+
+      const result: { storageKey?: string } = await response.json();
+      if (!result.storageKey) {
+        throw new Error("Upload response did not include a storage key");
+      }
+
+      updateFormData("labelStorageKey", result.storageKey);
     } catch (error) {
       console.error("Upload failed:", error);
       setErrors((prev) => ({ ...prev, file: "Upload failed. Please try again." }));

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createHmac } from "node:crypto";
-import { verifyWebhookSignature } from "@/lib/ingest/signature";
+import { verifyBearerToken, verifyWebhookSignature } from "@/lib/ingest/signature";
 
 const SECRET = "test-secret";
 const BODY = '{"from":"a@b.com"}';
@@ -39,5 +39,38 @@ describe("verifyWebhookSignature", () => {
     // An unset secret must never mean "accept everything" — the inbound
     // address is publicly reachable.
     expect(verifyWebhookSignature(BODY, sign(BODY), null)).toBe(false);
+  });
+});
+
+describe("verifyBearerToken", () => {
+  it("accepts a matching bearer token", () => {
+    expect(verifyBearerToken(`Bearer ${SECRET}`, SECRET)).toBe(true);
+  });
+
+  it("accepts the scheme case-insensitively", () => {
+    expect(verifyBearerToken(`bearer ${SECRET}`, SECRET)).toBe(true);
+  });
+
+  it("rejects a wrong token", () => {
+    expect(verifyBearerToken("Bearer nope", SECRET)).toBe(false);
+  });
+
+  it("rejects a token of the right length but wrong content", () => {
+    expect(verifyBearerToken(`Bearer ${"x".repeat(SECRET.length)}`, SECRET)).toBe(false);
+  });
+
+  it("rejects a missing or malformed header", () => {
+    expect(verifyBearerToken(null, SECRET)).toBe(false);
+    expect(verifyBearerToken("", SECRET)).toBe(false);
+    expect(verifyBearerToken(SECRET, SECRET)).toBe(false);
+    expect(verifyBearerToken("Bearer", SECRET)).toBe(false);
+    expect(verifyBearerToken("Basic dXNlcjpwYXNz", SECRET)).toBe(false);
+  });
+
+  it("fails closed when no secret is configured", () => {
+    // The endpoint this guards deletes data. An unset CRON_SECRET must never
+    // read as "anyone may sweep".
+    expect(verifyBearerToken(`Bearer ${SECRET}`, null)).toBe(false);
+    expect(verifyBearerToken("Bearer ", "")).toBe(false);
   });
 });

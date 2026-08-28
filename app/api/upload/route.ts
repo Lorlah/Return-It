@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { MAX_FILE_SIZE, VALID_MIME_TYPES, resolveExtension } from "@/lib/label-file";
+import { isLabelStorageConfigured, uploadLabel } from "@/lib/storage";
 
-const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
-const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
-
-const VALID_MIME_TYPES = new Set([
-  "application/pdf",
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-]);
-
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+/**
+ * Until accounts exist, every label lands under one owner prefix. Replace with
+ * the authenticated user id the moment auth ships — the key layout already
+ * expects it.
+ */
+const ANONYMOUS_OWNER = "anonymous";
 
 export async function POST(request: NextRequest) {
   try {
@@ -62,8 +57,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Demo mode when Cloudinary is not configured
-    if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
+    // Demo mode when Supabase Storage is not configured
+    if (!isLabelStorageConfigured()) {
       console.log("📎 Label upload (demo mode):", {
         name: file.name,
         type: file.type,
@@ -71,37 +66,20 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       });
 
+      const extension = resolveExtension(file.name, file.type);
       return NextResponse.json({
-        url: `demo://return-label-${Date.now()}`,
-        publicId: `demo-${Date.now()}`,
-        format: file.type.split("/")[1] || "unknown",
+        storageKey: `demo/return-label-${Date.now()}.${extension}`,
       });
     }
 
-    // Upload to Cloudinary
-    const timestamp = Math.floor(Date.now() / 1000);
-    const signature = await generateSignature(timestamp);
-
-    const cloudinaryFormData = new FormData();
-    cloudinaryFormData.append("file", file);
-    cloudinaryFormData.append("api_key", CLOUDINARY_API_KEY);
-    cloudinaryFormData.append("timestamp", timestamp.toString());
-    cloudinaryFormData.append("signature", signature);
-    cloudinaryFormData.append("folder", "return-it/labels");
-
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`,
-      {
-        method: "POST",
-        body: cloudinaryFormData,
-      }
-    );
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Cloudinary upload failed:", {
-        status: response.status,
-        error: errorText,
+    // Upload to the private Supabase bucket. Only the object key comes back:
+    // a label carries the user's home address, so no durable URL is minted.
+    let storageKey: string;
+    try {
+      ({ storageKey } = await uploadLabel(file, ANONYMOUS_OWNER));
+    } catch (error) {
+      console.error("Label upload failed:", {
+        error: error instanceof Error ? error.message : String(error),
         fileName: file.name,
       });
       return NextResponse.json(
@@ -110,19 +88,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await response.json();
-
+    // Never log the key alongside anything that identifies the user.
     console.log("📎 Label uploaded:", {
-      publicId: data.public_id,
-      format: data.format,
       size: `${(file.size / 1024).toFixed(1)}KB`,
+      type: file.type,
     });
 
-    return NextResponse.json({
-      url: data.secure_url,
-      publicId: data.public_id,
-      format: data.format,
-    });
+    return NextResponse.json({ storageKey });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json(
@@ -130,17 +102,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-async function generateSignature(timestamp: number): Promise<string> {
-  const str = `folder=return-it/labels&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`;
-  
-  // Use Web Crypto API for signature
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  const hashBuffer = await crypto.subtle.digest("SHA-1", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-  
-  return hashHex;
 }

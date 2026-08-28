@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       parcelCount: body.parcelCount as number,
       pickupWindow: body.pickupWindow as PickupRequest["pickupWindow"],
       needsPrinting: Boolean(body.needsPrinting),
-      labelUrl: (body.fileUrl as string) || undefined,
+      labelStorageKey: (body.labelStorageKey as string) || undefined,
       quoteMin: body.quoteMin as number,
       quoteMax: body.quoteMax as number,
       wouldPay: body.wouldPay === true ? true : body.wouldPay === false ? false : null,

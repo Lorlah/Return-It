@@ -6,7 +6,7 @@
 > assessor, or a DPA counterparty.
 
 **Jurisdiction:** UK GDPR + Data Protection Act 2018. Regulator: ICO.
-**Last reviewed:** 2026-08-28 (F-1 closed)
+**Last reviewed:** 2026-08-29 (F-1, F-3 closed)
 **Confidence key:** ✅ verified · ⚠️ partial · ❓ unconfirmed · 💭 inference
 
 ---
@@ -68,14 +68,15 @@ That is a compliance asset, not just a technical choice.
 
 | Data class | Policy | Enforced? |
 |---|---|---|
-| `raw_documents` | **90 days** | ⚠️ **No.** `retention_expires_at` is written on every row, but **nothing deletes anything.** Needs a scheduled job. |
+| `raw_documents` | **90 days** | ✅ Job built (`/api/cron/retention`). ⚠️ **Not yet scheduled** — wire at deploy. |
 | `detected_returns` | Undefined | ❌ Not set |
 | `pickup_orders` | Undefined — likely 6yr (UK tax) | ❌ Not set |
 | `events` (audit log) | Undefined | ❌ Not set |
-| Label files | Undefined | ❌ Not set — but now deletable via `deleteLabel()` |
+| Label files | Follows `raw_documents` | ✅ Deleted by the same sweep |
 
-⚠️ **An absent retention policy defaults to "forever" in practice.** The 90-day column
-is the right instinct; without a job it is documentation, not a control.
+💭 `detected_returns`, `pickup_orders` and `events` still have no defined policy.
+Lower risk — they hold structured fields, not correspondence — but they should be set
+before launch, since an absent policy defaults to "forever" in practice.
 
 ---
 
@@ -131,11 +132,24 @@ PostHog is wired but no consent banner exists. UK PECR requires consent for
 non-essential cookies/tracking. Not urgent while unlaunched; must exist before public
 traffic.
 
-### F-3 · Retention is declared but unenforced — **OPEN**
+### F-3 · Retention is declared but unenforced — ✅ **CLOSED 2026-08-29**
 
 **Reversibility: partially irreversible.** Data retained past its stated policy cannot
-be un-retained, and the policy will be the thing we're held to. Needs a scheduled
-deletion job before real ingestion begins. See §4.
+be un-retained, and the stated policy is what we would be held to.
+
+**✅ Resolution (2026-08-29):** `lib/ingest/retention.ts` sweeps expired
+`raw_documents` and deletes both the rows and the storage objects they reference.
+Exposed at `POST /api/cron/retention`, bearer-token protected with a timing-safe
+comparison that **fails closed when `CRON_SECRET` is unset** — an unprotected
+deletion endpoint being considerably worse than an unprotected read one. The
+Postgres implementation uses delete-with-returning, so there is no window in which a
+row could change between reading its storage key and deleting it. Individual storage
+failures are collected and reported rather than aborting the sweep, and every sweep
+appends one audit event. **Retention period: 90 days** (founder decision).
+12 tests; 157 passing overall.
+
+⚠️ **Still needs a scheduler.** The endpoint exists but nothing calls it yet — wire
+Vercel Cron (or equivalent) at deploy time, or retention remains theoretical.
 
 ---
 
@@ -147,7 +161,7 @@ deletion job before real ingestion begins. See §4.
 | **DPAs with Supabase and Resend** | Both will process personal data | ❌ Not signed |
 | **Privacy policy** | Required; must list sub-processors and lawful bases | ❌ Does not exist |
 | **Subject access / erasure process** | UK GDPR rights. FK cascades cover the DB; `deleteLabel()` now covers label objects. Still needs an orchestrating flow. | ⚠️ Partial |
-| **Retention job** | See F-3 | ❌ Not built |
+| **Retention job** | See F-3 | ✅ Built · ⚠️ not scheduled |
 | **Royal Mail clause 14.7 notification** | Contractual, not data protection. Founder decision: defer until ~20 collections/week. ⚠️ Note the 20/week figure is RM *recommending a business account*, not a 14.7 threshold — 14.7 has no volume condition | ⏸️ Deferred by decision |
 | **Google CASA** | Only if Gmail OAuth is pursued (v2). Restricted scope ⇒ Tier 2 mandatory; ⚠️ public cost reports conflict ($500–4,500 vs $15k–75k) — get a quote from an authorised assessor before planning on it | ⏸️ Out of scope for v1 |
 
@@ -163,6 +177,7 @@ deletion job before real ingestion begins. See §4.
 | 2026-08-28 | **Default-deny RLS on all five tables** | Enabling RLS without a matching policy blocks access entirely — the correct direction to fail. ✅ Zero security-advisor lints. |
 | 2026-08-28 | **Webhook signature verification fails closed on a missing secret** | The inbound address is publicly reachable; an unset env var must never read as "accept everything". |
 | 2026-08-28 | **Label storage on private Supabase Storage with 300s signed URLs** | Closes F-1. Short TTL means a leaked link expires in five minutes rather than never. Also consolidates onto a processor already in the correct region and removes a sub-processor. |
+| 2026-08-29 | **90-day retention on raw documents, enforced by a sweep** | Founder decision on the period. Raw email bodies are the most sensitive thing held; the sweep removes both rows and label objects. |
 | 2026-08-28 | **Consent revocation is a state, not a delete** | Enables immediate ingestion stop while preserving the audit trail of what was consented to and when. |
 
 ---

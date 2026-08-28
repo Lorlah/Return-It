@@ -44,6 +44,20 @@ export interface IngestRepository {
   findUserByIngestAddress(address: string): Promise<StoredUser | null>;
   saveRawDocument(doc: RawReturnDocument, storageKey: string): Promise<string>;
   appendEvent(event: EventInput): Promise<void>;
+  deleteExpiredDocuments(now: Date): Promise<DeletedDocuments>;
+}
+
+/**
+ * What a retention delete removed.
+ *
+ * The keys come back with the count because deleting the row is only half the
+ * erasure: the raw bytes it points at live outside the database and would
+ * otherwise survive as orphans. The caller cannot ask for them afterwards —
+ * the rows that named them are gone — so they must be returned here.
+ */
+export interface DeletedDocuments {
+  deletedCount: number;
+  storageKeys: string[];
 }
 
 // ── In-memory implementation ────────────────────────────────────────────────
@@ -101,5 +115,21 @@ export class InMemoryIngestRepository implements IngestRepository {
 
   async appendEvent(event: EventInput): Promise<void> {
     this.events.push({ ...event, id: this.nextId("evt"), at: new Date() });
+  }
+
+  async deleteExpiredDocuments(now: Date): Promise<DeletedDocuments> {
+    const expired = this.rawDocuments.filter(
+      (d) => d.retentionExpiresAt.getTime() <= now.getTime(),
+    );
+
+    // Mutate in place: `rawDocuments` is the array tests hold a reference to.
+    for (const doc of expired) {
+      this.rawDocuments.splice(this.rawDocuments.indexOf(doc), 1);
+    }
+
+    return {
+      deletedCount: expired.length,
+      storageKeys: expired.map((d) => d.rawStorageKey),
+    };
   }
 }

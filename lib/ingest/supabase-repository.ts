@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { RawReturnDocument } from "@/lib/parser/types";
 import type {
+  DeletedDocuments,
   EventInput,
   IngestRepository,
   StoredUser,
@@ -118,5 +119,32 @@ export class SupabaseIngestRepository implements IngestRepository {
     });
 
     if (error) throw new Error(`appendEvent failed: ${error.message}`);
+  }
+
+  /**
+   * Deletes every raw document whose retention has expired, returning the
+   * storage keys the deleted rows referenced.
+   *
+   * The delete returns the rows it removed in the same statement, so there is
+   * no read-then-delete window in which a row could be inserted or updated
+   * between the two and have its key go unclaimed.
+   */
+  async deleteExpiredDocuments(now: Date): Promise<DeletedDocuments> {
+    const { data, error } = await this.client
+      .from("raw_documents")
+      .delete()
+      .lte("retention_expires_at", now.toISOString())
+      .select("raw_storage_key")
+      .returns<{ raw_storage_key: string }[]>();
+
+    if (error) {
+      throw new Error(`deleteExpiredDocuments failed: ${error.message}`);
+    }
+
+    const rows = data ?? [];
+    return {
+      deletedCount: rows.length,
+      storageKeys: rows.map((row) => row.raw_storage_key),
+    };
   }
 }
