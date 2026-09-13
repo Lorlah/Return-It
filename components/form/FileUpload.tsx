@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useId } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { isValidFileType, formatFileSize, MAX_FILE_SIZE } from "@/lib/cloudinary";
+import { isValidFileType, formatFileSize, MAX_FILE_SIZE } from "@/lib/label-file";
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
